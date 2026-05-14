@@ -75,7 +75,8 @@ public class Main {
             switch (pedido) {
 
                 case 1:
-                    System.out.println("PEDIDO CRIADO!");
+                    new Menuadd().novoPedido();
+                    //System.out.println("PEDIDO CRIADO!");
                     break;
 
                 case 2:
