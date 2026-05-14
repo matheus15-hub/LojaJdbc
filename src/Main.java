@@ -1,11 +1,12 @@
 
 import menu.Menuadd;
+import entidades.Clientes;
 import entidades.Produto;
 
 import java.util.Scanner;
 
 public class Main {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Scanner  sca = new Scanner(System.in);
         System.out.println("███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ██████╗ ██████╗       ██████╗ ██████╗      ██╗    ██████╗ ");
         System.out.println("██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ██╔══██╗╚════██╗      ██╔══██╗╚════██╗    ███║   ██╔═████╗");
