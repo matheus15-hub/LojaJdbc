@@ -8,8 +8,7 @@ public class Vendedor {
     private String emailVendedor;
     private double comissao;
 
-    public Vendedor(){
-    }
+    public Vendedor(){};
         public Vendedor(int idVendedor, String nomeVendedor, String telefoneVendedor, String emailVendedor, double comissao){
             this.idVendedor = idVendedor;
             this.nomeVendedor = nomeVendedor;

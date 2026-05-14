@@ -7,6 +7,8 @@ public class Produto {
     private  float preco;
     private  int estoque;
 
+    public Produto(){};
+
     public Produto(int id_produtos, String nome_produtos, float preco, int estoque) {
         this.id_produtos = id_produtos;
         this.nome_produtos = nome_produtos;

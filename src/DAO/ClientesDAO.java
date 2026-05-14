@@ -26,7 +26,7 @@ public class ClientesDAO {
         }
     }
 
-    public void mostrarClient(Clientes clientes){
+    public static void mostrarClient(Clientes clientes){
         Statement sts = null;
         ResultSet res = null;
         String sql = "Select * from clientes";

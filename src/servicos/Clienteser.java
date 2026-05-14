@@ -15,6 +15,10 @@ public class Clienteser {
         }
     }
 
+    public void mostrar(Clientes clientes){
+        ClientesDAO.mostrarClient(clientes);
+    }
+
 
     /* Codigo antigo com alterações, para garantir que o niguém cadastre um cliente com nome vazio ou só com espaços em branco.
     public void adicionarCli(Clientes clientes){
