@@ -2,9 +2,12 @@ package menu;
 
 import DAO.ProdutoDAO;
 import entidades.Produto;
+import DAO.ClientesDAO;
+import entidades.Clientes;
 
 import java.util.Scanner;
 import servicos.Produtoser;
+import servicos.Clienteser;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
