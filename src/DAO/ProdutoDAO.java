@@ -11,7 +11,7 @@ public class ProdutoDAO {
 
     public static void addProduto(Produto produto){
         PreparedStatement ps = null;
-        String sql = "INSERT INTO produtos (nome_produtos, preco , estoque) VALUES(?,?,?)";
+        String sql = "INSERT INTO produtos (nome_produtos, preco , estoque, categoria, medida_vendas) VALUES(?,?,?,?,?)";
 
         try {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
@@ -19,6 +19,8 @@ public class ProdutoDAO {
             ps.setString(1, produto.getNome_Produtos());
             ps.setFloat(2,produto.getPreco());
             ps.setInt(3,produto.getEstoque());
+            ps.setString(4, produto.getCategoria() );
+            ps.setString(5, produto.getMedida_vendas());
 
             ps.execute();
             ps.close();
@@ -27,6 +29,8 @@ public class ProdutoDAO {
             // TODO: handle exception
         }
     }
+
+
     public void mostrarProduts(Produto produto){
         Statement sts = null;
         ResultSet res = null;
@@ -36,12 +40,14 @@ public class ProdutoDAO {
             res = sts.executeQuery(sql);
 
             while (res.next()){
-                int id = res.getInt("id");
-                String nome = res.getString("nome");
+                int id = res.getInt("id_produtos");
+                String nome = res.getString("nome_produtos");
                 float preco = res.getFloat("preco");
                 int estoque = res.getInt("estoque");
+                String categoria = res.getString("categoria");
+                String classe = res.getString("medida_vendas");
 
-                System.out.printf("ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d%n" , id , nome,preco,estoque);
+                System.out.printf("ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tCLASSE: %s%n" , id , nome,preco,estoque,categoria,classe);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

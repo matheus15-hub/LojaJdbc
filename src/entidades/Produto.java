@@ -6,14 +6,18 @@ public class Produto {
     private String nome_produtos;
     private  float preco;
     private  int estoque;
+    private  String categoria;
+    private String medida_vendas;
 
     public Produto(){};
 
-    public Produto(int id_produtos, String nome_produtos, float preco, int estoque) {
-        this.id_produtos = id_produtos;
+    public Produto(String nome_produtos, float preco, int estoque, String categoria , String medida_vendas) {
         this.nome_produtos = nome_produtos;
         this.preco = preco;
         this.estoque = estoque;
+        this.categoria = categoria;
+        medida_vendas = medida_vendas.toUpperCase();
+        this.medida_vendas = medida_vendas;
     }
 
     public int getId_Produtos() {
@@ -46,5 +50,21 @@ public class Produto {
 
     public void setEstoque(int estoque) {
         this.estoque = estoque;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getMedida_vendas() {
+        return medida_vendas;
+    }
+
+    public void setMedida_vendas(String medida_vendas) {
+        this.medida_vendas = medida_vendas;
     }
 }
