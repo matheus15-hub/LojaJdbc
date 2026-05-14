@@ -22,7 +22,7 @@ public class Main {
         linha();
         System.out.println("||\t\t\t\t\t O QUE DEJESA FAZER?\t\t\t\t\t||");
         linha();
-        System.out.println("||1)Clientes\t2)PEDIDO\t3)PRODUTO\t4)CONSULTAR\t5)SAIR\t||");
+        System.out.println("||1)Clientes\t2)PEDIDO\t3)PRODUTO\t4)VENDEDOR\t5)CONSULTAR\t6)SAIR\t||");
         linha();
         System.out.print("||ESCOLHA :");
         int escolha = sca.nextInt();
@@ -131,6 +131,40 @@ public class Main {
         } else if (escolha == 4) {
 
             linha();
+            System.out.println("||\t\t\t\t\t\t\tCLIENTES\t\t\t\t\t\t||");
+            linha();
+            System.out.println("||1)CADASTRAR\t2)REMOVER\t3)CONSULTAR\t\t4)VOLTAR\t\t||");
+            linha();
+            System.out.print("||ESCOLHA : ");
+            int vendedor = sca.nextInt();
+            linha();
+
+            switch (vendedor) {
+
+                case 1:
+                    new menu.Menuadd().Vendedoradd();
+                    //System.out.println("CLIENTE CADASTRADO!");
+                    break;
+
+                case 2:
+                    System.out.println("CLIENTE REMOVIDO!");
+                    break;
+
+                case 3:
+                    System.out.println("CONSULTANDO CLIENTE...");
+                    break;
+
+                case 4:
+                    System.out.println("VOLTANDO...");
+                    break;
+
+                default:
+                    System.out.println("OPÇÃO INVÁLIDA!");
+            }
+        
+        } else if (escolha == 5) {
+
+            linha();
             System.out.println("||\t\t\t\t\t\t\tCONSULTAS\t\t\t\t\t\t||");
             linha();
             System.out.println("||1)CLIENTES\t2)PEDIDOS\t3)PRODUTOS\t\t4)VOLTAR\t\t||");
@@ -161,7 +195,7 @@ public class Main {
                     System.out.println("OPÇÃO INVÁLIDA!");
             }
 
-        } else if (escolha == 5) {
+        } else if (escolha == 6) {
 
             System.out.println("SAINDO DO SISTEMA...");
 

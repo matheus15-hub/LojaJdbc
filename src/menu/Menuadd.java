@@ -40,7 +40,7 @@ public class Menuadd {
         new Clienteser().adicionarCli(c);
     }
 
-    /* Sugestão de codigo para adiocionar Vendedor.
+
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
         String nome = cin.nextLine();
@@ -51,7 +51,7 @@ public class Menuadd {
         System.out.print("Comissão: ");
         double comissao = cin.nextDouble();
         cin.nextLine(); // Limpar o buffer
-    }*/
+    }
 
     public void novoPedido() {
         // 1. Seleção de Cliente
