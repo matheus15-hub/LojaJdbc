@@ -50,7 +50,7 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("CONSULTANDO CLIENTE...");
+                    new menu.Menuprint().printCliente();
                     break;
 
                 case 4:
@@ -109,7 +109,7 @@ public class Main {
             switch (produto) {
 
                 case 1:
-                    System.out.println("PRODUTO CADASTRADO!");
+                    new menu.Menuadd().Produtoadd();
                     break;
 
                 case 2:
@@ -117,7 +117,7 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("CONSULTANDO PRODUTO...");
+                    new menu.Menuprint().printProduto();
                     break;
 
                 case 4:

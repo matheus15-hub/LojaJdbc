@@ -25,9 +25,15 @@ public class Menuadd {
         System.out.print("Estoque: ");
         int estoque = cin.nextInt();
         cin.nextLine(); // Limpar o buffer
+        System.out.print("Categoria: ");
+        String categoria = cin.nextLine();
+        System.out.println("MEDIDA DE VENDA (UNI, M, M2 , M3 , KG)");
+        System.out.print("MEDIDA: ");
+        String medida = cin.nextLine();
 
-        Produto p = new Produto(0, nome, preco, estoque);
+        Produto p = new Produto( nome, preco, estoque, categoria , medida);
         new Produtoser().adicionar(p);
+        new Produtoser().mostrar(p);
     }
 
     public void Clienteadd(){

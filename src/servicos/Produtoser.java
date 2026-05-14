@@ -12,7 +12,7 @@ public class Produtoser {
         }
     }
     public void mostrar(Produto produto){
-        ProdutoDAO.addProduto(produto);
+        new ProdutoDAO().mostrarProduts(produto);
     }
 }
 
