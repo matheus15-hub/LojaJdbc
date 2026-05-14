@@ -23,10 +23,12 @@ public class ClientesDAO {
 
         } catch (Exception e) {
             e.printStackTrace(); // esse negocio aqui vai dizer mesmo se o banco vai querer o dado mandado.
-        }
+        }  
     }
 
+
     public static void mostrarClient(Clientes clientes){
+    
         Statement sts = null;
         ResultSet res = null;
         String sql = "Select * from clientes";
