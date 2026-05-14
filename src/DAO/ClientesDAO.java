@@ -16,13 +16,13 @@ public class ClientesDAO {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
 
             ps.setString(1, clientes.getNome_clientes());
-            ps.setString(3,clientes.getCpf());
+            ps.setString(2,clientes.getCpf()); // antes estava 3, foi alterado para 2(Por que ele poderia colocar o CPF numa coluna que não existe no comando MYSQL.)
 
             ps.execute();
             ps.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace(); // esse negocio aqui vai dizer mesmo se o banco vai querer o dado mandado.
         }
     }
 
@@ -39,10 +39,10 @@ public class ClientesDAO {
                 String nome_clientes = res.getString("nome_clientes");
                 String cpf = res.getString("cpf");
 
-                System.out.printf("ID: %5D\t NOME: %-25s\t CPF: %-25s", id_clientes, nome_clientes, cpf);
+                System.out.printf("ID: %5d\t NOME: %-25s\t CPF: %-25s%n", id_clientes, nome_clientes, cpf);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
         }
             
     }

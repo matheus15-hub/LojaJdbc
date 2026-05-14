@@ -41,7 +41,8 @@ public class Main {
             switch (cliente) {
 
                 case 1:
-                    System.out.println("CLIENTE CADASTRADO!");
+                    new menu.Menuadd().Clienteadd();
+                    //System.out.println("CLIENTE CADASTRADO!");
                     break;
 
                 case 2:

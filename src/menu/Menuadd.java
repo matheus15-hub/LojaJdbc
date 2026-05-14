@@ -31,9 +31,10 @@ public class Menuadd {
         System.out.print("CPF: ");
         String cpf = cin.nextLine();
 
+        // usando o contrutor aqui: id=0 o banco mesmo gera o id, nome e cpf são dados que os usuarios vão inserir.
         Clientes c = new Clientes(0, nome, cpf);
         new Clienteser().adicionarCli(c);
-        }
+    }
 
 
 
