@@ -17,6 +17,7 @@ public class Menuprint {
     public void printProduto(){new Produtoser().mostrar(p);}
 
     public void printCliente(){new Clienteser().mostrar(c);}
+    public void printClienteFiltro(){new Clienteser().mostarFiltro(c);}
 
     public void printVendedor(){new VendedorServico().mostrar(); }
 
