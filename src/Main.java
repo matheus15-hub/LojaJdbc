@@ -160,11 +160,11 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("CLIENTE REMOVIDO!");
+                    System.out.println("VENDEDOR REMOVIDO!");
                     break;
 
                 case 3:
-                    System.out.println("CONSULTANDO CLIENTE...");
+                    System.out.println("CONSULTANDO VENDEDOR...");
                     break;
                 
                 case 4:

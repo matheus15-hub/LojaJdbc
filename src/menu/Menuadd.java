@@ -66,12 +66,12 @@ public class Menuadd {
         System.out.print("\nDigite o ID do cliente escolhido: ");
         int idCli = cin.nextInt();
 
-        /* 2. Seleção de Vendedor
+        //2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");
-        new VendedorDAO().mostrarVendedores();
+        new VendedorDAO().mostrarVendedor();
         System.out.print("Digite o ID do Vendedor escolhido: ");
         int idVend = cin.nextInt();
-        */
+        
 
         List<ItemPedido> carrinho = new ArrayList<>();
         double valorTotalPedido = 0;
