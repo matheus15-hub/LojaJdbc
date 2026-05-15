@@ -48,4 +48,26 @@ public class ClientesDAO {
         }
             
     }
+    public static void mostrarClientFiltro(Clientes clientes){
+        
+            Statement sts = null;
+            ResultSet res = null;
+            String sql = "Select * from clientes where nome_clientes like ?";
+            try {
+                sts = conexao.Conexao.getConexao().createStatement();
+                res = sts.executeQuery(sql);
+
+                while (res.next()){
+                    int id_clientes = res.getInt("id_clientes");
+                    String nome_clientes = res.getString("nome_clientes");
+                    String cpf = res.getString("cpf");
+
+                    System.out.printf("ID: %5d\t NOME: %-25s\t CPF: %-25s%n", id_clientes, nome_clientes, cpf);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+            }
+                
+        }
+
 }
