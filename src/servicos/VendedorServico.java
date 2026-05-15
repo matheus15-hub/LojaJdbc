@@ -8,8 +8,12 @@ public class VendedorServico {
         new VendedorDAO().adicionarVendedor(v);
         System.out.println("Cadastrado!");
     }
-    public void mostrar(Vendedor v){
-        System.out.println("MOSTRANDO TODOS OS VENDEDORES CADASTRADO");
-        new VendedorDAO().mostrarVendedor(v);
+     public void mostrar() {
+        System.out.println("MOSTRANDO TODOS OS VENDEDORES CADASTRADOS");
+        new VendedorDAO().mostrarVendedor();
+    }
+    public void mostrarFiltro(String nome){
+        System.out.println("PESQUISANDO VENDEDOR...");
+        new VendedorDAO().mostrarVendedorFiltro(nome);
     }
 }

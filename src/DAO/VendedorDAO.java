@@ -1,25 +1,22 @@
 package DAO;
 
 import entidades.Vendedor;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import conexao.Conexao;
 
 public class VendedorDAO {
+
     Connection conn;
     PreparedStatement stmt;
-
     ResultSet rs;
 
     public void adicionarVendedor(Vendedor vendedor) {
 
-        String sql = "INSERT INTO vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) VALUES (?, ?, ?, ?)";
+        String sql = "insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
 
         try {
             conn = Conexao.getConexao();
@@ -38,25 +35,72 @@ public class VendedorDAO {
             System.out.println("Erro ao adicionar vendedor: " + e.getMessage());
         }
     }
-    public void mostrarVendedor(Vendedor vendedor){
+
+
+    public void mostrarVendedor() {
+
         String sql = "select * from vendedor";
-        Statement sts = null;
+
         try {
-            sts = Conexao.getConexao().createStatement();
+            Statement sts = Conexao.getConexao().createStatement();
             rs = sts.executeQuery(sql);
 
-            while (rs.next()){
-             int id = rs.getInt("id_vendedor");
-             String nome = rs.getString("nome_vendedor");
-             String tel = rs.getString("telefone_vendedor");
-             String email = rs.getString("email_vendedor");
-             float comissao = rs.getFloat("comissao");
+            while (rs.next()) {
 
-             System.out.printf("ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSAO: %.2f\tEMAIL: %s%n ", id,nome,tel,comissao,email);
+                int id = rs.getInt("id_vendedor");
+                String nome = rs.getString("nome_vendedor");
+                String tel = rs.getString("telefone_vendedor");
+                String email = rs.getString("email_vendedor");
+                float comissao = rs.getFloat("comissao");
 
+                System.out.printf(
+                        "ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f\tEMAIL: %s%n",
+                        id, nome, tel, comissao, email
+                );
             }
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("Erro ao mostrar vendedores: " + e.getMessage());
+        }
+    }
+
+
+    public void mostrarVendedorFiltro(String nomePesquisa) {
+
+        String sql = "select * from vendedor where nome_vendedor like ?";
+
+        try {
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, "%" + nomePesquisa + "%");
+
+            rs = stmt.executeQuery();
+
+            boolean encontrou = false;
+
+            while (rs.next()) {
+
+                encontrou = true;
+
+                int id = rs.getInt("id_vendedor");
+                String nome = rs.getString("nome_vendedor");
+                String tel = rs.getString("telefone_vendedor");
+                String email = rs.getString("email_vendedor");
+                float comissao = rs.getFloat("comissao");
+
+                System.out.printf(
+                        "ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f\tEMAIL: %s%n",
+                        id, nome, tel, comissao, email
+                );
+            }
+
+            if (!encontrou) {
+                System.out.println("Nenhum vendedor encontrado.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao pesquisar vendedor: " + e.getMessage());
         }
     }
 }

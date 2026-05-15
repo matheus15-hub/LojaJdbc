@@ -153,7 +153,7 @@ public class Main {
                 case 3:
                     System.out.println("CONSULTANDO CLIENTE...");
                     break;
-
+                
                 case 4:
                     System.out.println("VOLTANDO...");
                     break;
