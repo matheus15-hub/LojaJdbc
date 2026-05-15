@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Clientes c = new Clientes();
         Scanner  sca = new Scanner(System.in);
         System.out.println("███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ██████╗ ██████╗       ██████╗ ██████╗      ██╗    ██████╗ ");
         System.out.println("██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ██╔══██╗╚════██╗      ██╔══██╗╚════██╗    ███║   ██╔═████╗");
@@ -55,7 +56,7 @@ public class Main {
                     opcao = sca.nextInt();
                     switch (opcao) {
                         case 1:
-                            new menu.Menuprint().printClienteFiltro();
+                            new menu.Menuprint().printClienteFiltro(c);
                         break;
                         case 2:
                             new menu.Menuprint().printCliente();
