@@ -3,6 +3,7 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Scanner;
 
 import entidades.Clientes;
 
@@ -33,7 +34,7 @@ public class ClientesDAO {
         ResultSet res = null;
         String sql = "Select * from clientes";
         try {
-            sts = conexao.Conexao.getConexao().createStatement();
+            sts = conexao.Conexao.getConexao().prepareStatement(sql);
             res = sts.executeQuery(sql);
 
             while (res.next()){
@@ -49,25 +50,20 @@ public class ClientesDAO {
             
     }
     public static void mostrarClientFiltro(Clientes clientes){
-        
-            Statement sts = null;
-            ResultSet res = null;
-            String sql = "Select * from clientes where nome_clientes like ?";
-            try {
-                sts = conexao.Conexao.getConexao().createStatement();
-                res = sts.executeQuery(sql);
-
-                while (res.next()){
-                    int id_clientes = res.getInt("id_clientes");
-                    String nome_clientes = res.getString("nome_clientes");
-                    String cpf = res.getString("cpf");
-
-                    System.out.printf("ID: %5d\t NOME: %-25s\t CPF: %-25s%n", id_clientes, nome_clientes, cpf);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+        ResultSet resultSet = null;
+        String sql = "Select * from clientes where nome_clientes like ?";
+        try {
+            PreparedStatement md = conexao.Conexao.getConexao().prepareStatement(sql);
+            md.setString(1, clientes.getNome_clientes() + "%");
+            resultSet = md.executeQuery();
+            while (resultSet.next()){
+                int id_clientes = resultSet.getInt("id_clientes");
+                String nome_clientes = resultSet.getNString("nome_clientes");
+                String cpf = resultSet.getNString("cpf");
+                System.out.println("||\t\t ID: " + id_clientes + " || NOME: " + nome_clientes + " || CPF: " + cpf);
             }
-                
-        }
-
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+        }    
+    }
 }

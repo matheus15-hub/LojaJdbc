@@ -50,7 +50,20 @@ public class Main {
                     break;
 
                 case 3:
-                    new menu.Menuprint().printCliente();
+                    int opcao = 0;
+                    System.out.println("Consultar com filtro? 1-SIM / 2-NÃO");
+                    opcao = sca.nextInt();
+                    switch (opcao) {
+                        case 1:
+                            new menu.Menuprint().printClienteFiltro();
+                        break;
+                        case 2:
+                            new menu.Menuprint().printCliente();
+                        break;
+                        default:
+                        break;
+                    }
+                    
                     break;
 
                 case 4:
