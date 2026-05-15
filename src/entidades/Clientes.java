@@ -21,4 +21,8 @@ public class Clientes {
         return nome_clientes;
     }
 
+    public void setNome_clientes(String nome_clientes) {
+        this.nome_clientes = nome_clientes;
+    }
+
 }
