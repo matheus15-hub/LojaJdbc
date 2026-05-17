@@ -12,6 +12,7 @@ public class Produto {
     public Produto(){};
 
     public Produto(String nome_produtos, float preco, int estoque, String categoria , String medida_vendas) {
+        nome_produtos = nome_produtos.toUpperCase();
         this.nome_produtos = nome_produtos;
         this.preco = preco;
         this.estoque = estoque;
@@ -65,6 +66,7 @@ public class Produto {
     }
 
     public void setMedida_vendas(String medida_vendas) {
+        medida_vendas = medida_vendas.toUpperCase();
         this.medida_vendas = medida_vendas;
     }
 }

@@ -20,16 +20,32 @@ public class Menuadd {
     public void Produtoadd(){
         System.out.print("Nome do Produto: ");
         String nome = cin.nextLine();
+        nome = new Produtoser().verificarNome(nome);
+        float preco;
         System.out.print("Preço: ");
-        float preco = cin.nextFloat();
+        while (!cin.hasNextFloat()){
+        System.out.println("Apenas Numeros!!");
+        cin.nextLine();
+        System.out.print("Preço: ");
+        }
+        preco = cin.nextFloat();
+        preco = new Produtoser().verificarValor(preco);
+        int estoque;
         System.out.print("Estoque: ");
-        int estoque = cin.nextInt();
-        cin.nextLine(); // Limpar o buffer
+        while (!cin.hasNextInt()) {
+            System.out.println("Apenas Numero !");
+            cin.nextLine();
+            System.out.println("Estoque");
+        }
+        estoque = cin.nextInt();
+        cin.nextLine();
+        estoque = new Produtoser().verificarEstoque(estoque);
         System.out.print("Categoria: ");
         String categoria = cin.nextLine();
         System.out.println("MEDIDA DE VENDA (UNI, M, M2 , M3 , KG)");
         System.out.print("MEDIDA: ");
         String medida = cin.nextLine();
+        medida = new Produtoser().verificarUnidade(medida);
 
         Produto p = new Produto( nome, preco, estoque, categoria , medida);
         new Produtoser().adicionar(p);
