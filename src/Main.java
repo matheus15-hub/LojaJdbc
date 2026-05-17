@@ -2,6 +2,7 @@
 import menu.Menuadd;
 import entidades.Clientes;
 import entidades.Produto;
+import menu.Menuprint;
 
 import java.util.Scanner;
 
@@ -131,7 +132,10 @@ public class Main {
                     break;
 
                 case 3:
-                    new menu.Menuprint().printProduto();
+                    sca.nextLine();
+                    System.out.print("Busca: ");
+                    String busca = sca.nextLine();
+                    new Menuprint().metodoBusca(busca);
                     break;
 
                 case 4:

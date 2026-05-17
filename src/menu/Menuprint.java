@@ -14,7 +14,16 @@ public class Menuprint {
     Vendedor v = new Vendedor();
     Scanner sca = new Scanner(System.in);
 
-    public void printProduto(){new Produtoser().mostrar(p);}
+    public void metodoBusca(String x){
+        if (x.trim().isEmpty()){
+            printProduto();
+        }
+        else {
+            printProdutoFiltro(x);
+        }
+    }
+    public void printProduto(){new Produtoser().mostrar();}
+    public void printProdutoFiltro(String nome){new Produtoser().filtro(nome);}
 
     public void printCliente(){new Clienteser().mostrar(c);}
     public void printClienteFiltro(Clientes c){

@@ -49,7 +49,7 @@ public class Menuadd {
 
         Produto p = new Produto( nome, preco, estoque, categoria , medida);
         new Produtoser().adicionar(p);
-        new Produtoser().mostrar(p);
+        new Produtoser().mostrar();
     }
 
     public void Clienteadd(){
@@ -96,7 +96,7 @@ public class Menuadd {
         String continuar = "s";
         while (continuar.equalsIgnoreCase("s")) {
             System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
-            new ProdutoDAO().mostrarProduts(null); 
+            new ProdutoDAO().mostrarProduts();
 
             System.out.print("\nDigite o ID do Produto: ");
             int idProd = cin.nextInt();

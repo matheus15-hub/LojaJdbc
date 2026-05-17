@@ -31,7 +31,7 @@ public class ProdutoDAO {
     }
 
 
-    public void mostrarProduts(Produto produto){
+    public void mostrarProduts(){
         Statement sts = null;
         ResultSet res = null;
         String sql = "Select * from produtos";
@@ -52,6 +52,33 @@ public class ProdutoDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public void filtarProdutos(String nome ){
+        PreparedStatement ps = null;
+        ResultSet res = null;
+        String sql ="select * from produtos where nome_produtos like ?";
+        try{
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, nome + "%");
+            res = ps.executeQuery();
 
+            while (res.next()){
+                int id = res.getInt("id_produtos");
+                nome = res.getString("nome_produtos");
+                float preco = res.getFloat("preco");
+                int estoque = res.getInt("estoque");
+                String categoria = res.getString("categoria");
+                String classe = res.getString("medida_vendas");
+
+                System.out.printf("ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tCLASSE: %s%n" , id , nome,preco,estoque,categoria,classe);
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public  void excluirProduto(int d){
+        PreparedStatement ps = null;
+        String sql = "delete from produtos where id_produtos = ?";
     }
 }

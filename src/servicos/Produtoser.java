@@ -14,9 +14,15 @@ public class Produtoser {
             System.out.println("Produto cadastrado");
     }
 
-    public void mostrar(Produto produto) {
-        new ProdutoDAO().mostrarProduts(produto);
+    public void mostrar() {
+        new ProdutoDAO().mostrarProduts();
     }
+
+    public  void filtro(String n){
+        new ProdutoDAO().filtarProdutos(n);
+    }
+
+
 
     public String verificarNome(String nome) {
 
