@@ -55,7 +55,7 @@ public class Menuadd {
     public void Clienteadd(){
         System.out.print("Nome do Cliente: ");
         String nome = cin.nextLine();
-        System.out.print("CPF: ");
+        System.out.print("CPF (com formatação): ");
         String cpf = cin.nextLine();
 
         Clientes c = new Clientes(0, nome, cpf);
@@ -78,7 +78,7 @@ public class Menuadd {
     public void novoPedido() {
         // 1. Seleção de Cliente
         System.out.println("\n--- LISTA DE CLIENTES ---");
-        new ClientesDAO().mostrarClient(null); // Aqui tem que arrumar por equanto para evitar erros
+        new ClientesDAO().mostrarClient();
         System.out.print("\nDigite o ID do cliente escolhido: ");
         int idCli = cin.nextInt();
 

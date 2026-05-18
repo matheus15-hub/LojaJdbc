@@ -25,12 +25,12 @@ public class Menuprint {
     public void printProduto(){new Produtoser().mostrar();}
     public void printProdutoFiltro(String nome){new Produtoser().filtro(nome);}
 
-    public void printCliente(){new Clienteser().mostrar(c);}
-    public void printClienteFiltro(Clientes c){
+    public void printCliente(){new Clienteser().mostrar();}
+    public void printClienteFiltro(){
         System.out.println("Digite o nome do cliente: ");
-        c.setNome_clientes(sca.nextLine());
+        String nome_clientes = sca.nextLine();
         
-        new Clienteser().mostarFiltro(c);}
+        new Clienteser().mostrarFiltro(nome_clientes);}
 
     public void printVendedor(){new VendedorServico().mostrar(); }
 

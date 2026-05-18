@@ -28,7 +28,7 @@ public class ClientesDAO {
     }
 
 
-    public static void mostrarClient(Clientes clientes){
+    public void mostrarClient(){
     
         Statement sts = null;
         ResultSet res = null;
@@ -49,16 +49,17 @@ public class ClientesDAO {
         }
             
     }
-    public static void mostrarClientFiltro(Clientes clientes){
+    public void mostrarClientFiltro(String nome_clientes){
+        PreparedStatement md = null;
         ResultSet resultSet = null;
         String sql = "Select * from clientes where nome_clientes like ?";
         try {
-            PreparedStatement md = conexao.Conexao.getConexao().prepareStatement(sql);
-            md.setString(1, clientes.getNome_clientes() + "%");
+            md = conexao.Conexao.getConexao().prepareStatement(sql);
+            md.setString(1, nome_clientes + "%");
             resultSet = md.executeQuery();
             while (resultSet.next()){
                 int id_clientes = resultSet.getInt("id_clientes");
-                String nome_clientes = resultSet.getNString("nome_clientes");
+                nome_clientes = resultSet.getNString("nome_clientes");
                 String cpf = resultSet.getNString("cpf");
                 System.out.println("||\t\t ID: " + id_clientes + " || NOME: " + nome_clientes + " || CPF: " + cpf);
             }

@@ -57,7 +57,7 @@ public class Main {
                     opcao = sca.nextInt();
                     switch (opcao) {
                         case 1:
-                            new menu.Menuprint().printClienteFiltro(c);
+                            new menu.Menuprint().printClienteFiltro();
                         break;
                         case 2:
                             new menu.Menuprint().printCliente();
