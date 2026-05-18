@@ -16,17 +16,17 @@ import DAO.VendedorDAO;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
-    
-    public void Produtoadd(){
+
+    public void Produtoadd() {
         System.out.print("Nome do Produto: ");
         String nome = cin.nextLine();
         nome = new Produtoser().verificarNome(nome);
         float preco;
         System.out.print("Preço: ");
-        while (!cin.hasNextFloat()){
-        System.out.println("Apenas Numeros!!");
-        cin.nextLine();
-        System.out.print("Preço: ");
+        while (!cin.hasNextFloat()) {
+            System.out.println("Apenas Numeros!!");
+            cin.nextLine();
+            System.out.print("Preço: ");
         }
         preco = cin.nextFloat();
         preco = new Produtoser().verificarValor(preco);
@@ -47,12 +47,12 @@ public class Menuadd {
         String medida = cin.nextLine();
         medida = new Produtoser().verificarUnidade(medida);
 
-        Produto p = new Produto( nome, preco, estoque, categoria , medida);
+        Produto p = new Produto(nome, preco, estoque, categoria, medida);
         new Produtoser().adicionar(p);
         new Produtoser().mostrar();
     }
 
-    public void Clienteadd(){
+    public void Clienteadd() {
         System.out.print("Nome do Cliente: ");
         String nome = cin.nextLine();
         System.out.print("CPF (com formatação): ");
@@ -61,7 +61,6 @@ public class Menuadd {
         Clientes c = new Clientes(0, nome, cpf);
         new Clienteser().adicionarCli(c);
     }
-
 
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
@@ -82,12 +81,11 @@ public class Menuadd {
         System.out.print("\nDigite o ID do cliente escolhido: ");
         int idCli = cin.nextInt();
 
-        //2. Seleção de Vendedor
+        // 2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");
         new VendedorDAO().mostrarVendedor();
         System.out.print("Digite o ID do Vendedor escolhido: ");
         int idVend = cin.nextInt();
-        
 
         List<ItemPedido> carrinho = new ArrayList<>();
         double valorTotalPedido = 0;
@@ -96,10 +94,16 @@ public class Menuadd {
         String continuar = "s";
         while (continuar.equalsIgnoreCase("s")) {
             System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
-            new ProdutoDAO().mostrarProduts();
+            new ProdutoDAO().mostrarProduts(null); 
 
             System.out.print("\nDigite o ID do Produto: ");
             int idProd = cin.nextInt();
+
+            if (!ProdutoDAO.produtoExiste(idProd)) {
+                System.out.println("Produto não existe!");
+                continue;
+            }
+
             System.out.print("Quantidade: ");
             int qtd = cin.nextInt();
             System.out.print("Confirme o Preço Unitário: ");
@@ -116,13 +120,13 @@ public class Menuadd {
 
         // 4. Finalização
         System.out.println("\n--- RESUMO DO PEDIDO ---");
-        System.out.println("Total: R$ " + valorTotalPedido);
+        System.out.printf("Total: R$ %.2f%n", valorTotalPedido);
         System.out.print("Confirmar venda? (s/n): ");
         String confirma = cin.next();
         cin.nextLine(); // Limpar buffer final
 
         if (confirma.equalsIgnoreCase("s")) {
-            PedidoDAO.finalizarVenda(idCli, 1, carrinho, valorTotalPedido);
+            PedidoDAO.finalizarVenda(idCli, idVend, carrinho, valorTotalPedido);
         } else {
             System.out.println("Venda cancelada.");
         }
