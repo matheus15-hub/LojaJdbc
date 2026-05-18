@@ -149,7 +149,7 @@ public class Main {
         } else if (escolha == 4) {
 
             linha();
-            System.out.println("||\t\t\t\t\t\t\tCLIENTES\t\t\t\t\t\t||");
+            System.out.println("||\t\t\t\t\t\t\tVENDEDORES\t\t\t\t\t\t||");
             linha();
             System.out.println("||1)CADASTRAR\t2)REMOVER\t3)CONSULTAR\t\t4)VOLTAR\t\t||");
             linha();
@@ -185,7 +185,7 @@ public class Main {
             linha();
             System.out.println("||\t\t\t\t\t\t\tCONSULTAS\t\t\t\t\t\t||");
             linha();
-            System.out.println("||1)CLIENTES\t2)PEDIDOS\t3)PRODUTOS\t\t4)VOLTAR\t\t||");
+            System.out.println("||1)CLIENTES\t2)PEDIDOS\t3)PRODUTOS\t4)VENDEDOR\t\t5)VOLTAR\t\t||");
             linha();
             System.out.print("||ESCOLHA : ");
             int consulta = sca.nextInt();
@@ -206,9 +206,11 @@ public class Main {
                     break;
 
                 case 4:
+                    System.out.println("LISTANDO VENDEDORES...");
+                    break;
+                case 5:
                     System.out.println("VOLTANDO...");
                     break;
-
                 default:
                     System.out.println("OPÇÃO INVÁLIDA!");
             }

@@ -9,13 +9,14 @@ public class Vendedor {
     private double comissao;
 
     public Vendedor(){};
-        public Vendedor(int idVendedor, String nomeVendedor, String telefoneVendedor, String emailVendedor, double comissao){
-            this.idVendedor = idVendedor;
-            this.nomeVendedor = nomeVendedor;
-            this.telefoneVendedor = telefoneVendedor;
-            this.emailVendedor = emailVendedor;
-            this.comissao = comissao;
-        }
+    public Vendedor(int idVendedor, String nomeVendedor, String telefoneVendedor, String emailVendedor, double comissao){
+
+    this.idVendedor = idVendedor;
+    this.nomeVendedor = nomeVendedor.toUpperCase();
+    this.telefoneVendedor = telefoneVendedor;
+    this.emailVendedor =emailVendedor.toLowerCase();
+    this.comissao = comissao;
+}
 
         public int getIdVendedor() {
             return idVendedor;
@@ -30,7 +31,7 @@ public class Vendedor {
         }
 
                 public void setNomeVendedor(String nomeVendedor) {
-            this.nomeVendedor = nomeVendedor;
+            this.nomeVendedor = nomeVendedor.toUpperCase();
         }   
 
                 public String getTelefoneVendedor() {
@@ -42,7 +43,7 @@ public class Vendedor {
         }
 
                 public String getEmailVendedor() {
-            return emailVendedor;
+            return emailVendedor.toLowerCase();
         }
 
                 public void setEmailVendedor(String emailVendedor) {

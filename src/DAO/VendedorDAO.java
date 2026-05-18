@@ -31,11 +31,12 @@ public class VendedorDAO {
 
             System.out.println("Vendedor adicionado com sucesso!");
 
-        } catch (Exception e) {
-            System.out.println("Erro ao adicionar vendedor: " + e.getMessage());
-        }
-    }
-
+        } catch(java.sql.SQLIntegrityConstraintViolationException e){
+                System.out.println("Email já cadastrado!");
+        }catch(Exception e){
+                System.out.println("Erro:");
+                System.out.println(e.getMessage());
+        }}
 
     public void mostrarVendedor() {
 
