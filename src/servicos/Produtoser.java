@@ -21,7 +21,10 @@ public class Produtoser {
     public  void filtro(String n){
         new ProdutoDAO().filtarProdutos(n);
     }
-
+    public void remover(int x){
+        new ProdutoDAO().excluirProduto(x);
+        System.out.println("Produto com o Id "+ x +" foi apagado");
+    }
 
 
     public String verificarNome(String nome) {

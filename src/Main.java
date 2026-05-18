@@ -3,6 +3,7 @@ import menu.Menuadd;
 import entidades.Clientes;
 import entidades.Produto;
 import menu.Menuprint;
+import menu.Menuremov;
 
 import java.util.Scanner;
 
@@ -125,7 +126,7 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("PRODUTO REMOVIDO!");
+                    new Menuremov().ProdutoRemov();
                     break;
 
                 case 3:

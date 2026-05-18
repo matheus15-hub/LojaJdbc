@@ -22,6 +22,21 @@ public class Menuremov {
     }
 
 
+    public void ProdutoRemov(){
+        System.out.println("\t\tDeletando Clientes*************");
+        System.out.println("Buscar clientes S | N");
+        System.out.print(":: ");
+        String resposta = sca.nextLine();
+        if(resposta.equalsIgnoreCase("s")){
+            System.out.print("Busca: ");
+            String busca = sca.nextLine();
+            new Menuprint().metodoBusca(busca);
+        }
+        System.out.print("ID: ");
+        int codigo_produto = sca.nextInt();
+        new Produtoser().remover(codigo_produto);
+    }
+
 
     
 }

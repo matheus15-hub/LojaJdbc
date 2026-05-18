@@ -85,6 +85,14 @@ public class ProdutoDAO {
     public void excluirProduto(int d) {
         PreparedStatement ps = null;
         String sql = "delete from produtos where id_produtos = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(1 , d);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // verifica se o produto existe realmente no banco de dados verficicar com o
