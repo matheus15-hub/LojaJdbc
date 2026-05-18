@@ -79,13 +79,37 @@ public class Menuadd {
         System.out.println("\n--- LISTA DE CLIENTES ---");
         new ClientesDAO().mostrarClient();
         System.out.print("\nDigite o ID do cliente escolhido: ");
+
+        while (!cin.hasNextInt()) {
+            System.out.println("Digite apenas números!");
+            cin.nextLine();
+            System.out.print("Digite o ID do cliente escolhido: ");
+        }
+
         int idCli = cin.nextInt();
+
+        if (idCli <= 0) {
+            System.out.println("ID inválido!");
+            return;
+        }
 
         // 2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");
         new VendedorDAO().mostrarVendedor();
         System.out.print("Digite o ID do Vendedor escolhido: ");
+
+        while (!cin.hasNextInt()) {
+            System.out.println("Digite apenas números!");
+            cin.nextLine();
+            System.out.print("Digite o ID do Vendedor escolhido: ");
+        }
+
         int idVend = cin.nextInt();
+
+        if (idVend <= 0) {
+            System.out.println("ID inválido!");
+            return;
+        }
 
         List<ItemPedido> carrinho = new ArrayList<>();
         double valorTotalPedido = 0;
@@ -94,25 +118,64 @@ public class Menuadd {
         String continuar = "s";
         while (continuar.equalsIgnoreCase("s")) {
             System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
-            new ProdutoDAO().mostrarProduts(null); 
+            new ProdutoDAO().mostrarProduts();
 
             System.out.print("\nDigite o ID do Produto: ");
+
+            while (!cin.hasNextInt()) {
+                System.out.println("Digite apenas números!");
+                cin.nextLine();
+                System.out.print("Digite o ID do Produto: ");
+            }
+
             int idProd = cin.nextInt();
 
             if (!ProdutoDAO.produtoExiste(idProd)) {
-                System.out.println("Produto não existe!");
+                System.out.println("Produto não encontrado!");
                 continue;
             }
 
             System.out.print("Quantidade: ");
+
+            while (!cin.hasNextInt()) {
+                System.out.println("Digite apenas números!");
+                cin.nextLine();
+                System.out.print("Quantidade: ");
+            }
+
             int qtd = cin.nextInt();
-            System.out.print("Confirme o Preço Unitário: ");
-            double preco = cin.nextDouble();
+
+            if (qtd <= 0) {
+                System.out.println("Quantidade inválida!");
+                continue;
+            }
+
+            int estoque = ProdutoDAO.buscarEstoque(idProd);
+
+            if (qtd > estoque) {
+                System.out.println("Estoque insuficiente!");
+                continue;
+            }
+
+            double preco = ProdutoDAO.buscarPreco(idProd);
+
+            System.out.println("Preço do produto: R$ " + preco);
 
             // Adiciona ao carrinho e soma ao total
+
             ItemPedido item = new ItemPedido(idProd, qtd, preco);
             carrinho.add(item);
             valorTotalPedido += item.getSubtotal();
+
+            System.out.println("\n--- ITENS DO PEDIDO ---");
+
+            for (ItemPedido itemCarrinho : carrinho) {
+
+                System.out.println(
+                        "Produto ID: " + itemCarrinho.getIdProdutos() +
+                                " | Quantidade: " + itemCarrinho.getQuantidade() +
+                                " | Subtotal: R$ " + itemCarrinho.getSubtotal());
+            }
 
             System.out.print("\nDeseja adicionar outro produto? (s/n): ");
             continuar = cin.next();

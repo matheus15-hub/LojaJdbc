@@ -94,8 +94,9 @@ public class PedidoDAO {
 
             try {
                 conn.setAutoCommit(true);
+                conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("Erro ao fechar conexão");
             }
         }
     }
