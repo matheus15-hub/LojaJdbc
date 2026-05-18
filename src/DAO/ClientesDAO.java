@@ -27,6 +27,25 @@ public class ClientesDAO {
         }  
     }
 
+    public static void removerCliente(int id_clientes){
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        String sql = "DELETE FROM clientes WHERE id_clientes = ?";
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(0, id_clientes);
+            resultSet = ps.executeQuery();
+            while (resultSet.next()){
+                id_clientes = resultSet.getInt("id_clientes");
+                String nome_clientes = resultSet.getNString("nome_clientes");
+                String cpf = resultSet.getNString("cpf");
+                System.out.println("||\t\t ID: " + id_clientes + " || NOME: " + nome_clientes + " || CPF: " + cpf);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+        }
+    }
+
 
     public void mostrarClient(){
     

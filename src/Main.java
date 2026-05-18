@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Clientes c = new Clientes();
         Scanner  sca = new Scanner(System.in);
         System.out.println("███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ██████╗ ██████╗       ██████╗ ██████╗      ██╗    ██████╗ ");
         System.out.println("██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ██╔══██╗╚════██╗      ██╔══██╗╚════██╗    ███║   ██╔═████╗");
@@ -44,12 +43,11 @@ public class Main {
 
                 case 1:
                     new menu.Menuadd().Clienteadd();
-                    //System.out.println("CLIENTE CADASTRADO!");
-                    break;
+                break;
 
                 case 2:
-                    System.out.println("CLIENTE REMOVIDO!");
-                    break;
+                    new menu.Menuremov().ClienteaRemov();
+                break;
 
                 case 3:
                     int opcao = 0;
@@ -64,13 +62,12 @@ public class Main {
                         break;
                         default:
                         break;
-                    }
-                    
-                    break;
+                    }  
+                break;
 
                 case 4:
                     System.out.println("VOLTANDO...");
-                    break;
+                break;
 
                 default:
                     System.out.println("OPÇÃO INVÁLIDA!");
@@ -224,6 +221,9 @@ public class Main {
             System.out.println("OPÇÃO INVÁLIDA!");
         }
 
+        sca.close();
+
+        
     }
 
 

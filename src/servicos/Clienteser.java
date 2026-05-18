@@ -13,6 +13,11 @@ public class Clienteser {
         System.out.println("Cliente cadastrado com sucesso!");
     }
 
+    public void removerCli(int c){
+        ClientesDAO.removerCliente(c);
+        System.out.println("Cliente removido com sucesso!");
+    }
+
     public void mostrar(){
         new ClientesDAO().mostrarClient();
     }

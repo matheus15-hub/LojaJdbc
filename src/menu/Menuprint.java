@@ -29,7 +29,6 @@ public class Menuprint {
     public void printClienteFiltro(){
         System.out.println("Digite o nome do cliente: ");
         String nome_clientes = sca.nextLine();
-        
         new Clienteser().mostrarFiltro(nome_clientes);}
 
     public void printVendedor(){new VendedorServico().mostrar(); }
