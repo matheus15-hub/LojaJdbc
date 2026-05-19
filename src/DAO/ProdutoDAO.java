@@ -39,7 +39,6 @@ public class ProdutoDAO {
         try {
             sts = conexao.Conexao.getConexao().createStatement();
             res = sts.executeQuery(sql);
-
             while (res.next()) {
                 int id = res.getInt("id_produtos");
                 String nome = res.getString("nome_produtos");
@@ -47,10 +46,10 @@ public class ProdutoDAO {
                 int estoque = res.getInt("estoque");
                 String categoria = res.getString("categoria");
                 String classe = res.getString("medida_vendas");
-
-                System.out.printf("ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tCLASSE: %s%n",
+                linha();
+                System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tMEDIDA: %-5s||%n",
                         id, nome, preco, estoque, categoria, classe);
-            }
+            }   linha();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -72,11 +71,11 @@ public class ProdutoDAO {
                 int estoque = res.getInt("estoque");
                 String categoria = res.getString("categoria");
                 String classe = res.getString("medida_vendas");
-
-                System.out.printf("ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tCLASSE: %s%n",
+                linha();
+                System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tMEDIDA: %-5s||%n",
                         id, nome, preco, estoque, categoria, classe);
 
-            }
+            }   linha();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -163,5 +162,8 @@ public class ProdutoDAO {
         }
 
         return 0;
+    }
+    public static void linha(){
+        System.out.println("=======================================================================================================================");
     }
 }

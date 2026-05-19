@@ -54,8 +54,9 @@ public class ClientesDAO {
                 int id_clientes = res.getInt("id_clientes");
                 String nome_clientes = res.getString("nome_clientes");
                 String cpf = res.getString("cpf");
-
-                System.out.printf("ID: %5d\t NOME: %-25s\t CPF: %-25s%n", id_clientes, nome_clientes, cpf);
+                linha();
+                System.out.printf("||ID: %5d\t NOME: %-25s\t CPF: %-18s||%n", id_clientes, nome_clientes, cpf);
+                linha();
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
@@ -74,10 +75,15 @@ public class ClientesDAO {
                 int id_clientes = resultSet.getInt("id_clientes");
                 nome_clientes = resultSet.getNString("nome_clientes");
                 String cpf = resultSet.getNString("cpf");
-                System.out.println("||\t\t ID: " + id_clientes + " || NOME: " + nome_clientes + " || CPF: " + cpf);
+                linha();
+                System.out.printf("||ID: %5d\t NOME: %-25s\t CPF: %-18s||%n", id_clientes, nome_clientes, cpf);
+                linha();
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
         }    
+    }
+    public static void linha(){
+        System.out.println("==================================================================================");
     }
 }

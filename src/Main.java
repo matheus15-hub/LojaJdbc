@@ -16,13 +16,11 @@ public class Main {
         System.out.println("╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║    ██╔══██╗ ╚═══██╗╚════╝██║  ██║ ╚═══██╗     ██║   ████╔╝██║");
         System.out.println("███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║    ██║  ██║██████╔╝      ██████╔╝██████╔╝     ██║██╗╚██████╔╝");
         System.out.println("╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝    ╚═╝  ╚═╝╚═════╝       ╚═════╝ ╚═════╝      ╚═╝╚═╝ ╚═════╝  \n\n");
-        System.out.println("Adicionando um Produto");
-        System.out.println("=========================================");
 
 
 
         linha();
-        System.out.println("||\t\t\t\t\t O QUE DEJESA FAZER?\t\t\t\t\t||");
+        System.out.println("||\t\t\t\t O QUE DEJESA FAZER?\t\t\t\t\t||");
         linha();
         System.out.println("||1)Clientes\t2)PEDIDO\t3)PRODUTO\t4)VENDEDOR\t5)CONSULTAR\t6)SAIR\t||");
         linha();
@@ -32,9 +30,9 @@ public class Main {
         if (escolha == 1) {
 
             linha();
-            System.out.println("||\t\t\t\t\t\t\tCLIENTES\t\t\t\t\t\t||");
+            System.out.println("||\t\t\t\t\tCLIENTES\t\t\t\t\t||");
             linha();
-            System.out.println("||1)CADASTRAR\t2)REMOVER\t3)CONSULTAR\t\t4)VOLTAR\t\t||");
+            System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
             linha();
             System.out.print("||ESCOLHA : ");
             int cliente = sca.nextInt();
@@ -77,9 +75,9 @@ public class Main {
         } else if (escolha == 2) {
 
             linha();
-            System.out.println("||\t\t\t\t\t\t\tPEDIDOS\t\t\t\t\t\t\t||");
+            System.out.println("||\t\t\t\t\tPEDIDOS\t\t\t\t\t\t||");
             linha();
-            System.out.println("||1)CRIAR\t2)REMOVER\t3)CONSULTAR\t\t4)VOLTAR\t\t\t||");
+            System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
             linha();
             System.out.print("||ESCOLHA : ");
             int pedido = sca.nextInt();
@@ -111,9 +109,9 @@ public class Main {
         } else if (escolha == 3) {
 
             linha();
-            System.out.println("||\t\t\t\t\t\t\tPRODUTOS\t\t\t\t\t\t||");
+            System.out.println("||\t\t\t\t\tPRODUTOS\t\t\t\t\t||");
             linha();
-            System.out.println("||1)CADASTRAR\t2)REMOVER\t3)CONSULTAR\t\t4)VOLTAR\t\t||");
+             System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
             linha();
             System.out.print("||ESCOLHA : ");
             int produto = sca.nextInt();
@@ -147,9 +145,9 @@ public class Main {
         } else if (escolha == 4) {
 
             linha();
-            System.out.println("||\t\t\t\t\t\t\tVENDEDORES\t\t\t\t\t\t||");
+            System.out.println("||\t\t\t\t\tVENDEDORES\t\t\t\t\t||");
             linha();
-            System.out.println("||1)CADASTRAR\t2)REMOVER\t3)CONSULTAR\t\t4)VOLTAR\t\t||");
+             System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
             linha();
             System.out.print("||ESCOLHA : ");
             int vendedor = sca.nextInt();
@@ -167,7 +165,7 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("CONSULTANDO VENDEDOR...");
+                    new Menuprint().printVendedor();
                     break;
                 
                 case 4:
@@ -181,9 +179,9 @@ public class Main {
         } else if (escolha == 5) {
 
             linha();
-            System.out.println("||\t\t\t\t\t\t\tCONSULTAS\t\t\t\t\t\t||");
+            System.out.println("||\t\t\t\t\tCONSULTAS\t\t\t\t\t||");
             linha();
-            System.out.println("||1)CLIENTES\t2)PEDIDOS\t3)PRODUTOS\t4)VENDEDOR\t\t5)VOLTAR\t\t||");
+            System.out.println("||1)CLIENTES\t  2)PEDIDOS\t  3)PRODUTOS\t  4)VENDEDOR\t  5)VOLTAR\t\t||");
             linha();
             System.out.print("||ESCOLHA : ");
             int consulta = sca.nextInt();
@@ -229,5 +227,5 @@ public class Main {
 
 
 
-    public static void linha(){System.out.println("==============================================================");}
+    public static void linha(){System.out.println("==========================================================================================");}
 }
