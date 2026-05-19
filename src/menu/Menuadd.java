@@ -13,6 +13,7 @@ import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
 import DAO.ClientesDAO;
 import DAO.VendedorDAO;
+import servicos.VendedorServico;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
@@ -87,11 +88,9 @@ public class Menuadd {
         }
 
         int idCli = cin.nextInt();
+        idCli = new Clienteser().vereficarId(idCli);
 
-        if (idCli <= 0) {
-            System.out.println("ID inválido!");
-            return;
-        }
+
 
         // 2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");
@@ -105,11 +104,8 @@ public class Menuadd {
         }
 
         int idVend = cin.nextInt();
+        idVend = new VendedorServico().vereficarId(idVend);
 
-        if (idVend <= 0) {
-            System.out.println("ID inválido!");
-            return;
-        }
 
         List<ItemPedido> carrinho = new ArrayList<>();
         double valorTotalPedido = 0;

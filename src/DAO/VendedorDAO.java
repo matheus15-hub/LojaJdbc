@@ -55,7 +55,7 @@ public class VendedorDAO {
                 float comissao = rs.getFloat("comissao");
                 linha();
                 System.out.printf(
-                        "ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f\tEMAIL: %-100s%n",
+                        "ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f\tEMAIL: %-100s||%n",
                         id, nome, tel, comissao, email
                 );
                 linha();
@@ -105,6 +105,29 @@ public class VendedorDAO {
             System.out.println("Erro ao pesquisar vendedor: " + e.getMessage());
         }
     }
+    public static boolean vereficarExistencia(int h){
+        int contador = 0;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        String sql = "Select * from vendedor where id_vendedor = ?";
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(1, h);
+            resultSet = ps.executeQuery();
+            while (resultSet.next()){
+                contador++;
+            }
+            if (contador <= 0){return true;}
+            else {return false;}
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     public static void linha(){
         System.out.println("========================================================================================================================================================================================");
     }

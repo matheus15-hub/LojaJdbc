@@ -47,7 +47,7 @@ public class ClientesDAO {
         ResultSet res = null;
         String sql = "Select * from clientes";
         try {
-            sts = conexao.Conexao.getConexao().prepareStatement(sql);
+            sts = conexao.Conexao.getConexao().createStatement();
             res = sts.executeQuery(sql);
 
             while (res.next()){
@@ -83,6 +83,27 @@ public class ClientesDAO {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
         }    
     }
+    public static boolean vereficarExistencia(int h){
+        int contador = 0;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        String sql = "Select * from clientes where id_clientes = ?";
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(1, h);
+            resultSet = ps.executeQuery();
+            while (resultSet.next()){
+                contador++;
+            }
+            if (contador <= 0){return true;}
+            else {return false;}
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void linha(){
         System.out.println("==================================================================================");
     }

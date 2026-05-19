@@ -2,10 +2,13 @@ package servicos;
 
 import java.util.Scanner;
 
+import DAO.ClientesDAO;
 import DAO.VendedorDAO;
 import entidades.Vendedor;
+import menu.Menuprint;
 
 public class VendedorServico {
+    Scanner sca = new Scanner(System.in);
     public void adicionar(Vendedor v){
         new VendedorDAO().adicionarVendedor(v);
         System.out.println("Cadastrado!");
@@ -71,5 +74,23 @@ System.out.println("Máximo 100 caracteres");
     public void mostrarFiltro(String nome){
         System.out.println("PESQUISANDO VENDEDOR...");
         new VendedorDAO().mostrarVendedorFiltro(nome);
+    }
+    public int vereficarId(int id){
+        while (true){
+            if(VendedorDAO.vereficarExistencia(id)){
+                System.out.println("Vendedor com o ID "+id+" nao encontrado, tente novamente" );
+                new Menuprint().printVendedor();
+                System.out.print("\nID: ");
+                while (!sca.hasNextInt()) {
+                    System.out.println("Digite apenas números!");
+                    sca.nextLine();
+                    System.out.print("Digite o ID do Vendedor escolhido: ");
+                }
+                id = sca .nextInt();
+            }else{
+                return id;
+            }
+        }
+
     }
 }

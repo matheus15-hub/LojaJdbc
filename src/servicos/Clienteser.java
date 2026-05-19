@@ -3,7 +3,9 @@ package servicos;
 import java.util.Scanner;
 
 import DAO.ClientesDAO;
+import DAO.ProdutoDAO;
 import entidades.Clientes;
+import menu.Menuprint;
 
 public class Clienteser {
     Scanner sca = new Scanner(System.in);
@@ -66,5 +68,22 @@ public class Clienteser {
             }
         }
     }
+    public int vereficarId(int id){
+        while (true){
+            if(ClientesDAO.vereficarExistencia(id)){
+                System.out.println("Cliente com o ID "+id+" nao encontrado, tente novamente" );
+                new Menuprint().printCliente();
+                System.out.print("\nID: ");
+                while (!sca.hasNextInt()) {
+                    System.out.println("Digite apenas números!");
+                    sca.nextLine();
+                    System.out.print("Digite o ID do cliente escolhido: ");
+                }
+                id = sca .nextInt();
+            }else{
+                return id;
+        }
+    }
 
+}
 }
