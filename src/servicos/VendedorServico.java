@@ -33,19 +33,22 @@ System.out.println("Máximo 100 caracteres");
         }
     public double verificarComissao(double comissao){
         while(true){
-            if(comissao<0 || comissao>100000){
-                System.out.println("Comissão invalida");
+            if(comissao < 0 || comissao > 100){
 
-                while(!new Scanner(System.in).hasNextDouble()){
-                    System.out.println("Digite apenas número");
-                }
-
-                comissao = new Scanner(System.in).nextDouble();
-            }else{
-                return comissao;
-                }
+            System.out.println("Comissão deve ser entre 0% e 100%");
+            while(!sca.hasNextDouble()){
+                System.out.println(
+                "Digite número");
+                sca.next();
             }
+            comissao = sca.nextDouble();
+            sca.nextLine();
         }
+        else{
+            return comissao;
+        }
+    }
+}
     public String verificarTelefone(String telefone){
         while(true){
             telefone = telefone.trim();

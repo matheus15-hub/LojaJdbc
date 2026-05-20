@@ -53,11 +53,8 @@ public class VendedorDAO {
                 String tel = rs.getString("telefone_vendedor");
                 String email = rs.getString("email_vendedor");
                 float comissao = rs.getFloat("comissao");
-                linha();
-                System.out.printf(
-                        "ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f\tEMAIL: %-100s||%n",
-                        id, nome, tel, comissao, email
-                );
+
+        System.out.printf("ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f%%\tEMAIL: %s%n",id, nome, tel, comissao, email);
                 linha();
             }
 
