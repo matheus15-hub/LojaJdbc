@@ -1,9 +1,12 @@
 package menu;
 
+import DAO.PedidoDAO;
 import entidades.Clientes;
+import entidades.Pedido;
 import entidades.Produto;
 import entidades.Vendedor;
 import servicos.Clienteser;
+import servicos.Pedidoser;
 import servicos.Produtoser;
 import servicos.VendedorServico;
 import java.util.Scanner;
@@ -39,6 +42,9 @@ public class Menuprint {
         String nome = sca.nextLine();
 
         new VendedorServico().mostrarFiltro(nome);
+    }
+    public void printPedido(){
+        new Pedidoser().mostrarTodosPedidos();
     }
     }
 

@@ -95,7 +95,7 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.println("CONSULTANDO PEDIDO...");
+                    new Menuprint().printPedido();
                     break;
 
                 case 4:
