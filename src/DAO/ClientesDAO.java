@@ -9,15 +9,17 @@ import entidades.Clientes;
 
 public class ClientesDAO {
 
-    public static void addCliente(Clientes clientes){
+    public static boolean addCliente(Clientes clientes){
         PreparedStatement ps = null;
-        String sql = "INSERT INTO clientes (nome_clientes, CPF) VALUES(?,?)";
+        String sql = "INSERT INTO clientes (nome_clientes, CPF, email, endereco) VALUES(?,?,?,?)";
 
         try {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
 
             ps.setString(1, clientes.getNome_clientes());
             ps.setString(2,clientes.getCpf()); // antes estava 3, foi alterado para 2(Por que ele poderia colocar o CPF numa coluna que não existe no comando MYSQL.)
+            ps.setString(3, clientes.getEmail());
+            ps.setString(4, clientes.getEndereco());
 
             ps.execute();
             ps.close();
@@ -25,6 +27,8 @@ public class ClientesDAO {
         } catch (Exception e) {
             e.printStackTrace(); // esse negocio aqui vai dizer mesmo se o banco vai querer o dado mandado.
         }  
+
+        return true;
     }
 
     public static void removerCliente(int id_clientes){

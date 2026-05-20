@@ -3,17 +3,20 @@ package servicos;
 import java.util.Scanner;
 
 import DAO.ClientesDAO;
-import DAO.ProdutoDAO;
 import entidades.Clientes;
 import menu.Menuprint;
 
 public class Clienteser {
+
     Scanner sca = new Scanner(System.in);
 
-    public void adicionarCli(Clientes clientes){
-        ClientesDAO.addCliente(clientes);
+    public void adicionarCli(Clientes c){
+
+        ClientesDAO.addCliente(c);
+
         System.out.println("Cliente cadastrado com sucesso!");
     }
+
 
     public void removerCli(int c){
         ClientesDAO.removerCliente(c);
@@ -23,11 +26,13 @@ public class Clienteser {
     public void mostrar(){
         new ClientesDAO().mostrarClient();
     }
+
     public void mostrarFiltro(String c){
         new ClientesDAO().mostrarClientFiltro(c);
     }
 
     public String verificarNome(String nome_cliente){
+
         while (true) {
 
             if (nome_cliente == null || nome_cliente.trim().isEmpty()) {
@@ -49,12 +54,13 @@ public class Clienteser {
     }
 
     public String verificarCPF(String cpf){
+
         while (true) {
 
             if (cpf == null || cpf.trim().isEmpty()) {
 
                 System.out.println("O CPF nao pode ser vazio!");
-                System.out.print("PCF: ");
+                System.out.print("CPF: ");
                 cpf = sca.nextLine();
 
             } else if (cpf.length() > 14) {
@@ -68,22 +74,32 @@ public class Clienteser {
             }
         }
     }
+
     public int vereficarId(int id){
+
         while (true){
+
             if(ClientesDAO.vereficarExistencia(id)){
-                System.out.println("Cliente com o ID "+id+" nao encontrado, tente novamente" );
+
+                System.out.println("Cliente com o ID " + id + " nao encontrado!");
+
                 new Menuprint().printCliente();
+
                 System.out.print("\nID: ");
+
                 while (!sca.hasNextInt()) {
+
                     System.out.println("Digite apenas números!");
                     sca.nextLine();
                     System.out.print("Digite o ID do cliente escolhido: ");
                 }
-                id = sca .nextInt();
-            }else{
+
+                id = sca.nextInt();
+
+            } else {
+
                 return id;
+            }
         }
     }
-
-}
 }

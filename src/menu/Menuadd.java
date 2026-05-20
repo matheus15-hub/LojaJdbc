@@ -56,11 +56,21 @@ public class Menuadd {
     public void Clienteadd() {
         System.out.print("Nome do Cliente: ");
         String nome = cin.nextLine();
+
         System.out.print("CPF (com formatação): ");
         String cpf = cin.nextLine();
 
-        Clientes c = new Clientes(0, nome, cpf);
+        System.out.print("Email: ");
+        String email = cin.nextLine();
+
+        System.out.print("Endereço: ");
+        String endereco = cin.nextLine();
+
+        Clientes c = new Clientes(0, nome, cpf, email, endereco);
+        c.setEmail(email);
+
         new Clienteser().adicionarCli(c);
+        System.out.println("Cliente cadastrado com sucesso!");
     }
 
     public void Vendedoradd() {
@@ -90,8 +100,6 @@ public class Menuadd {
         int idCli = cin.nextInt();
         idCli = new Clienteser().vereficarId(idCli);
 
-
-
         // 2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");
         new VendedorDAO().mostrarVendedor();
@@ -105,7 +113,6 @@ public class Menuadd {
 
         int idVend = cin.nextInt();
         idVend = new VendedorServico().vereficarId(idVend);
-
 
         List<ItemPedido> carrinho = new ArrayList<>();
         double valorTotalPedido = 0;
