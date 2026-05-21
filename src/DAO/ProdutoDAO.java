@@ -58,7 +58,10 @@ public class ProdutoDAO {
     public void filtarProdutos(String nome) {
         PreparedStatement ps = null;
         ResultSet res = null;
-        String sql = "select * from produtos where nome_produtos like ?";
+        String sql = "select * from produtos p " +
+             "join classe c on p.idClasse = c.idClasse " +
+             "join unidade_medida u on p.idUnidade = u.idUnidade " +
+             "where nome_produtos like ?";
         try {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
             ps.setString(1, nome + "%");
@@ -69,8 +72,8 @@ public class ProdutoDAO {
                 nome = res.getString("nome_produtos");
                 float preco = res.getFloat("preco");
                 int estoque = res.getInt("estoque");
-                String categoria = res.getString("categoria");
-                String classe = res.getString("medida_vendas");
+                String categoria = res.getString("nome_classe");
+                String classe = res.getString("sigla_medida");
                 linha();
                 System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tMEDIDA: %-5s||%n",
                         id, nome, preco, estoque, categoria, classe);

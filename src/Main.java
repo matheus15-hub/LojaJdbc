@@ -5,6 +5,7 @@ import entidades.Clientes;
 import entidades.Produto;
 import menu.Menuprint;
 import menu.Menuremov;
+import threads.ProcessadorPedido;
 
 import java.util.Scanner;
 
@@ -12,6 +13,10 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sca = new Scanner(System.in);
+
+        ProcessadorPedido filaProcessamento = new ProcessadorPedido();
+        filaProcessamento.setDaemon(true);
+        filaProcessamento.start();
         while (true) {
 
             System.out.println(
@@ -109,7 +114,6 @@ public class Main {
 
                     case 1:
                         new Menuadd().novoPedido();
-                        // System.out.println("PEDIDO CRIADO!");
                         break;
 
                     case 2:
@@ -229,6 +233,7 @@ public class Main {
                     case 5:
                         System.out.println("VOLTANDO...");
                         break;
+
                     default:
                         System.out.println("OPÇÃO INVÁLIDA!");
                 }

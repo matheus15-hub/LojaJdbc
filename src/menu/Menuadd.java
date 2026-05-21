@@ -81,13 +81,27 @@ public class Menuadd {
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
         String nome = cin.nextLine();
+        nome = new VendedorServico().verificarNome(nome);
+
         System.out.print("Telefone: ");
         String tel = cin.nextLine();
+        tel = new VendedorServico().verificarTelefone(tel);
+
         System.out.print("Email: ");
         String email = cin.nextLine();
+        email = new VendedorServico().verificarEmail(email);
+
         System.out.print("Comissão: ");
+        while (!cin.hasNextDouble()) {
+            System.out.println("Digite um número válido!");
+            cin.next();
+        }
         double comissao = cin.nextDouble();
         cin.nextLine(); // Limpar o buffer
+        comissao = new VendedorServico().verificarComissao(comissao);
+
+        Vendedor v = new Vendedor(0, nome, tel, email, comissao);
+        new VendedorServico().adicionar(v);
     }
 
     public void novoPedido() {

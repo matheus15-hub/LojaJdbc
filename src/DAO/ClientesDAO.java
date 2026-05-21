@@ -40,34 +40,34 @@ public class ClientesDAO {
             ps.setInt(1, id_clientes);
             ps.execute();
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+            throw new RuntimeException("Erro ao remover o cliente: " + e.getMessage());
         }
     }
 
 
-    public void mostrarClient(){
-    
-        Statement sts = null;
-        ResultSet res = null;
-        String sql = "Select * from clientes";
-        try {
-            sts = conexao.Conexao.getConexao().createStatement();
-            res = sts.executeQuery(sql);
+    public void mostrarClient() {
+        String sql = "SELECT * FROM clientes";
+        
+        try (java.sql.Connection conn = conexao.Conexao.getConexao();
+             java.sql.Statement sts = conn.createStatement();
+             java.sql.ResultSet res = sts.executeQuery(sql)) {
 
-            while (res.next()){
-                int id_clientes = res.getInt("id_clientes");
-                String nome_clientes = res.getString("nome_clientes");
-                String cpf = res.getString("cpf");
-                String email_clientes = res.getString("email_clientes");
+            while (res.next()) {
+                int id_clientes = res.getInt(1);
+                String nome_clientes = res.getString(2);
+                String cpf = res.getString(3);
+                String email_clientes = res.getString(4);
+                String endereco_clientes = res.getString(5);
+                
                 linha();
-                String endereco_clientes = res.getString("endereco_clientes");
-                System.out.printf("||ID: %5d\t NOME: %-25s\t CPF: %-18s \t Endereço: %-25s||%n", id_clientes, nome_clientes, cpf, email_clientes, endereco_clientes);
+                System.out.printf("||ID: %5d | NOME: %-20s | CPF: %-15s | EMAIL: %-20s | END: %-20s||%n", 
+                        id_clientes, nome_clientes, cpf, email_clientes, endereco_clientes);
                 linha();
             }
+            
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
         }
-            
     }
     public void mostrarClientFiltro(String nome_clientes){
         PreparedStatement md = null;
