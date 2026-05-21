@@ -7,13 +7,11 @@ import entidades.ItemPedido;
 import entidades.Produto;
 import entidades.Clientes;
 import entidades.Vendedor;
-import servicos.Produtoser;
-import servicos.Clienteser;
+import servicos.*;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
 import DAO.ClientesDAO;
 import DAO.VendedorDAO;
-import servicos.VendedorServico;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
@@ -41,12 +39,15 @@ public class Menuadd {
         estoque = cin.nextInt();
         cin.nextLine();
         estoque = new Produtoser().verificarEstoque(estoque);
+        Classeser.mostrar();
+        System.out.println("Escolha uma Categoria cadastrada para colocar em seu produto:");
         System.out.print("Categoria: ");
-        String categoria = cin.nextLine();
-        System.out.println("MEDIDA DE VENDA (UNI, M, M2 , M3 , KG)");
-        System.out.print("MEDIDA: ");
-        String medida = cin.nextLine();
-        medida = new Produtoser().verificarUnidade(medida);
+        int categoria = cin.nextInt();
+        Medidaser.mostrar();
+        System.out.println("Escolha uma medida de venda cadastrada para colocar em seu produto:");
+        System.out.print("Escolha: ");
+        int medida = cin.nextInt();
+
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
         new Produtoser().adicionar(p);

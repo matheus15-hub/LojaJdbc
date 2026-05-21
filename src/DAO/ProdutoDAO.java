@@ -13,7 +13,7 @@ public class ProdutoDAO {
 
     public static void addProduto(Produto produto) {
         PreparedStatement ps = null;
-        String sql = "INSERT INTO produtos (nome_produtos, preco , estoque, categoria, medida_vendas) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO produtos (nome_produtos, preco , estoque, idClasse, idUnidade) VALUES(?,?,?,?,?)";
 
         try {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
@@ -21,8 +21,8 @@ public class ProdutoDAO {
             ps.setString(1, produto.getNome_Produtos());
             ps.setFloat(2, produto.getPreco());
             ps.setInt(3, produto.getEstoque());
-            ps.setString(4, produto.getCategoria());
-            ps.setString(5, produto.getMedida_vendas());
+            ps.setInt(4, produto.getIdClasse());
+            ps.setInt(5, produto.getIdUnidade());
 
             ps.execute();
             ps.close();
@@ -35,7 +35,7 @@ public class ProdutoDAO {
     public void mostrarProduts() {
         Statement sts = null;
         ResultSet res = null;
-        String sql = "Select * from produtos";
+        String sql = "Select * from produtos p join classe c on p.idClasse = c.idClasse join unidade_medida u on p.idUnidade = u.idUnidade";
         try {
             sts = conexao.Conexao.getConexao().createStatement();
             res = sts.executeQuery(sql);
@@ -44,10 +44,10 @@ public class ProdutoDAO {
                 String nome = res.getString("nome_produtos");
                 float preco = res.getFloat("preco");
                 int estoque = res.getInt("estoque");
-                String categoria = res.getString("categoria");
-                String classe = res.getString("medida_vendas");
+                String categoria = res.getString("nome_classe");
+                String classe = res.getString("sigla_medida");
                 linha();
-                System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tMEDIDA: %-5s||%n",
+                System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-15s\tMEDIDA: %-5s||%n",
                         id, nome, preco, estoque, categoria, classe);
             }   linha();
         } catch (Exception e) {

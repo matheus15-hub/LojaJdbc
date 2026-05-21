@@ -1,4 +1,5 @@
 
+import DAO.MedidaDao;
 import menu.Menuadd;
 import entidades.Clientes;
 import entidades.Produto;
