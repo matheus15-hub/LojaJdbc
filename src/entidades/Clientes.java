@@ -4,15 +4,15 @@ public class Clientes {
     private int id_clientes;
     private String nome_clientes;
     private String cpf;
-    private String email;
-    private String endereco;
+    private String email_clientess;
+    private String endereco_clientes;
     public Clientes(){};
-    public Clientes(int id_clientes, String nome_clientes, String cpf, String email, String endereco){
+    public Clientes(int id_clientes, String nome_clientes, String cpf, String email_clientess, String endereco_clientes){
         this.cpf = cpf;
         this.id_clientes = id_clientes;
         this.nome_clientes = nome_clientes;
-        this.email = email;
-        this.endereco = endereco;
+        this.email_clientess = email_clientess;
+        this.endereco_clientes = endereco_clientes;
     }
 
     public String getCpf() {
@@ -29,20 +29,20 @@ public class Clientes {
         this.nome_clientes = nome_clientes;
     }
 
-    public String getEmail() {
-        return email;
+    public String getemail_clientess() {
+        return email_clientess;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String email_clientess) {
+        this.email_clientess = email_clientess;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getendereco_clientes() {
+        return endereco_clientes;
     }
     
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setendereco_clientes(String endereco_clientes) {
+        this.endereco_clientes = endereco_clientes;
     }
 
 }

@@ -11,15 +11,15 @@ public class ClientesDAO {
 
     public static boolean addCliente(Clientes clientes){
         PreparedStatement ps = null;
-        String sql = "INSERT INTO clientes (nome_clientes, CPF, email, endereco) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO clientes (nome_clientes, CPF, email_clientess, endereco_clientes) VALUES(?,?,?,?)";
 
         try {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
 
             ps.setString(1, clientes.getNome_clientes());
             ps.setString(2,clientes.getCpf()); // antes estava 3, foi alterado para 2(Por que ele poderia colocar o CPF numa coluna que não existe no comando MYSQL.)
-            ps.setString(3, clientes.getEmail());
-            ps.setString(4, clientes.getEndereco());
+            ps.setString(3, clientes.getemail_clientess());
+            ps.setString(4, clientes.getendereco_clientes());
 
             ps.execute();
             ps.close();
@@ -58,8 +58,10 @@ public class ClientesDAO {
                 int id_clientes = res.getInt("id_clientes");
                 String nome_clientes = res.getString("nome_clientes");
                 String cpf = res.getString("cpf");
+                String email_clientes = res.getString("email_clientes");
                 linha();
-                System.out.printf("||ID: %5d\t NOME: %-25s\t CPF: %-18s||%n", id_clientes, nome_clientes, cpf);
+                String endereco_clientes = res.getString("endereco_clientes");
+                System.out.printf("||ID: %5d\t NOME: %-25s\t CPF: %-18s \t Endereço: %-25s||%n", id_clientes, nome_clientes, cpf, email_clientes, endereco_clientes);
                 linha();
             }
         } catch (Exception e) {
@@ -79,8 +81,10 @@ public class ClientesDAO {
                 int id_clientes = resultSet.getInt("id_clientes");
                 nome_clientes = resultSet.getNString("nome_clientes");
                 String cpf = resultSet.getNString("cpf");
+                String email_clientes = resultSet.getString("email_clientes");
+                String endereco_clientes = resultSet.getString("endereco_clientes");
                 linha();
-                System.out.printf("||ID: %5d\t NOME: %-25s\t CPF: %-18s||%n", id_clientes, nome_clientes, cpf);
+                System.out.printf("||ID: %5d\\t NOME: %-25s\\t CPF: %-18s \\t Endereço: %-25s||%n", id_clientes, nome_clientes, cpf, email_clientes, endereco_clientes);
                 linha();
             }
         } catch (Exception e) {

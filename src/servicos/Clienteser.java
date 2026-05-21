@@ -102,4 +102,52 @@ public class Clienteser {
             }
         }
     }
+
+    public String vereficaremail_clientess(String email_clientes){
+        while (true) {
+            if (email_clientes == null || email_clientes.trim().isEmpty()) {
+
+                System.out.println("O email nao pode ser vazio!");
+                System.out.print("EMAIL: ");
+                email_clientes = sca.nextLine();
+
+            } else if (email_clientes.length() > 100) {
+
+                System.out.println("EMAIL nao pode ter mais de 100 caracteres!");
+                System.out.print("EMAIL: ");
+                email_clientes = sca.nextLine();
+
+            } else {
+                while(true){email_clientes = email_clientes.trim();
+                    if(!email_clientes.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
+                        System.out.println("Email inválido");
+                        email_clientes = new Scanner(System.in).nextLine();
+                    }else{
+                        return email_clientes;
+                    }
+                }
+            }
+        }
+    }
+
+    public String verefiarEndereco_Clientes(String endereco_clientes){
+        while (true) {
+
+            if (endereco_clientes == null || endereco_clientes.trim().isEmpty()) {
+
+                System.out.println("Endereço não pode ser vazio!");
+                System.out.print("Endereço: ");
+                endereco_clientes = sca.nextLine();
+
+            } else if (endereco_clientes.length() > 100) {
+
+                System.out.println("Endereço não pode ter mais de 100 caracteres!");
+                System.out.print("Endereço: ");
+                endereco_clientes = sca.nextLine();
+
+            } else {
+                return endereco_clientes;
+            }
+        }
+    }
 }

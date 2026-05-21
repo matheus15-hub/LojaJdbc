@@ -57,18 +57,22 @@ public class Menuadd {
     public void Clienteadd() {
         System.out.print("Nome do Cliente: ");
         String nome = cin.nextLine();
+        nome = new Clienteser().verificarNome(nome);
 
-        System.out.print("CPF (com formatação): ");
+        System.out.print("CPF (com formatação exemplo: 111.222.333-44): ");
         String cpf = cin.nextLine();
+        cpf = new Clienteser().verificarCPF(cpf);
 
         System.out.print("Email: ");
-        String email = cin.nextLine();
+        String email_clientes = cin.nextLine();
+        email_clientes = new Clienteser().vereficaremail_clientess(email_clientes);
 
         System.out.print("Endereço: ");
-        String endereco = cin.nextLine();
+        String endereco_clientes = cin.nextLine();
+        endereco_clientes = new Clienteser().verefiarEndereco_Clientes(endereco_clientes);
 
-        Clientes c = new Clientes(0, nome, cpf, email, endereco);
-        c.setEmail(email);
+        Clientes c = new Clientes(0, nome, cpf, email_clientes, endereco_clientes);
+        c.setEmail(email_clientes);
 
         new Clienteser().adicionarCli(c);
         System.out.println("Cliente cadastrado com sucesso!");
