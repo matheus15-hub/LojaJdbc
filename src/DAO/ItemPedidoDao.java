@@ -21,7 +21,7 @@ public class ItemPedidoDao {
                 String mm = resultSet.getNString("medida_vendas");
                 float sub = resultSet.getFloat("subtotal");
                 linha();
-                System.out.printf("|| %5d\t\t%-25s\t\t%5d\t\t%.2f\t\t%-5s\t\t%.2f ||", idp, nomep,quant , precV,mm,sub );
+                System.out.printf("|| %5d\t\t%-25s\t\t%5d\t\t%.2f\t\t%-5s\t\t%.2f ||%n", idp, nomep,quant , precV,mm,sub );
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
