@@ -1,5 +1,8 @@
 package DAO;
 
+import conexao.Conexao;
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -25,6 +28,18 @@ public class ClasseDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+    }
+    public static boolean vereficarId(int id){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from classe where idClasse = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(1 , id);
+            rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

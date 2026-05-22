@@ -33,14 +33,14 @@ public class Produtoser {
 
             if (nome == null || nome.trim().isEmpty()) {
 
-                System.out.println("Nome nao pode ser vazio!");
-                System.out.print("Nome: ");
+                System.out.println("O nome não pode estar vazio!");
+                System.out.print("Digite o nome: ");
                 nome = sca.nextLine();
 
             } else if (nome.length() > 100) {
 
-                System.out.println("Nome nao pode ter mais de 100 caracteres!");
-                System.out.print("Nome: ");
+                System.out.println("O nome ultrapassou o limite permitido de 100 caracteres!");
+                System.out.print("Digite o nome novamente: ");
                 nome = sca.nextLine();
 
             } else {
@@ -61,7 +61,7 @@ public class Produtoser {
 
                 while (!sca.hasNextFloat()) {
 
-                    System.out.println("Digite apenas números!");
+                    System.out.println("Valor inválido! Digite apenas números. Ex: 10 ou 15.99");
                     sca.nextLine();
                     System.out.print("Preço: ");
                 }
@@ -84,7 +84,7 @@ public class Produtoser {
 
                 while (!sca.hasNextInt()) {
 
-                    System.out.println("Digite apenas numeros inteiros!");
+                    System.out.println("Entrada inválida! O estoque deve conter apenas números inteiros. Ex: 1, 5, 20...");
                     sca.nextLine();
                     System.out.print("Estoque: ");
                 }
@@ -96,24 +96,34 @@ public class Produtoser {
                 return estoque;
             }
         }
-    }public String verificarUnidade(String unidade) {
+    }
+    public int verificarId(int id) {
 
         while (true) {
 
-            if (!unidade.equalsIgnoreCase("uni") &&
-                    !unidade.equalsIgnoreCase("m") &&
-                    !unidade.equalsIgnoreCase("m2") &&
-                    !unidade.equalsIgnoreCase("m3") &&
-                    !unidade.equalsIgnoreCase("kg")) {
+            if (!ProdutoDAO.produtoExiste(id)) {
 
-                System.out.println("Unidade inválida!");
-                System.out.println("UNI, M, M2, M3, KG");
+                System.out.println("Produto com código " + id + " não encontrado.");
 
-                System.out.print("Medida: ");
-                unidade = sca.nextLine();
+                new ProdutoDAO().mostrarProduts();
+
+                System.out.println("Digite um dos códigos cadastrados acima:");
+                System.out.print("CÓDIGO: ");
+
+                while (!sca.hasNextInt()) {
+
+                    sca.nextLine();
+
+                    System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                    System.out.print("Digite um código válido: ");
+                }
+
+                id = sca.nextInt();
+                sca.nextLine();
 
             } else {
-                return unidade;
+
+                return id;
             }
         }
     }

@@ -20,33 +20,51 @@ public class Menuadd {
         System.out.print("Nome do Produto: ");
         String nome = cin.nextLine();
         nome = new Produtoser().verificarNome(nome);
+
         float preco;
         System.out.print("Preço: ");
         while (!cin.hasNextFloat()) {
-            System.out.println("Apenas Numeros!!");
+            System.out.println("Valor inválido! Digite apenas números. Ex: 10 ou 15.99");
             cin.nextLine();
             System.out.print("Preço: ");
         }
         preco = cin.nextFloat();
         preco = new Produtoser().verificarValor(preco);
+        cin.nextLine();
+
         int estoque;
         System.out.print("Estoque: ");
         while (!cin.hasNextInt()) {
-            System.out.println("Apenas Numero !");
+            System.out.println("Entrada inválida! O estoque deve conter apenas números inteiros. Ex: 1, 5, 20...");
             cin.nextLine();
-            System.out.println("Estoque");
+            System.out.print("Estoque:");
         }
         estoque = cin.nextInt();
         cin.nextLine();
         estoque = new Produtoser().verificarEstoque(estoque);
+
         Classeser.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar em seu produto:");
         System.out.print("Categoria: ");
+        while (!cin.hasNextInt()){
+            System.out.println("Código inválido! Digite apenas números inteiros correspondentes às categorias cadastradas.");
+            cin.nextLine();
+            System.out.print("Digite um Codigo Cadastrado: ");
+        }
         int categoria = cin.nextInt();
+        categoria = new Classeser().vereficarid(categoria);
+
+        cin.nextLine();
         Medidaser.mostrar();
         System.out.println("Escolha uma medida de venda cadastrada para colocar em seu produto:");
         System.out.print("Escolha: ");
+        while (!cin.hasNextInt()){
+            System.out.println("Código inválido! Digite apenas números inteiros correspondentes às unidades de medidas cadastradas.");
+            cin.nextLine();
+            System.out.print("Digite um Codigo Cadastrado: ");
+        }
         int medida = cin.nextInt();
+        medida = new Medidaser().vereficadorId(medida);
 
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
