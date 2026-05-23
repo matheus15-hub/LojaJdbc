@@ -1,8 +1,6 @@
 package servicos;
 
 import java.util.Scanner;
-
-import DAO.ClientesDAO;
 import DAO.VendedorDAO;
 import entidades.Vendedor;
 import menu.Menuprint;
@@ -80,7 +78,7 @@ System.out.println("Máximo 100 caracteres");
     }
     public int vereficarId(int id){
         while (true){
-            if(VendedorDAO.vereficarExistencia(id)){
+            if(VendedorDAO.verificarExistencia(id)){
                 System.out.println("Vendedor com o ID "+id+" nao encontrado, tente novamente" );
                 new Menuprint().printVendedor();
                 System.out.print("\nID: ");
