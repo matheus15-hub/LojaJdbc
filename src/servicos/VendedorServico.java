@@ -77,21 +77,20 @@ System.out.println("Máximo 100 caracteres");
         new VendedorDAO().mostrarVendedorFiltro(nome);
     }
     public int vereficarId(int id){
-        while (true){
-            if(VendedorDAO.verificarExistencia(id)){
-                System.out.println("Vendedor com o ID "+id+" nao encontrado, tente novamente" );
-                new Menuprint().printVendedor();
-                System.out.print("\nID: ");
-                while (!sca.hasNextInt()) {
-                    System.out.println("Digite apenas números!");
-                    sca.nextLine();
-                    System.out.print("Digite o ID do Vendedor escolhido: ");
-                }
-                id = sca .nextInt();
-            }else{
-                return id;
+    while (true){
+        if (!VendedorDAO.verificarExistencia(id)) { 
+            System.out.println("Vendedor com o ID " + id + " nao encontrado, tente novamente");
+            new Menuprint().printVendedor();
+            System.out.print("\nID: ");
+            while (!sca.hasNextInt()) {
+                System.out.println("Digite apenas números!");
+                sca.nextLine();
+                System.out.print("Digite o ID do Vendedor escolhido: ");
             }
+            id = sca.nextInt();
+        } else {
+            return id;
         }
-
     }
+}
 }
