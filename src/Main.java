@@ -215,35 +215,44 @@ public class Main {
                         System.out.println("OPÇÃO INVÁLIDA!");
                 }
 
-            } else if (escolha == 5) {
+            }  else if (escolha == 5) {
 
                 linha();
-                System.out.println("||\t\t\t\t\tCONSULTAS\t\t\t\t\t||");
+                System.out.println("||\t\t\t\t\tCONSULTAS E RELATÓRIOS\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CLIENTES\t  2)PEDIDOS\t  3)PRODUTOS\t  4)VENDEDOR\t  5)VOLTAR\t\t||");
+                System.out.println("||1) LISTAR CLIENTES\t2) LISTAR PEDIDOS\t3) LISTAR PRODUTOS\t4) LISTAR VENDEDORES\t||");
+                System.out.println("||5) RELATÓRIO: FATURAMENTO POR VENDEDOR\t6) RELATÓRIO: PRODUTOS MAIS VENDIDOS\t7) VOLTAR\t||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int consulta = sca.nextInt();
                 linha();
 
                 switch (consulta) {
-
                     case 1:
-                        System.out.println("LISTANDO CLIENTES...");
+                        new menu.Menuprint().printCliente();
                         break;
 
                     case 2:
-                        System.out.println("LISTANDO PEDIDOS...");
+                        new menu.Menuprint().printPedido();
                         break;
 
                     case 3:
-                        System.out.println("LISTANDO PRODUTOS...");
+                        new menu.Menuprint().metodoBusca();
                         break;
 
                     case 4:
-                        System.out.println("LISTANDO VENDEDORES...");
+                        new menu.Menuprint().printVendedor();
                         break;
+
                     case 5:
+                        DAO.PedidoDAO.relatorioVendasPorVendedor();
+                        break;
+
+                    case 6:
+                        DAO.PedidoDAO.relatorioProdutosMaisVendidos();
+                        break;
+
+                    case 7:
                         System.out.println("VOLTANDO...");
                         break;
 
