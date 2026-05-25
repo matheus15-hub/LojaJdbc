@@ -2,6 +2,7 @@ package servicos;
 
 import DAO.ProdutoDAO;
 import entidades.Produto;
+import menu.Menuprint;
 
 import java.util.Scanner;
 
@@ -17,7 +18,9 @@ public class Produtoser {
     public void mostrar() {
         new ProdutoDAO().mostrarProduts();
     }
-
+    public void mostrarId(int id){
+        new ProdutoDAO().filtarProdutosId(id);
+    }
     public  void filtro(String n){
         new ProdutoDAO().filtarProdutos(n);
     }
@@ -105,7 +108,7 @@ public class Produtoser {
 
                 System.out.println("Produto com código " + id + " não encontrado.");
 
-                new ProdutoDAO().mostrarProduts();
+                new Menuprint().metodoBusca();
 
                 System.out.println("Digite um dos códigos cadastrados acima:");
                 System.out.print("CÓDIGO: ");
@@ -128,6 +131,11 @@ public class Produtoser {
         }
     }
 
-
+    public void alterarNome(int id, String nome){
+        nome = nome.toUpperCase();
+        new ProdutoDAO().alterarnome(id , nome);
+        new Produtoser().mostrarId(id);
+        System.out.println("Nome alterado!");
+    }
     }
 

@@ -30,7 +30,7 @@ public class Menuremov {
         if(resposta.equalsIgnoreCase("s")){
             System.out.print("Busca: ");
             String busca = sca.nextLine();
-            new Menuprint().metodoBusca(busca);
+            new Menuprint().metodoBusca();
         }
 
         System.out.print("ID: ");

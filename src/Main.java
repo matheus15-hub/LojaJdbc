@@ -3,6 +3,7 @@ import DAO.MedidaDao;
 import menu.Menuadd;
 import entidades.Clientes;
 import entidades.Produto;
+import menu.Menualterar;
 import menu.Menuprint;
 import menu.Menuremov;
 import threads.ProcessadorPedido;
@@ -137,7 +138,7 @@ public class Main {
                 linha();
                 System.out.println("||\t\t\t\t\tPRODUTOS\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
+                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)Alterar\t\t5)Voltar||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int produto = sca.nextInt();
@@ -154,13 +155,25 @@ public class Main {
                         break;
 
                     case 3:
-                        sca.nextLine();
-                        System.out.print("Busca: ");
-                        String busca = sca.nextLine();
-                        new Menuprint().metodoBusca(busca);
+                        new Menuprint().metodoBusca();
                         break;
-
                     case 4:
+                        linha();
+                        System.out.println("||\t\t\t\t\tAlteando\t\t\t\t\t||");
+                        linha();
+                        System.out.println("||1)Nome\t\t2)Valor\t\t3)Estoque\t\t4)Classe\t\t5)Unidade de Venda\t||");
+                        linha();
+                        System.out.print("||ESCOLHA : ");
+                        int mudar= sca.nextInt();
+                        switch (mudar){
+                            case 1:
+                                new Menualterar().nomeProduto();
+                                break;
+                            default:
+                                System.out.println("Escolha invalida");
+                                break;
+                        }
+                    case 5:
                         System.out.println("VOLTANDO...");
                         break;
 

@@ -17,11 +17,16 @@ public class Menuprint {
     Vendedor v = new Vendedor();
     Scanner sca = new Scanner(System.in);
 
-    public void metodoBusca(String x) {
-        if (x.trim().isEmpty()) {
+    public void metodoBusca() {
+        System.out.println("===Metodo de Busca===");
+        System.out.println("Caso Deseje buscar todos os itens listados apenas de Enter");
+        System.out.println("Caso Deseje buscar um produto especifico digite o nome dele");
+        System.out.print("Busca: ");
+        String busca = sca.nextLine();
+        if (busca.trim().isEmpty()) {
             printProduto();
         } else {
-            printProdutoFiltro(x);
+            printProdutoFiltro(busca);
         }
     }
 
