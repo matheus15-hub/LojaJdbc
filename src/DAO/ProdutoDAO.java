@@ -1,5 +1,6 @@
 package DAO;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ public class ProdutoDAO {
             ps = conexao.Conexao.getConexao().prepareStatement(sql);
 
             ps.setString(1, produto.getNome_Produtos());
-            ps.setFloat(2, produto.getPreco());
+            ps.setBigDecimal(2, produto.getPreco());
             ps.setInt(3, produto.getEstoque());
             ps.setInt(4, produto.getIdClasse());
             ps.setInt(5, produto.getIdUnidade());
@@ -192,5 +193,19 @@ public class ProdutoDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public void alterarpreco(int id , BigDecimal p){
+        PreparedStatement ps = null;
+        String sql = "UPDATE produtos SET preco = ? WHERE id_produtos = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setBigDecimal(1,p);
+            ps.setInt(2,id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

@@ -1,17 +1,19 @@
 package entidades;
 
+import java.math.BigDecimal;
+
 public class Produto {
 
     private  int id_produtos;
     private String nome_produtos;
-    private  float preco;
+    private  BigDecimal preco;
     private  int estoque;
     private  int idClasse;
     private  int idUnidade;
 
     public Produto(){};
 
-    public Produto(String nome_produtos, float preco, int estoque, int idClasse , int idUnidade) {
+    public Produto(String nome_produtos, BigDecimal preco, int estoque, int idClasse , int idUnidade) {
         nome_produtos = nome_produtos.toUpperCase();
         this.nome_produtos = nome_produtos;
         this.preco = preco;
@@ -36,11 +38,11 @@ public class Produto {
         this.nome_produtos = nome_produtos;
     }
 
-    public float getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(float preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

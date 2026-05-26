@@ -1,5 +1,6 @@
 package menu;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,33 +16,15 @@ import DAO.VendedorDAO;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
-
+//===============================================================PRODUTO
     public void Produtoadd() {
         System.out.print("Nome do Produto: ");
         String nome = cin.nextLine();
         nome = new Produtoser().verificarNome(nome);
 
-        float preco;
-        System.out.print("Preço: ");
-        while (!cin.hasNextFloat()) {
-            System.out.println("Valor inválido! Digite apenas números. Ex: 10 ou 15.99");
-            cin.nextLine();
-            System.out.print("Preço: ");
-        }
-        preco = cin.nextFloat();
-        preco = new Produtoser().verificarValor(preco);
-        cin.nextLine();
+        BigDecimal preco = new Produtoser().verificarValor();
 
-        int estoque;
-        System.out.print("Estoque: ");
-        while (!cin.hasNextInt()) {
-            System.out.println("Entrada inválida! O estoque deve conter apenas números inteiros. Ex: 1, 5, 20...");
-            cin.nextLine();
-            System.out.print("Estoque:");
-        }
-        estoque = cin.nextInt();
-        cin.nextLine();
-        estoque = new Produtoser().verificarEstoque(estoque);
+        int estoque = new Produtoser().verificarEstoque();
 
         Classeser.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar em seu produto:");
@@ -71,6 +54,7 @@ public class Menuadd {
         new Produtoser().adicionar(p);
         new Produtoser().mostrar();
     }
+//===============================================================CLIENTE
 
     public void Clienteadd() {
         System.out.print("Nome do Cliente: ");
@@ -95,6 +79,7 @@ public class Menuadd {
         new Clienteser().adicionarCli(c);
         System.out.println("Cliente cadastrado com sucesso!");
     }
+//===============================================================Vendedor
 
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
@@ -121,6 +106,7 @@ public class Menuadd {
         Vendedor v = new Vendedor(0, nome, tel, email, comissao);
         new VendedorServico().adicionar(v);
     }
+//===============================================================PEDIDO
 
     public void novoPedido() {
         // 1. Seleção de Cliente
