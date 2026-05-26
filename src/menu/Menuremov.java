@@ -23,17 +23,24 @@ public class Menuremov {
 
 
     public void ProdutoRemov(){
-        System.out.println("\t\tDeletando Clientes*************");
-        System.out.println("Buscar clientes S | N");
+        System.out.println("\t\tDeletando PRODUTOS");
+        System.out.println("Buscar Produtos S | N");
         System.out.print(":: ");
         String resposta = sca.nextLine();
         if(resposta.equalsIgnoreCase("s")){
             System.out.print("Busca: ");
             String busca = sca.nextLine();
-            new Menuprint().metodoBusca(busca);
+            new Menuprint().metodoBusca();
         }
+
         System.out.print("ID: ");
+        while (!sca.hasNextInt()){
+            System.out.println("Código inválido! Digite apenas números inteiros correspondentes aos produtos cadastradas.");
+            sca.nextLine();
+            System.out.print("Digite um Codigo Cadastrado: ");
+        }
         int codigo_produto = sca.nextInt();
+        codigo_produto = new Produtoser().verificarId(codigo_produto);
         new Produtoser().remover(codigo_produto);
     }
 

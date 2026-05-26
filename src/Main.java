@@ -1,8 +1,6 @@
 
-import DAO.MedidaDao;
 import menu.Menuadd;
-import entidades.Clientes;
-import entidades.Produto;
+import menu.MenuAlterar.AlterarProduto;
 import menu.Menuprint;
 import menu.Menuremov;
 import threads.ProcessadorPedido;
@@ -20,7 +18,7 @@ public class Main {
         while (true) {
 
             System.out.println(
-                    "███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ██████╗ ██████╗       ██████╗ ██████╗      ██╗    ██████╗ ");
+                    "███████╗██╗   ██3╗███████╗████████╗███████╗███╗   ███╗    ██████╗ ██████╗       ██████╗ ██████╗      ██╗    ██████╗ ");
             System.out.println(
                     "██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ██╔══██╗╚════██╗      ██╔══██╗╚════██╗    ███║   ██╔═████╗");
             System.out.println(
@@ -137,7 +135,7 @@ public class Main {
                 linha();
                 System.out.println("||\t\t\t\t\tPRODUTOS\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
+                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)Alterar\t\t5)Voltar||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int produto = sca.nextInt();
@@ -154,13 +152,28 @@ public class Main {
                         break;
 
                     case 3:
-                        sca.nextLine();
-                        System.out.print("Busca: ");
-                        String busca = sca.nextLine();
-                        new Menuprint().metodoBusca(busca);
+                        new Menuprint().metodoBusca();
                         break;
-
                     case 4:
+                        linha();
+                        System.out.println("||\t\t\t\t\tAlteando\t\t\t\t\t||");
+                        linha();
+                        System.out.println("||1)Nome\t\t2)Valor\t\t3)Estoque\t\t4)Classe\t\t5)Unidade de Venda\t||");
+                        linha();
+                        System.out.print("||ESCOLHA : ");
+                        int mudar= sca.nextInt();
+                        switch (mudar){
+                            case 1:
+                                new AlterarProduto().nomeProduto();
+                                break;
+                            case 2:
+                                new AlterarProduto().precoProduto();
+                                break;
+                            default:
+                                System.out.println("Escolha invalida");
+                                break;
+                        }
+                    case 5:
                         System.out.println("VOLTANDO...");
                         break;
 
@@ -202,35 +215,44 @@ public class Main {
                         System.out.println("OPÇÃO INVÁLIDA!");
                 }
 
-            } else if (escolha == 5) {
+            }  else if (escolha == 5) {
 
                 linha();
-                System.out.println("||\t\t\t\t\tCONSULTAS\t\t\t\t\t||");
+                System.out.println("||\t\t\t\t\tCONSULTAS E RELATÓRIOS\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CLIENTES\t  2)PEDIDOS\t  3)PRODUTOS\t  4)VENDEDOR\t  5)VOLTAR\t\t||");
+                System.out.println("||1) LISTAR CLIENTES\t2) LISTAR PEDIDOS\t3) LISTAR PRODUTOS\t4) LISTAR VENDEDORES\t||");
+                System.out.println("||5) RELATÓRIO: FATURAMENTO POR VENDEDOR\t6) RELATÓRIO: PRODUTOS MAIS VENDIDOS\t7) VOLTAR\t||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int consulta = sca.nextInt();
                 linha();
 
                 switch (consulta) {
-
                     case 1:
-                        System.out.println("LISTANDO CLIENTES...");
+                        new menu.Menuprint().printCliente();
                         break;
 
                     case 2:
-                        System.out.println("LISTANDO PEDIDOS...");
+                        new menu.Menuprint().printPedido();
                         break;
 
                     case 3:
-                        System.out.println("LISTANDO PRODUTOS...");
+                        new menu.Menuprint().metodoBusca();
                         break;
 
                     case 4:
-                        System.out.println("LISTANDO VENDEDORES...");
+                        new menu.Menuprint().printVendedor();
                         break;
+
                     case 5:
+                        DAO.PedidoDAO.relatorioVendasPorVendedor();
+                        break;
+
+                    case 6:
+                        DAO.PedidoDAO.relatorioProdutosMaisVendidos();
+                        break;
+
+                    case 7:
                         System.out.println("VOLTANDO...");
                         break;
 

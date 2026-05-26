@@ -1,5 +1,6 @@
 package menu;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,44 +16,45 @@ import DAO.VendedorDAO;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
-
+//===============================================================PRODUTO
     public void Produtoadd() {
         System.out.print("Nome do Produto: ");
         String nome = cin.nextLine();
         nome = new Produtoser().verificarNome(nome);
-        float preco;
-        System.out.print("Preço: ");
-        while (!cin.hasNextFloat()) {
-            System.out.println("Apenas Numeros!!");
-            cin.nextLine();
-            System.out.print("Preço: ");
-        }
-        preco = cin.nextFloat();
-        preco = new Produtoser().verificarValor(preco);
-        int estoque;
-        System.out.print("Estoque: ");
-        while (!cin.hasNextInt()) {
-            System.out.println("Apenas Numero !");
-            cin.nextLine();
-            System.out.println("Estoque");
-        }
-        estoque = cin.nextInt();
-        cin.nextLine();
-        estoque = new Produtoser().verificarEstoque(estoque);
+
+        BigDecimal preco = new Produtoser().verificarValor();
+
+        int estoque = new Produtoser().verificarEstoque();
+
         Classeser.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar em seu produto:");
         System.out.print("Categoria: ");
+        while (!cin.hasNextInt()){
+            System.out.println("Código inválido! Digite apenas números inteiros correspondentes às categorias cadastradas.");
+            cin.nextLine();
+            System.out.print("Digite um Codigo Cadastrado: ");
+        }
         int categoria = cin.nextInt();
+        categoria = new Classeser().vereficarid(categoria);
+
+        cin.nextLine();
         Medidaser.mostrar();
         System.out.println("Escolha uma medida de venda cadastrada para colocar em seu produto:");
         System.out.print("Escolha: ");
+        while (!cin.hasNextInt()){
+            System.out.println("Código inválido! Digite apenas números inteiros correspondentes às unidades de medidas cadastradas.");
+            cin.nextLine();
+            System.out.print("Digite um Codigo Cadastrado: ");
+        }
         int medida = cin.nextInt();
+        medida = new Medidaser().vereficadorId(medida);
 
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
         new Produtoser().adicionar(p);
         new Produtoser().mostrar();
     }
+//===============================================================CLIENTE
 
     public void Clienteadd() {
         System.out.print("Nome do Cliente: ");
@@ -81,6 +83,7 @@ public class Menuadd {
         new Clienteser().adicionarCli(c);
         System.out.println("Cliente cadastrado com sucesso!");
     }
+//===============================================================Vendedor
 
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
@@ -107,6 +110,7 @@ public class Menuadd {
         Vendedor v = new Vendedor(0, nome, tel, email, comissao);
         new VendedorServico().adicionar(v);
     }
+//===============================================================PEDIDO
 
     public void novoPedido() {
         // 1. Seleção de Cliente

@@ -1,5 +1,8 @@
 package DAO;
 
+import conexao.Conexao;
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -25,6 +28,20 @@ public class MedidaDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public static boolean vereficarid(int id){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "Select * from unidade_medida where idUnidade = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setInt(1,id);
+            rs = ps.executeQuery();
 
+            return rs.next();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

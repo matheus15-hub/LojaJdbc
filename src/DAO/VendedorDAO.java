@@ -14,29 +14,32 @@ public class VendedorDAO {
     PreparedStatement stmt;
     ResultSet rs;
 
-    public void adicionarVendedor(Vendedor vendedor) {
+   public void adicionarVendedor(Vendedor vendedor) {
 
-        String sql = "insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
+    String sql ="insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
 
-        try {
-            conn = Conexao.getConexao();
-            stmt = conn.prepareStatement(sql);
+    try {
 
-            stmt.setString(1, vendedor.getNomeVendedor());
-            stmt.setString(2, vendedor.getTelefoneVendedor());
-            stmt.setString(3, vendedor.getEmailVendedor());
-            stmt.setDouble(4, vendedor.getComissao());
-
+        conn =Conexao.getConexao();
+        stmt = conn.prepareStatement(sql);
+        stmt.setString(1,vendedor.getNomeVendedor());
+        stmt.setString(2, vendedor.getTelefoneVendedor());
+        stmt.setString(3,vendedor.getEmailVendedor());
+        stmt.setDouble(4,vendedor.getComissao());
             stmt.executeUpdate();
 
-            System.out.println("Vendedor adicionado com sucesso!");
+        System.out.println("Vendedor adicionado!");
+            stmt.close();
+            conn.close();
+    }
+    catch(java.sql.SQLIntegrityConstraintViolationException e){
+        System.out.println("Email já cadastrado!");
+    }
+    catch(Exception e){System.out.println(
+        e.getMessage());
+    }
 
-        } catch(java.sql.SQLIntegrityConstraintViolationException e){
-                System.out.println("Email já cadastrado!");
-        }catch(Exception e){
-                System.out.println("Erro:");
-                System.out.println(e.getMessage());
-        }}
+}
 
     public void mostrarVendedor() {
 
@@ -102,29 +105,63 @@ public class VendedorDAO {
             System.out.println("Erro ao pesquisar vendedor: " + e.getMessage());
         }
     }
-    public static boolean vereficarExistencia(int h){
-        int contador = 0;
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-        String sql = "Select * from vendedor where id_vendedor = ?";
-        try {
-            ps = conexao.Conexao.getConexao().prepareStatement(sql);
-            ps.setInt(1, h);
-            resultSet = ps.executeQuery();
-            while (resultSet.next()){
-                contador++;
-            }
-            if (contador <= 0){return true;}
-            else {return false;}
+    public Vendedor buscarPorId(int idBusca){
+        String sql ="SELECT * FROM vendedor WHERE id_vendedor=?";
+    try{
 
+        conn =Conexao.getConexao();
+        stmt =conn.prepareStatement(sql);
+        stmt.setInt(1,idBusca);
+        rs =stmt.executeQuery();
+        if(rs.next()){
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            Vendedor v =new Vendedor();
+            v.setIdVendedor(rs.getInt("id_vendedor"));
+            v.setNomeVendedor(rs.getString("nome_vendedor"));
+            v.setTelefoneVendedor(rs.getString("telefone_vendedor"));
+            v.setEmailVendedor(rs.getString("email_vendedor"));
+            v.setComissao(rs.getDouble("comissao"));
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            return v;
         }
     }
+    catch(Exception e){
+        System.out.println(e.getMessage());
+    }
+    return null;
+}
+    public static boolean verificarExistencia(int h){
+    PreparedStatement ps =null;
+    ResultSet resultSet =null;
+    String sql ="SELECT COUNT(*) FROM vendedor WHERE id_vendedor=?";
 
+    try{
+        ps =Conexao.getConexao().prepareStatement(sql);
+        ps.setInt(1,h);
 
+        resultSet =ps.executeQuery();
 
+        if(resultSet.next()){
+            boolean existe =resultSet.getInt(1) > 0;
+            resultSet.close();
+            ps.close();
+            return existe;
+
+        }
+
+    }
+
+    catch(Exception e){
+
+        System.out.println(e.getMessage());
+    }
+    return false;
+
+}
     public static void linha(){
         System.out.println("========================================================================================================================================================================================");
     }

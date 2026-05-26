@@ -2,7 +2,9 @@ package servicos;
 
 import DAO.ProdutoDAO;
 import entidades.Produto;
+import menu.Menuprint;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Produtoser {
@@ -17,7 +19,9 @@ public class Produtoser {
     public void mostrar() {
         new ProdutoDAO().mostrarProduts();
     }
-
+    public void mostrarId(int id){
+        new ProdutoDAO().filtarProdutosId(id);
+    }
     public  void filtro(String n){
         new ProdutoDAO().filtarProdutos(n);
     }
@@ -33,14 +37,14 @@ public class Produtoser {
 
             if (nome == null || nome.trim().isEmpty()) {
 
-                System.out.println("Nome nao pode ser vazio!");
-                System.out.print("Nome: ");
+                System.out.println("O nome não pode estar vazio!");
+                System.out.print("Digite o nome: ");
                 nome = sca.nextLine();
 
             } else if (nome.length() > 100) {
 
-                System.out.println("Nome nao pode ter mais de 100 caracteres!");
-                System.out.print("Nome: ");
+                System.out.println("O nome ultrapassou o limite permitido de 100 caracteres!");
+                System.out.print("Digite o nome novamente: ");
                 nome = sca.nextLine();
 
             } else {
@@ -49,75 +53,114 @@ public class Produtoser {
         }
     }
 
-
-    public float verificarValor(float valor) {
+    public BigDecimal verificarValor() {
 
         while (true) {
 
-            if (valor <= 0) {
+            System.out.print("Preço: ");
 
-                System.out.println("Preço inválido!");
-                System.out.print("Preço: ");
+            String entrada = sca.nextLine().replace(",", ".");
 
-                while (!sca.hasNextFloat()) {
+            try {
 
-                    System.out.println("Digite apenas números!");
-                    sca.nextLine();
-                    System.out.print("Preço: ");
+                BigDecimal valor = new BigDecimal(entrada);
+
+                if (valor.compareTo(new BigDecimal("0.01")) < 0) {
+
+                    System.out.println("""
+                            Valor inválido!
+                            O preço deve ser maior que 0.
+                            Ex: 1 | 10,50 | 25.99
+                            """);
+
+                } else if (valor.scale() > 2) {
+
+                    System.out.println("""
+                        Valor inválido!
+                        O preço pode ter no máximo 2 casas decimais.
+                        Ex: 10,50 | 25.99
+                        """);
+
+                } else {
+
+                    return valor;
                 }
 
-                valor = sca.nextFloat();
-                sca.nextLine();
+            } catch (NumberFormatException e) {
 
-            } else {
-                return valor;
+                System.out.println("""
+                    Entrada inválida!
+                    Digite apenas números.
+                    Ex: 10 | 15,90 | 25.99
+                    """);
             }
         }
-    }public int verificarEstoque(int estoque) {
+    }
+   public int verificarEstoque() {
+        while (true) {
+            System.out.print("Estoque: ");
+            String entrada = sca.nextLine();
+            try {
+            Integer estoque = Integer.parseInt(entrada);
+                if (estoque < 0) {
+                    System.out.println("Estoque nao pode ser negativo!");
+                    System.out.print("Estoque: ");
+                    estoque = sca.nextInt();
+                    sca.nextLine();
+
+                } else {
+                    return estoque;
+                }
+
+            }catch (NumberFormatException e){
+                System.out.println("""
+                        Entrada invalida!
+                        Digite apenas numeros inteiros:
+                        EX: 1 , 10 , 30
+                        """);
+            }
+        }
+    }
+    public int verificarId(int id) {
 
         while (true) {
 
-            if (estoque < 0) {
+            if (!ProdutoDAO.produtoExiste(id)) {
 
-                System.out.println("Estoque nao pode ser negativo!");
-                System.out.print("Estoque: ");
+                System.out.println("Produto com código " + id + " não encontrado.");
+
+                new Menuprint().metodoBusca();
+
+                System.out.println("Digite um dos códigos cadastrados acima:");
+                System.out.print("CÓDIGO: ");
 
                 while (!sca.hasNextInt()) {
 
-                    System.out.println("Digite apenas numeros inteiros!");
                     sca.nextLine();
-                    System.out.print("Estoque: ");
+
+                    System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                    System.out.print("Digite um código válido: ");
                 }
 
-                estoque = sca.nextInt();
+                id = sca.nextInt();
                 sca.nextLine();
 
             } else {
-                return estoque;
-            }
-        }
-    }public String verificarUnidade(String unidade) {
 
-        while (true) {
-
-            if (!unidade.equalsIgnoreCase("uni") &&
-                    !unidade.equalsIgnoreCase("m") &&
-                    !unidade.equalsIgnoreCase("m2") &&
-                    !unidade.equalsIgnoreCase("m3") &&
-                    !unidade.equalsIgnoreCase("kg")) {
-
-                System.out.println("Unidade inválida!");
-                System.out.println("UNI, M, M2, M3, KG");
-
-                System.out.print("Medida: ");
-                unidade = sca.nextLine();
-
-            } else {
-                return unidade;
+                return id;
             }
         }
     }
 
-
+    public void alterarNome(int id, String nome){
+        nome = nome.toUpperCase();
+        new ProdutoDAO().alterarnome(id , nome);
+        new Produtoser().mostrarId(id);
+        System.out.println("Nome alterado!");
+    }
+    public void alterarPreco(int id , BigDecimal f){
+        new ProdutoDAO().alterarpreco(id, f);
+        new Produtoser().mostrarId(id);
+    }
     }
 
