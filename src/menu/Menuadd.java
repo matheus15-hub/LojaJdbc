@@ -65,13 +65,17 @@ public class Menuadd {
 
         System.out.print("Email: ");
         String email_clientes = cin.nextLine();
-        email_clientes = new Clienteser().vereficaremail_clientess(email_clientes);
+        email_clientes = new Clienteser().vereficaremail_clientes(email_clientes);
 
         System.out.print("Endereço: ");
-        String endereco_clientes = cin.nextLine();
-        endereco_clientes = new Clienteser().verefiarEndereco_Clientes(endereco_clientes);
+        String bairroClientes = cin.nextLine();
+        bairroClientes = new Clienteser().verefiarbairroClientes(bairroClientes);
 
-        Clientes c = new Clientes(0, nome, cpf, email_clientes, endereco_clientes);
+        System.out.print("Endereço: ");
+        String rua_clientes = cin.nextLine();
+        rua_clientes = new Clienteser().vereficarRua_clientes(rua_clientes);
+
+        Clientes c = new Clientes(0, nome, cpf, email_clientes, bairroClientes, rua_clientes);
         c.setEmail(email_clientes);
 
         new Clienteser().adicionarCli(c);

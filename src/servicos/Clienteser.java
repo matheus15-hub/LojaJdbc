@@ -34,9 +34,7 @@ public class Clienteser {
     public String verificarNome(String nome_cliente){
 
         while (true) {
-
             if (nome_cliente == null || nome_cliente.trim().isEmpty()) {
-
                 System.out.println("Nome nao pode ser vazio!");
                 System.out.print("Nome: ");
                 nome_cliente = sca.nextLine();
@@ -63,7 +61,7 @@ public class Clienteser {
                 System.out.print("CPF: ");
                 cpf = sca.nextLine();
 
-            } else if (cpf.length() > 14) {
+            } else if (cpf.length() > 14 || cpf.length() < 14) {
 
                 System.out.println("CPF nao pode ter mais de 14 caracteres!");
                 System.out.print("CPF: ");
@@ -103,7 +101,7 @@ public class Clienteser {
         }
     }
 
-    public String vereficaremail_clientess(String email_clientes){
+    public String vereficaremail_clientes(String email_clientes){
         while (true) {
             if (email_clientes == null || email_clientes.trim().isEmpty()) {
 
@@ -130,23 +128,43 @@ public class Clienteser {
         }
     }
 
-    public String verefiarEndereco_Clientes(String endereco_clientes){
+    public String verefiarbairroClientes(String bairroClientes){
         while (true) {
 
-            if (endereco_clientes == null || endereco_clientes.trim().isEmpty()) {
+            if (bairroClientes == null || bairroClientes.trim().isEmpty()) {
+
+                System.out.println("Bairro não pode ser vazio!");
+                System.out.print("Bairro: ");
+                bairroClientes = sca.nextLine();
+
+            } else if (bairroClientes.length() > 50) {
+
+                System.out.println("Bairro não pode ter mais de 50 caracteres!");
+                System.out.print("Bairro: ");
+                bairroClientes = sca.nextLine();
+
+            } else {
+                return bairroClientes;
+            }
+        }
+    }
+    public String vereficarRua_clientes(String rua_clientes){
+        while (true) {
+
+            if (rua_clientes == null || rua_clientes.trim().isEmpty()) {
 
                 System.out.println("Endereço não pode ser vazio!");
                 System.out.print("Endereço: ");
-                endereco_clientes = sca.nextLine();
+                rua_clientes = sca.nextLine();
 
-            } else if (endereco_clientes.length() > 100) {
+            } else if (rua_clientes.length() > 50) {
 
-                System.out.println("Endereço não pode ter mais de 100 caracteres!");
-                System.out.print("Endereço: ");
-                endereco_clientes = sca.nextLine();
+                System.out.println("Rua não pode ter mais de 50 caracteres!");
+                System.out.print("Rua: ");
+                rua_clientes = sca.nextLine();
 
             } else {
-                return endereco_clientes;
+                return rua_clientes;
             }
         }
     }
