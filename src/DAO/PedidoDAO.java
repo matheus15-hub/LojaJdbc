@@ -118,7 +118,7 @@ public class PedidoDAO {
 
                 // Produtos
                 String nomeProduto = resultSet.getString("id_produtos");
-                String medida = resultSet.getString("medida_vendas");
+                String medida = resultSet.getString("medida");
                 int quantidade = resultSet.getInt("quantidade");
                 float precouni = resultSet.getFloat("preco_unitario");
                 float subTotal = resultSet.getFloat("preco_unitario");
@@ -154,70 +154,66 @@ public class PedidoDAO {
     }
 
     public static void relatorioVendasPorVendedor() {
-        String sql = "SELECT v.nomeVendedor, COUNT(p.id_pedido) AS total_pedidos, SUM(p.valorTotal) AS total_faturado "
-                +
-                "FROM pedido p " +
-                "INNER JOIN vendedor v ON p.idVendedor = v.idVendedor " +
-                "GROUP BY v.idVendedor, v.nomeVendedor " +
-                "ORDER BY total_faturado DESC";
+    String sql = "SELECT v.nome_vendedor, COUNT(p.id_pedido) AS total_pedidos, SUM(p.valor_total) AS total_faturado " +
+                 "FROM pedido p " +
+                 "INNER JOIN vendedor v ON p.id_vendedor = v.id_vendedor " +
+                 "GROUP BY v.id_vendedor, v.nome_vendedor " +
+                 "ORDER BY total_faturado DESC";
 
-        try (Connection conn = conexao.Conexao.criarNovaConexao();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+    try (Connection conn = conexao.Conexao.criarNovaConexao();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-            System.out.println("\n=== RELATÓRIO: FATURAMENTO POR VENDEDOR ===");
-            System.out.printf("%-20s | %-15s | %-15s%n", "VENDEDOR", "QTD PEDIDOS", "TOTAL FATURADO");
-            System.out.println("---------------------------------------------------------");
+        System.out.println("\n=== RELATÓRIO: FATURAMENTO POR VENDEDOR ===");
+        System.out.printf("%-20s | %-15s | %-15s%n", "VENDEDOR", "QTD PEDIDOS", "TOTAL FATURADO");
+        System.out.println("---------------------------------------------------------");
 
-            boolean temDados = false;
-            while (rs.next()) {
-                temDados = true;
-                String nome = rs.getString("nomeVendedor");
-                int qtd = rs.getInt("total_pedidos");
-                double total = rs.getDouble("total_faturado");
-                System.out.printf("%-20s | %-15d | R$ %-12.2f%n", nome, qtd, total);
-            }
-            if (!temDados)
-                System.out.println("Nenhum pedido processado até o momento.");
-            System.out.println("---------------------------------------------------------");
-
-        } catch (Exception e) {
-            System.out.println("Erro ao gerar relatório de vendedores: " + e.getMessage());
+        boolean temDados = false;
+        while (rs.next()) {
+            temDados = true;
+            String nome = rs.getString("nome_vendedor");
+            int qtd = rs.getInt("total_pedidos");
+            double total = rs.getDouble("total_faturado");
+            System.out.printf("%-20s | %-15d | R$ %-12.2f%n", nome, qtd, total);
         }
+        if (!temDados) System.out.println("Nenhum pedido processado até o momento.");
+        System.out.println("---------------------------------------------------------");
+
+    } catch (Exception e) {
+        System.out.println("Erro ao gerar relatório de vendedores: " + e.getMessage());
     }
+}
 
-    public static void relatorioProdutosMaisVendidos() {
-        String sql = "SELECT pr.nome_produtos, SUM(ip.quantidade) AS total_unidades, SUM(ip.subtotal) AS total_arrecadado "
-                +
-                "FROM item_pedido ip " +
-                "INNER JOIN produto pr ON ip.idProdutos = pr.id_produtos " +
-                "GROUP BY pr.id_produtos, pr.nome_produtos " +
-                "ORDER BY total_unidades DESC";
+public static void relatorioProdutosMaisVendidos() {
+    String sql = "SELECT pr.nome_produtos, SUM(ip.quantidade) AS total_unidades, SUM(ip.subtotal) AS total_arrecadado " +
+                 "FROM item_pedido ip " +
+                 "INNER JOIN produtos pr ON ip.id_produtos = pr.id_produtos " +
+                 "GROUP BY pr.id_produtos, pr.nome_produtos " +
+                 "ORDER BY total_unidades DESC";
 
-        try (Connection conn = conexao.Conexao.criarNovaConexao();
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+    try (Connection conn = conexao.Conexao.criarNovaConexao();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
 
-            System.out.println("\n=== RELATÓRIO: PRODUTOS MAIS VENDIDOS ===");
-            System.out.printf("%-20s | %-15s | %-15s%n", "PRODUTO", "UNIDADES VENDIDAS", "TOTAL ARRECADADO");
-            System.out.println("---------------------------------------------------------");
+        System.out.println("\n=== RELATÓRIO: PRODUTOS MAIS VENDIDOS ===");
+        System.out.printf("%-20s | %-15s | %-15s%n", "PRODUTO", "UNIDADES VENDIDAS", "TOTAL ARRECADADO");
+        System.out.println("---------------------------------------------------------");
 
-            boolean temDados = false;
-            while (rs.next()) {
-                temDados = true;
-                String nome = rs.getString("nome_produtos");
-                int qtd = rs.getInt("total_unidades");
-                double total = rs.getDouble("total_arrecadado");
-                System.out.printf("%-20s | %-15d | R$ %-12.2f%n", nome, qtd, total);
-            }
-            if (!temDados)
-                System.out.println("Nenhum produto vendido até o momento.");
-            System.out.println("---------------------------------------------------------");
-
-        } catch (Exception e) {
-            System.out.println("Erro ao gerar relatório de produtos: " + e.getMessage());
+        boolean temDados = false;
+        while (rs.next()) {
+            temDados = true;
+            String nome = rs.getString("nome_produtos");
+            int qtd = rs.getInt("total_unidades");
+            double total = rs.getDouble("total_arrecadado");
+            System.out.printf("%-20s | %-15d | R$ %-12.2f%n", nome, qtd, total);
         }
+        if (!temDados) System.out.println("Nenhum produto vendido até o momento.");
+        System.out.println("---------------------------------------------------------");
+
+    } catch (Exception e) {
+        System.out.println("Erro ao gerar relatório de produtos: " + e.getMessage());
     }
+}
 
     public static void linha() {
         System.out.println(
