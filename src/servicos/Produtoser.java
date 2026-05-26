@@ -4,6 +4,7 @@ import DAO.ProdutoDAO;
 import entidades.Produto;
 import menu.Menuprint;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Produtoser {
@@ -52,51 +53,71 @@ public class Produtoser {
         }
     }
 
-
-    public float verificarValor(float valor) {
+    public BigDecimal verificarValor() {
 
         while (true) {
 
-            if (valor <= 0) {
+            System.out.print("Preço: ");
 
-                System.out.println("Preço inválido!");
-                System.out.print("Preço: ");
+            String entrada = sca.nextLine().replace(",", ".");
 
-                while (!sca.hasNextFloat()) {
+            try {
 
-                    System.out.println("Valor inválido! Digite apenas números. Ex: 10 ou 15.99");
-                    sca.nextLine();
-                    System.out.print("Preço: ");
+                BigDecimal valor = new BigDecimal(entrada);
+
+                if (valor.compareTo(new BigDecimal("0.01")) < 0) {
+
+                    System.out.println("""
+                            Valor inválido!
+                            O preço deve ser maior que 0.
+                            Ex: 1 | 10,50 | 25.99
+                            """);
+
+                } else if (valor.scale() > 2) {
+
+                    System.out.println("""
+                        Valor inválido!
+                        O preço pode ter no máximo 2 casas decimais.
+                        Ex: 10,50 | 25.99
+                        """);
+
+                } else {
+
+                    return valor;
                 }
 
-                valor = sca.nextFloat();
-                sca.nextLine();
+            } catch (NumberFormatException e) {
 
-            } else {
-                return valor;
+                System.out.println("""
+                    Entrada inválida!
+                    Digite apenas números.
+                    Ex: 10 | 15,90 | 25.99
+                    """);
             }
         }
-    }public int verificarEstoque(int estoque) {
-
+    }
+   public int verificarEstoque() {
         while (true) {
-
-            if (estoque < 0) {
-
-                System.out.println("Estoque nao pode ser negativo!");
-                System.out.print("Estoque: ");
-
-                while (!sca.hasNextInt()) {
-
-                    System.out.println("Entrada inválida! O estoque deve conter apenas números inteiros. Ex: 1, 5, 20...");
-                    sca.nextLine();
+            System.out.print("Estoque: ");
+            String entrada = sca.nextLine();
+            try {
+            Integer estoque = Integer.parseInt(entrada);
+                if (estoque < 0) {
+                    System.out.println("Estoque nao pode ser negativo!");
                     System.out.print("Estoque: ");
+                    estoque = sca.nextInt();
+                    sca.nextLine();
+
+                } else {
+                    return estoque;
                 }
 
-                estoque = sca.nextInt();
-                sca.nextLine();
-
-            } else {
-                return estoque;
+            }catch (NumberFormatException e){
+                System.out.println("""
+                        Entrada invalida!
+                        Digite apenas numeros inteiros:
+                        EX: 1 , 10 , 30
+                        """);
             }
         }
     }
@@ -136,6 +157,10 @@ public class Produtoser {
         new ProdutoDAO().alterarnome(id , nome);
         new Produtoser().mostrarId(id);
         System.out.println("Nome alterado!");
+    }
+    public void alterarPreco(int id , BigDecimal f){
+        new ProdutoDAO().alterarpreco(id, f);
+        new Produtoser().mostrarId(id);
     }
     }
 

@@ -1,9 +1,6 @@
 
-import DAO.MedidaDao;
 import menu.Menuadd;
-import entidades.Clientes;
-import entidades.Produto;
-import menu.Menualterar;
+import menu.MenuAlterar.AlterarProduto;
 import menu.Menuprint;
 import menu.Menuremov;
 import threads.ProcessadorPedido;
@@ -167,7 +164,10 @@ public class Main {
                         int mudar= sca.nextInt();
                         switch (mudar){
                             case 1:
-                                new Menualterar().nomeProduto();
+                                new AlterarProduto().nomeProduto();
+                                break;
+                            case 2:
+                                new AlterarProduto().precoProduto();
                                 break;
                             default:
                                 System.out.println("Escolha invalida");
