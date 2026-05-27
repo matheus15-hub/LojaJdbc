@@ -1,21 +1,19 @@
 package menu;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import entidades.ItemPedido;
 import entidades.Produto;
 import entidades.Clientes;
 import entidades.Vendedor;
 import servicos.*;
-import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
 import DAO.ClientesDAO;
 import DAO.VendedorDAO;
 
 public class Menuadd {
     Scanner cin = new Scanner(System.in);
+
 //===============================================================PRODUTO
     public void Produtoadd() {
         System.out.print("Nome do Produto: ");
@@ -27,7 +25,7 @@ public class Menuadd {
         int estoque = new Produtoser().verificarEstoque();
 
         Classeser.mostrar();
-        System.out.println("Escolha uma Categoria cadastrada para colocar em seu produto:");
+        System.out.println("Escolha uma Categoria cadastrada para colocar in seu produto:");
         System.out.print("Categoria: ");
         while (!cin.hasNextInt()){
             System.out.println("Código inválido! Digite apenas números inteiros correspondentes às categorias cadastradas.");
@@ -39,7 +37,7 @@ public class Menuadd {
 
         cin.nextLine();
         Medidaser.mostrar();
-        System.out.println("Escolha uma medida de venda cadastrada para colocar em seu produto:");
+        System.out.println("Escolha uma medida de venda cadastrada para colocar in seu produto:");
         System.out.print("Escolha: ");
         while (!cin.hasNextInt()){
             System.out.println("Código inválido! Digite apenas números inteiros correspondentes às unidades de medidas cadastradas.");
@@ -49,13 +47,12 @@ public class Menuadd {
         int medida = cin.nextInt();
         medida = new Medidaser().vereficadorId(medida);
 
-
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
         new Produtoser().adicionar(p);
         new Produtoser().mostrar();
     }
-//===============================================================CLIENTE
 
+//===============================================================CLIENTE
     public void Clienteadd() {
         System.out.print("Nome do Cliente: ");
         String nome = cin.nextLine();
@@ -83,8 +80,8 @@ public class Menuadd {
         new Clienteser().adicionarCli(c);
         System.out.println("Cliente cadastrado com sucesso!");
     }
-//===============================================================Vendedor
 
+//===============================================================Vendedor
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
         String nome = cin.nextLine();
@@ -110,10 +107,11 @@ public class Menuadd {
         Vendedor v = new Vendedor(0, nome, tel, email, comissao);
         new VendedorServico().adicionar(v);
     }
-//===============================================================PEDIDO
 
+//===============================================================PEDIDO Era assim que vc queria no caso?????
     public void novoPedido() {
-        // 1. Seleção de Cliente
+        PedidoServico pedidoServico = new PedidoServico();
+
         System.out.println("\n--- LISTA DE CLIENTES ---");
         new ClientesDAO().mostrarClient();
         System.out.print("\nDigite o ID do cliente escolhido: ");
@@ -123,9 +121,9 @@ public class Menuadd {
             cin.nextLine();
             System.out.print("Digite o ID do cliente escolhido: ");
         }
-
         int idCli = cin.nextInt();
         idCli = new Clienteser().vereficarId(idCli);
+        pedidoServico.addClientePedido(idCli);
 
         // 2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");
@@ -137,42 +135,30 @@ public class Menuadd {
             cin.nextLine();
             System.out.print("Digite o ID do Vendedor escolhido: ");
         }
-
         int idVend = cin.nextInt();
         idVend = new VendedorServico().vereficarId(idVend);
+        pedidoServico.addVendedorPedido(idVend);
 
-        List<ItemPedido> carrinho = new ArrayList<>();
-        double valorTotalPedido = 0;
-
-        // 3. Loop do Carrinho (ArrayList)
+        // 3. Loop do Carrinho
         String continuar = "s";
         while (continuar.equalsIgnoreCase("s")) {
             System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
             new ProdutoDAO().mostrarProduts();
 
             System.out.print("\nDigite o ID do Produto: ");
-
             while (!cin.hasNextInt()) {
                 System.out.println("Digite apenas números!");
                 cin.nextLine();
                 System.out.print("Digite o ID do Produto: ");
             }
-
             int idProd = cin.nextInt();
 
-            if (!ProdutoDAO.produtoExiste(idProd)) {
-                System.out.println("Produto não encontrado!");
-                continue;
-            }
-
             System.out.print("Quantidade: ");
-
             while (!cin.hasNextInt()) {
                 System.out.println("Digite apenas números!");
                 cin.nextLine();
                 System.out.print("Quantidade: ");
             }
-
             int qtd = cin.nextInt();
 
             if (qtd <= 0) {
@@ -180,48 +166,43 @@ public class Menuadd {
                 continue;
             }
 
-            int estoque = ProdutoDAO.buscarEstoque(idProd);
+            boolean adicionado = pedidoServico.tentarAdicionarProduto(idProd, qtd);
 
-            if (qtd > estoque) {
-                System.out.println("Estoque insuficiente!");
-                continue;
-            }
-
-            double preco = ProdutoDAO.buscarPreco(idProd);
-
-            System.out.println("Preço do produto: R$ " + preco);
-
-            // Adiciona ao carrinho e soma ao total
-
-            ItemPedido item = new ItemPedido(idProd, qtd, preco);
-            carrinho.add(item);
-            valorTotalPedido += item.getSubtotal();
-
-            System.out.println("\n--- ITENS DO PEDIDO ---");
-
-            for (ItemPedido itemCarrinho : carrinho) {
-
-                System.out.println(
-                        "Produto ID: " + itemCarrinho.getIdProdutos() +
-                                " | Quantidade: " + itemCarrinho.getQuantidade() +
-                                " | Subtotal: R$ " + itemCarrinho.getSubtotal());
+            if (adicionado) {
+                System.out.println("\n--- ITENS DO PEDIDO ---");
+                for (ItemPedido itemCarrinho : pedidoServico.getCarrinhoComponentes()) {
+                    System.out.println(
+                            "Produto ID: " + itemCarrinho.getIdProdutos() +
+                            " | Quantidade: " + itemCarrinho.getQuantidade() +
+                            " | Subtotal: R$ " + itemCarrinho.getSubtotal());
+                }
             }
 
             System.out.print("\nDeseja adicionar outro produto? (s/n): ");
             continuar = cin.next();
         }
 
-        // 4. Finalização
-        System.out.println("\n--- RESUMO DO PEDIDO ---");
-        System.out.printf("Total: R$ %.2f%n", valorTotalPedido);
-        System.out.print("Confirmar venda? (s/n): ");
-        String confirma = cin.next();
-        cin.nextLine(); // Limpar buffer final
+        cin.nextLine();
+        System.out.print("Digite uma observação para o pedido (ou dê Enter para vazio): ");
+        String observacao = cin.nextLine();
+        pedidoServico.definirObservacao(observacao);
 
-        if (confirma.equalsIgnoreCase("s")) {
-            PedidoDAO.finalizarVenda(idCli, idVend, carrinho, valorTotalPedido);
-        } else {
-            System.out.println("Venda cancelada.");
+        System.out.println("\n--- RESUMO DO PEDIDO ---");
+        System.out.printf("Total: R$ %.2f%n", pedidoServico.getValorTotalAcumulado());
+        System.out.println("\nDeseja:");
+        System.out.println("1 - Finalizar pedido (Status: EM_FILA)");
+        System.out.println("2 - Deixar pedido em aberto (Status: ABERTO)");
+        System.out.println("3 - Cancelar operação");
+        System.out.print("Opção: ");
+
+        while (!cin.hasNextInt()) {
+            System.out.println("Digite apenas o número da opção!");
+            cin.nextLine();
+            System.out.print("Opção: ");
         }
+        int opcao = cin.nextInt();
+        cin.nextLine(); 
+
+        pedidoServico.finalizarFluxo(opcao);
     }
 }
