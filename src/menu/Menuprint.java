@@ -6,7 +6,7 @@ import entidades.Pedido;
 import entidades.Produto;
 import entidades.Vendedor;
 import servicos.Clienteser;
-import servicos.Pedidoser;
+import servicos.PedidoServico;
 import servicos.Produtoser;
 import servicos.VendedorServico;
 import java.util.Scanner;
@@ -60,7 +60,7 @@ public class Menuprint {
         new VendedorServico().mostrarFiltro(nome);
     }
 
-    public void printPedido() {
-        new Pedidoser().mostrarTodosPedidos();
+    public void printPedido(){
+        DAO.PedidoDAO.imprimirPedidoS();
     }
 }

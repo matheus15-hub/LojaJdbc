@@ -14,33 +14,75 @@ public class VendedorDAO {
     PreparedStatement stmt;
     ResultSet rs;
 
-   public void adicionarVendedor(Vendedor vendedor) {
+    public void addVendedor(Vendedor vendedor) {
 
     String sql ="insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
 
-    try {
+        try {
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
 
-        conn =Conexao.getConexao();
-        stmt = conn.prepareStatement(sql);
-        stmt.setString(1,vendedor.getNomeVendedor());
-        stmt.setString(2, vendedor.getTelefoneVendedor());
-        stmt.setString(3,vendedor.getEmailVendedor());
-        stmt.setDouble(4,vendedor.getComissao());
+            stmt.setString(1, vendedor.getNomeVendedor());
+            stmt.setString(2, vendedor.getTelefoneVendedor());
+            stmt.setString(3, vendedor.getEmailVendedor());
+            stmt.setDouble(4, 0);
+
+            // vendedor vai iniciar zerado
+            stmt.setDouble(4, 0);
             stmt.executeUpdate();
 
-        System.out.println("Vendedor adicionado!");
-            stmt.close();
-            conn.close();
-    }
-    catch(java.sql.SQLIntegrityConstraintViolationException e){
-        System.out.println("Email já cadastrado!");
-    }
-    catch(Exception e){System.out.println(
-        e.getMessage());
+            System.out.println("Vendedor adicionado com sucesso!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar vendedor: " + e.getMessage());
+        }
     }
 
+public void addComissao(int idVendedor,
+                         double valorPedido,
+                         String statusPedido) {
+
+    try {
+
+        // valida status
+        if (!statusPedido.equalsIgnoreCase("CONCLUIDO")) {
+
+            System.out.println(
+                "Pedido não concluído. Comissão não adicionada."
+            );
+
+            return;
+        }
+
+        double valorComissao = valorPedido * 0.01;
+
+        String sql = """
+            update vendedor
+            set comissao = comissao + ?
+            where id_vendedor = ?
+            """;
+
+        conn = Conexao.getConexao();
+
+        stmt = conn.prepareStatement(sql);
+
+        stmt.setDouble(1, valorComissao);
+        stmt.setInt(2, idVendedor);
+
+        stmt.executeUpdate();
+
+        System.out.println(
+            "Comissão adicionada com sucesso!"
+        );
+
+    } catch (Exception e) {
+
+        System.out.println(
+            "Erro ao adicionar comissão: "
+            + e.getMessage()
+        );
+    }
 }
-
     public void mostrarVendedor() {
 
         String sql = "select * from vendedor";

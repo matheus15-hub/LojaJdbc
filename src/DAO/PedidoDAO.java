@@ -13,62 +13,64 @@ import entidades.ItemPedido;
 
 public class PedidoDAO {
 
-    public static void finalizarVenda(int idCliente, int idVendedor,
-            List<ItemPedido> carrinho, double total) {
-        String sqlPedido = "insert into pedido (id_clientes, id_vendedor, status_pedido, valor_total) values (?, ?, ?, ?)";
-        String sqlItem = "insert into item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) values (?, ?, ?, ?, ?)";
-        String sqlEstoque = "update produtos set estoque = estoque - ? where id_produtos = ? and estoque >= ?";
+    public static void finalizarVenda(int idCliente, int idVendedor, List<ItemPedido> carrinho, double total, String observacao, String status) {
+    
+    String sqlPedido = "insert into pedido (id_clientes, id_vendedor, status_pedido, observacao, valor_total) values (?, ?, ?, ?, ?)";
+    String sqlItem = "insert into item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) values (?, ?, ?, ?, ?)";
+    String sqlEstoque = "update produtos set estoque = estoque - ? where id_produtos = ? and estoque >= ?";
 
-        try (Connection conn = Conexao.criarNovaConexao();
-             PreparedStatement psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement psItem = conn.prepareStatement(sqlItem);
-             PreparedStatement psEstoque = conn.prepareStatement(sqlEstoque)) {
+    try (Connection conn = Conexao.criarNovaConexao();
+         PreparedStatement psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+         PreparedStatement psItem = conn.prepareStatement(sqlItem);
+         PreparedStatement psEstoque = conn.prepareStatement(sqlEstoque)) {
 
-            conn.setAutoCommit(false);
+        conn.setAutoCommit(false);
 
-            psPedido.setInt(1, idCliente);
-            psPedido.setInt(2, idVendedor);
-            psPedido.setString(3, "FILA");
-            psPedido.setDouble(4, total);
+        psPedido.setInt(1, idCliente);
+        psPedido.setInt(2, idVendedor);
+        psPedido.setString(3, status); 
+        
+        psPedido.setString(4, observacao); 
+        psPedido.setDouble(5, total);
 
-            psPedido.executeUpdate();
+        psPedido.executeUpdate();
 
-            try (ResultSet rs = psPedido.getGeneratedKeys()) {
-                int idPedidoGerado = 0;
-                if (rs.next()) {
-                    idPedidoGerado = rs.getInt(1);
-                }
-
-                for (ItemPedido item : carrinho) {
-                    psEstoque.setInt(1, item.getQuantidade());
-                    psEstoque.setInt(2, item.getIdProdutos());
-                    psEstoque.setInt(3, item.getQuantidade());
-
-                    int linhasAfetadas = psEstoque.executeUpdate();
-
-                    if (linhasAfetadas == 0) {
-                        conn.rollback();
-                        System.out.println("Estoque insuficiente para o produto ID: " + item.getIdProdutos());
-                        return;
-                    }
-
-                    psItem.setInt(1, idPedidoGerado);
-                    psItem.setInt(2, item.getIdProdutos());
-                    psItem.setInt(3, item.getQuantidade());
-                    psItem.setDouble(4, item.getPrecoUnitario());
-                    psItem.setDouble(5, item.getSubtotal());
-
-                    psItem.executeUpdate();
-                }
+        try (ResultSet rs = psPedido.getGeneratedKeys()) {
+            int idPedidoGerado = 0;
+            if (rs.next()) {
+                idPedidoGerado = rs.getInt(1);
             }
 
-            conn.commit();
-            System.out.println("Venda finalizada com sucesso!");
+            for (ItemPedido item : carrinho) {
+                psEstoque.setInt(1, item.getQuantidade());
+                psEstoque.setInt(2, item.getIdProdutos());
+                psEstoque.setInt(3, item.getQuantidade());
 
-        } catch (SQLException e) {
-            System.out.println("ERRO ao finalizar venda: " + e.getMessage());
+                int linhasAfetadas = psEstoque.executeUpdate();
+
+                if (linhasAfetadas == 0) {
+                    conn.rollback();
+                    System.out.println("Estoque insuficiente para o produto ID: " + item.getIdProdutos());
+                    return;
+                }
+
+                psItem.setInt(1, idPedidoGerado);
+                psItem.setInt(2, item.getIdProdutos());
+                psItem.setInt(3, item.getQuantidade());
+                psItem.setDouble(4, item.getPrecoUnitario());
+                psItem.setDouble(5, item.getSubtotal());
+
+                psItem.executeUpdate();
+            }
         }
+
+        conn.commit();
+        System.out.println("Venda salva com sucesso no sistema!");
+
+    } catch (SQLException e) {
+        System.out.println("ERRO ao finalizar venda: " + e.getMessage());
     }
+}
 
     public static void imprimirPedidoS() {
         String sql = "select * from item_pedido i " +
@@ -94,7 +96,6 @@ public class PedidoDAO {
                 float totalValor = resultSet.getFloat("valor_total");
 
                 String nomeCliente = resultSet.getString("nome_clientes");
-                
                 String cpf = resultSet.getString("cpf_clientes");
 
                 int idvendedor = resultSet.getInt("id_vendedor");
@@ -102,17 +103,25 @@ public class PedidoDAO {
                 String telVendedor = resultSet.getString("telefone_vendedor");
 
                 String status = resultSet.getString("status_pedido");
+                
+                String obs = resultSet.getString("observacao");
+                
                 LocalDateTime data = resultSet.getTimestamp("data_pedido").toLocalDateTime();
                 
                 linha();
                 System.out.println("||\t\t\t\t\tPEDIDO: " + idPedido + " \t\t\t\t\t||");
                 linha();
                 System.out.printf("|| Cliente: %-20s \t Cpf: %-14s\t||%n", nomeCliente, cpf);
+                
+                if (obs != null && !obs.trim().isEmpty()) {
+                    System.out.printf("|| OBSERVAÇÃO: %-71s ||%n", obs);
+                }
+                
                 linha();
                 
                 new ItemPedidoDao().mostrarItemPedido(idPedido);
                 linha();
-                System.out.printf("|| Vendedor: %3d\tNome: %-20s\tTelefone: %-14s\t\t||%n", idvendedor, nomev, telVendedor); // ALTERADO: Adicionado %n para quebrar a linha corretamente no console
+                System.out.printf("|| Vendedor: %3d\tNome: %-20s\tTelefone: %-14s\t\t||%n", idvendedor, nomev, telVendedor);
                 linha();
             }
         } catch (Exception e) {
@@ -122,7 +131,6 @@ public class PedidoDAO {
     }
 
     public static void relatorioVendasPorVendedor() {
-
         String sql = "select v.nome_vendedor, count(p.id_pedido) as total_pedidos, sum(p.valor_total) as total_faturado " +
                      "from pedido p " +
                      "inner join vendedor v on p.id_vendedor = v.id_vendedor " +
@@ -185,7 +193,6 @@ public class PedidoDAO {
     }
 
     public static void linha() {
-        System.out.println(
-                "============================================================================================");
+        System.out.println("============================================================================================");
     }
 }

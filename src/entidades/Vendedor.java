@@ -1,60 +1,66 @@
 package entidades;
 
 public class Vendedor {
-    
-    private int idVendedor;
-    private String nomeVendedor;
-    private String telefoneVendedor;
-    private String emailVendedor;
+
+    private int id_vendedor;
+    private String nome_vendedor;
+    private String telefone_vendedor;
+    private String email_vendedor;
     private double comissao;
 
-    public Vendedor(){};
-    public Vendedor(int idVendedor, String nomeVendedor, String telefoneVendedor, String emailVendedor, double comissao){
+    public Vendedor() {
+    }
 
-    this.idVendedor = idVendedor;
-    this.nomeVendedor = nomeVendedor.toUpperCase();
-    this.telefoneVendedor = telefoneVendedor;
-    this.emailVendedor =emailVendedor.toLowerCase();
-    this.comissao = comissao;
-}
+    public Vendedor( int id_vendedor, 
+                     String nome_vendedor,
+                     String telefone_vendedor,
+                     String email_vendedor) {
 
-        public int getIdVendedor() {
-            return idVendedor;
-        }
+        this.id_vendedor = id_vendedor;
+        this.nome_vendedor = nome_vendedor.toUpperCase();
+        this.telefone_vendedor = telefone_vendedor.toUpperCase();
+        this.email_vendedor = email_vendedor.toUpperCase();
 
-        public void setIdVendedor(int idVendedor) {
-            this.idVendedor = idVendedor;
-        }
+        this.comissao = 0;
+    }
 
-                public String getNomeVendedor() {
-            return nomeVendedor;
-        }
+    public int getIdVendedor() {
+        return id_vendedor;
+    }
 
-                public void setNomeVendedor(String nomeVendedor) {
-            this.nomeVendedor = nomeVendedor.toUpperCase();
-        }   
+    public void setIdVendedor(int id_vendedor) {
+        this.id_vendedor = id_vendedor;
+    }
 
-                public String getTelefoneVendedor() {
-            return telefoneVendedor;
-        }
+    public String getNomeVendedor() {
+        return nome_vendedor;
+    }
 
-                public void setTelefoneVendedor(String telefoneVendedor) {
-            this.telefoneVendedor = telefoneVendedor;
-        }
+    public void setNomeVendedor(String nome_vendedor) {
+        this.nome_vendedor = nome_vendedor.toUpperCase();
+    }
 
-                public String getEmailVendedor() {
-            return emailVendedor.toLowerCase();
-        }
+    public String getTelefoneVendedor() {
+        return telefone_vendedor;
+    }
 
-                public void setEmailVendedor(String emailVendedor) {
-            this.emailVendedor = emailVendedor;
-        }
+    public void setTelefoneVendedor(String telefone_vendedor) {
+        this.telefone_vendedor = telefone_vendedor.toUpperCase();
+    }
 
-                public double getComissao() {
-            return comissao;
-        }
+    public String getEmailVendedor() {
+        return email_vendedor;
+    }
 
-                public void setComissao(double comissao) {
-            this.comissao = comissao;
-        }
+    public void setEmailVendedor(String email_vendedor) {
+        this.email_vendedor = email_vendedor.toUpperCase();
+    }
+
+    public double getComissao() {
+        return comissao;
+    }
+
+    public void setComissao(double comissao) {
+        this.comissao = comissao;
+    }
 }

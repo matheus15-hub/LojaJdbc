@@ -8,7 +8,7 @@ import menu.Menuprint;
 public class VendedorServico {
     Scanner sca = new Scanner(System.in);
     public void adicionar(Vendedor v){
-        new VendedorDAO().adicionarVendedor(v);
+        new VendedorDAO().addVendedor(v);
         System.out.println("Cadastrado!");
     }
 

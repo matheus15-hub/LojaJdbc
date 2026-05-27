@@ -1,10 +1,13 @@
 package DAO;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Scanner;
 
+import conexao.Conexao;
 import entidades.Clientes;
 
 public class ClientesDAO {
@@ -19,8 +22,6 @@ public class ClientesDAO {
             ps.setString(1, clientes.getNome_clientes());
             ps.setString(2,clientes.getCpf()); // antes estava 3, foi alterado para 2(Por que ele poderia colocar o CPF numa coluna que não existe no comando MYSQL.)
             ps.setString(3, clientes.getemail_clientes());
-            ps.setString(4, clientes.getbairroClientes());
-            ps.setString(5, clientes.getRua_clientes());
 
             ps.execute();
             ps.close();
@@ -58,12 +59,10 @@ public class ClientesDAO {
                 String nome_clientes = res.getString(2);
                 String cpf = res.getString(3);
                 String email_clientes = res.getString(4);
-                String bairroClientes = res.getString(5);
-                String rua_clientes = res.getString(6);
                 
                 linha();
                 System.out.printf("||ID: %5d | NOME: %-20s | CPF: %-15s | EMAIL: %-20s | END: %-20s | RUA: %-20%||%n", 
-                        id_clientes, nome_clientes, cpf, email_clientes, bairroClientes, rua_clientes);
+                        id_clientes, nome_clientes, cpf, email_clientes);
                 linha();
             }
             
@@ -84,10 +83,8 @@ public class ClientesDAO {
                 nome_clientes = resultSet.getNString("nome_clientes");
                 String cpf = resultSet.getNString("cpf");
                 String email_clientes = resultSet.getString("email_clientes");
-                String bairroClientes = resultSet.getString("bairroClientes");
-                String rua_clientes = resultSet.getString("rua_clientes");
                 linha();
-                System.out.printf("||ID: %5d\\t NOME: %-25s\\t CPF: %-18s \\t Bairro: %-25s\\ Rua: %-25||%n", id_clientes, nome_clientes, cpf, email_clientes, bairroClientes, rua_clientes);
+                System.out.printf("||ID: %5d\\t NOME: %-25s\\t CPF: %-18s \\t Bairro: %-25s\\ Rua: %-25||%n", id_clientes, nome_clientes, cpf, email_clientes);
                 linha();
             }
         } catch (Exception e) {
@@ -117,5 +114,47 @@ public class ClientesDAO {
 
     public static void linha(){
         System.out.println("==================================================================================");
+    }
+
+    public void AlterarNomeClien(int id,String n){
+        PreparedStatement ps = null;
+        String sql = "UPDATE clientes SET nome_clientes = ? WHERE id_clientes = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1,n);
+            ps.setInt(2,id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void AlterarCPFClien(int id,String n){
+        PreparedStatement ps = null;
+        String sql = "UPDATE clientes SET cpf_clientes = ? WHERE id_clientes = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1,n);
+            ps.setInt(2,id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void AlterarEmailClien(int id,String n){
+        PreparedStatement ps = null;
+        String sql = "UPDATE clientes SET email_clientes = ? WHERE id_clientes = ?";
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1,n);
+            ps.setInt(2,id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -60,32 +60,23 @@ public class Menuadd {
 
         System.out.print("CPF (com formatação exemplo: 111.222.333-44): ");
         String cpf = cin.nextLine();
-        cpf = new Clienteser().verificarCPF(cpf);
+        cpf = new Clienteser().verificarCPF_clientes(cpf);
 
         System.out.print("Email: ");
         String email_clientes = cin.nextLine();
-        email_clientes = new Clienteser().vereficaremail_clientes(email_clientes);
+        email_clientes = new Clienteser().vereficarEmail_clientes(email_clientes);
 
-        System.out.print("Endereço: ");
-        String bairroClientes = cin.nextLine();
-        bairroClientes = new Clienteser().verefiarbairroClientes(bairroClientes);
-
-        System.out.print("Endereço: ");
-        String rua_clientes = cin.nextLine();
-        rua_clientes = new Clienteser().vereficarRua_clientes(rua_clientes);
-
-        Clientes c = new Clientes(0, nome, cpf, email_clientes, bairroClientes, rua_clientes);
+        Clientes c = new Clientes(0, nome, cpf, email_clientes);
         c.setEmail(email_clientes);
 
         new Clienteser().adicionarCli(c);
         System.out.println("Cliente cadastrado com sucesso!");
     }
 
-//===============================================================Vendedor
+//===============================================================VENDEDOR
     public void Vendedoradd() {
         System.out.print("Nome do Vendedor: ");
         String nome = cin.nextLine();
-        nome = new VendedorServico().verificarNome(nome);
 
         System.out.print("Telefone: ");
         String tel = cin.nextLine();
@@ -104,14 +95,17 @@ public class Menuadd {
         cin.nextLine(); // Limpar o buffer
         comissao = new VendedorServico().verificarComissao(comissao);
 
-        Vendedor v = new Vendedor(0, nome, tel, email, comissao);
+        Vendedor v = new Vendedor(0, nome, tel, email);
+        v.setComissao(comissao);
         new VendedorServico().adicionar(v);
+        System.out.println("Vendedor cadastrado com sucesso!");
     }
 
-//===============================================================PEDIDO Era assim que vc queria no caso?????
+//===============================================================PEDIDO
     public void novoPedido() {
         PedidoServico pedidoServico = new PedidoServico();
 
+        // 1. Seleção de Cliente
         System.out.println("\n--- LISTA DE CLIENTES ---");
         new ClientesDAO().mostrarClient();
         System.out.print("\nDigite o ID do cliente escolhido: ");
@@ -122,7 +116,7 @@ public class Menuadd {
             System.out.print("Digite o ID do cliente escolhido: ");
         }
         int idCli = cin.nextInt();
-        idCli = new Clienteser().vereficarId(idCli);
+        idCli = new Clienteser().vereficarId_clientes(idCli);
         pedidoServico.addClientePedido(idCli);
 
         // 2. Seleção de Vendedor

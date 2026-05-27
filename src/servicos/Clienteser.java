@@ -1,8 +1,10 @@
 package servicos;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 import DAO.ClientesDAO;
+import DAO.ProdutoDAO;
 import entidades.Clientes;
 import menu.Menuprint;
 
@@ -25,6 +27,10 @@ public class Clienteser {
 
     public void mostrar(){
         new ClientesDAO().mostrarClient();
+    }
+
+    public void mostrarId(int id){
+        //new ClientesDAO().filtarProdutosId(id);
     }
 
     public void mostrarFiltro(String c){
@@ -51,57 +57,43 @@ public class Clienteser {
         }
     }
 
-    public String verificarCPF(String cpf){
+    public String verificarCPF_clientes(String cpf){
 
         while (true) {
-
             if (cpf == null || cpf.trim().isEmpty()) {
-
                 System.out.println("O CPF nao pode ser vazio!");
                 System.out.print("CPF: ");
                 cpf = sca.nextLine();
-
             } else if (cpf.length() > 14 || cpf.length() < 14) {
-
                 System.out.println("CPF nao pode ter mais de 14 caracteres!");
                 System.out.print("CPF: ");
                 cpf = sca.nextLine();
-
             } else {
                 return cpf;
             }
         }
     }
 
-    public int vereficarId(int id){
+    public int vereficarId_clientes(int id){
 
         while (true){
-
             if(ClientesDAO.vereficarExistencia(id)){
-
                 System.out.println("Cliente com o ID " + id + " nao encontrado!");
-
                 new Menuprint().printCliente();
-
                 System.out.print("\nID: ");
-
                 while (!sca.hasNextInt()) {
-
                     System.out.println("Digite apenas números!");
                     sca.nextLine();
                     System.out.print("Digite o ID do cliente escolhido: ");
                 }
-
                 id = sca.nextInt();
-
             } else {
-
                 return id;
             }
         }
     }
 
-    public String vereficaremail_clientes(String email_clientes){
+    public String vereficarEmail_clientes(String email_clientes){
         while (true) {
             if (email_clientes == null || email_clientes.trim().isEmpty()) {
 
@@ -109,9 +101,9 @@ public class Clienteser {
                 System.out.print("EMAIL: ");
                 email_clientes = sca.nextLine();
 
-            } else if (email_clientes.length() > 100) {
+            } else if (email_clientes.length() > 150) {
 
-                System.out.println("EMAIL nao pode ter mais de 100 caracteres!");
+                System.out.println("EMAIL nao pode ter mais de 150 caracteres!");
                 System.out.print("EMAIL: ");
                 email_clientes = sca.nextLine();
 
@@ -128,44 +120,14 @@ public class Clienteser {
         }
     }
 
-    public String verefiarbairroClientes(String bairroClientes){
-        while (true) {
-
-            if (bairroClientes == null || bairroClientes.trim().isEmpty()) {
-
-                System.out.println("Bairro não pode ser vazio!");
-                System.out.print("Bairro: ");
-                bairroClientes = sca.nextLine();
-
-            } else if (bairroClientes.length() > 50) {
-
-                System.out.println("Bairro não pode ter mais de 50 caracteres!");
-                System.out.print("Bairro: ");
-                bairroClientes = sca.nextLine();
-
-            } else {
-                return bairroClientes;
-            }
-        }
+    public void alterarNome(int id, String nome){
+        nome = nome.toUpperCase();
+        //new ClientesDAO().alterarnome(id , nome);
+        //new Clienteser().mostrarId(id);
+        System.out.println("Nome alterado!");
     }
-    public String vereficarRua_clientes(String rua_clientes){
-        while (true) {
-
-            if (rua_clientes == null || rua_clientes.trim().isEmpty()) {
-
-                System.out.println("Endereço não pode ser vazio!");
-                System.out.print("Endereço: ");
-                rua_clientes = sca.nextLine();
-
-            } else if (rua_clientes.length() > 50) {
-
-                System.out.println("Rua não pode ter mais de 50 caracteres!");
-                System.out.print("Rua: ");
-                rua_clientes = sca.nextLine();
-
-            } else {
-                return rua_clientes;
-            }
-        }
+    public void alterarPreco(int id , BigDecimal f){
+        //new ClientesDAO().alterarpreco(id, f);
+        //new Clienteser().mostrarId(id);
     }
 }

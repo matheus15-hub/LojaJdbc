@@ -5,18 +5,14 @@ public class Clientes {
     private String nome_clientes;
     private String cpf;
     private String email_clientes;
-    private String bairroClientes;
-    private String rua_clientes;
 
 
     public Clientes(){};
-    public Clientes(int id_clientes, String nome_clientes, String cpf, String email_clientes, String bairroClientes, String rua_clientes){
+    public Clientes(int id_clientes, String nome_clientes, String cpf, String email_clientes){
         this.cpf = cpf;
         this.id_clientes = id_clientes;
         this.nome_clientes = nome_clientes;
         this.email_clientes = email_clientes;
-        this.bairroClientes = bairroClientes;
-        this.rua_clientes = rua_clientes;
     }
 
     public String getCpf() {
@@ -39,14 +35,6 @@ public class Clientes {
 
     public void setEmail(String email_clientes) {
         this.email_clientes = email_clientes;
-    }
-
-    public String getbairroClientes() {
-        return bairroClientes;
-    }
-
-    public String getRua_clientes(){
-        return rua_clientes;
     }
 
 }
