@@ -5,7 +5,7 @@ import entidades.Vendedor;
 
 public class VendedorServico {
     public void adicionar(Vendedor v){
-        new VendedorDAO().adicionarVendedor(v);
+        new VendedorDAO().addVendedor(v);
         System.out.println("Cadastrado!");
     }
      public void mostrar() {

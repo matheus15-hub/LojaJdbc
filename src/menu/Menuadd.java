@@ -48,16 +48,16 @@ public class Menuadd {
 
 
     public void Vendedoradd() {
-        System.out.print("Nome do Vendedor: ");
-        String nome = cin.nextLine();
-        System.out.print("Telefone: ");
-        String tel = cin.nextLine();
-        System.out.print("Email: ");
-        String email = cin.nextLine();
-        System.out.print("Comissão: ");
-        double comissao = cin.nextDouble();
-        cin.nextLine(); // Limpar o buffer
-    }
+
+    System.out.print("Nome do Vendedor: ");
+    String nome = cin.nextLine();
+    System.out.print("Telefone: ");
+    String tel = cin.nextLine();
+    System.out.print("Email: ");
+    String email = cin.nextLine();
+    Vendedor v = new Vendedor(0, nome, tel, email);
+    new VendedorDAO().addVendedor(v);
+}
 
     public void novoPedido() {
         // 1. Seleção de Cliente
@@ -106,7 +106,7 @@ public class Menuadd {
         cin.nextLine(); // Limpar buffer final
 
         if (confirma.equalsIgnoreCase("s")) {
-            PedidoDAO.finalizarVenda(idCli, 1, carrinho, valorTotalPedido);
+            PedidoDAO.finalizarVenda(idCli, idVend, carrinho, valorTotalPedido);
         } else {
             System.out.println("Venda cancelada.");
         }
