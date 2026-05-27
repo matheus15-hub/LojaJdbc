@@ -2,17 +2,165 @@ package servicos;
 
 import DAO.ProdutoDAO;
 import entidades.Produto;
+import menu.Menuprint;
+
+import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class Produtoser {
+    Scanner sca = new Scanner(System.in);
 
-    public void  adicionar(Produto produto) {
-        if (produto.getNome_Produtos() != null) {
+
+    public void adicionar(Produto produto) {
             ProdutoDAO.addProduto(produto);
             System.out.println("Produto cadastrado");
+    }
+
+    public void mostrar() {
+        new ProdutoDAO().mostrarProduts();
+    }
+    public void mostrarId(int id){
+        new ProdutoDAO().filtarProdutosId(id);
+    }
+    public  void filtro(String n){
+        new ProdutoDAO().filtarProdutos(n);
+    }
+    public void remover(int x){
+        new ProdutoDAO().excluirProduto(x);
+        System.out.println("Produto com o Id "+ x +" foi apagado");
+    }
+
+
+    public String verificarNome(String nome) {
+
+        while (true) {
+
+            if (nome == null || nome.trim().isEmpty()) {
+
+                System.out.println("O nome não pode estar vazio!");
+                System.out.print("Digite o nome: ");
+                nome = sca.nextLine();
+
+            } else if (nome.length() > 100) {
+
+                System.out.println("O nome ultrapassou o limite permitido de 100 caracteres!");
+                System.out.print("Digite o nome novamente: ");
+                nome = sca.nextLine();
+
+            } else {
+                return nome;
+            }
         }
     }
-    public void mostrar(Produto produto){
-        new ProdutoDAO().mostrarProduts(produto);
+
+    public BigDecimal verificarValor() {
+
+        while (true) {
+
+            System.out.print("Preço: ");
+
+            String entrada = sca.nextLine().replace(",", ".");
+
+            try {
+
+                BigDecimal valor = new BigDecimal(entrada);
+
+                if (valor.compareTo(new BigDecimal("0.01")) < 0) {
+
+                    System.out.println("""
+                            Valor inválido!
+                            O preço deve ser maior que 0.
+                            Ex: 1 | 10,50 | 25.99
+                            """);
+
+                } else if (valor.scale() > 2) {
+
+                    System.out.println("""
+                        Valor inválido!
+                        O preço pode ter no máximo 2 casas decimais.
+                        Ex: 10,50 | 25.99
+                        """);
+
+                } else {
+
+                    return valor;
+                }
+
+            } catch (NumberFormatException e) {
+
+                System.out.println("""
+                    Entrada inválida!
+                    Digite apenas números.
+                    Ex: 10 | 15,90 | 25.99
+                    """);
+            }
+        }
     }
-}
+   public int verificarEstoque() {
+        while (true) {
+            System.out.print("Estoque: ");
+            String entrada = sca.nextLine();
+            try {
+            Integer estoque = Integer.parseInt(entrada);
+                if (estoque < 0) {
+                    System.out.println("Estoque nao pode ser negativo!");
+                    System.out.print("Estoque: ");
+                    estoque = sca.nextInt();
+                    sca.nextLine();
+
+                } else {
+                    return estoque;
+                }
+
+            }catch (NumberFormatException e){
+                System.out.println("""
+                        Entrada invalida!
+                        Digite apenas numeros inteiros:
+                        EX: 1 , 10 , 30
+                        """);
+            }
+        }
+    }
+    public int verificarId(int id) {
+
+        while (true) {
+
+            if (!ProdutoDAO.produtoExiste(id)) {
+
+                System.out.println("Produto com código " + id + " não encontrado.");
+
+                new Menuprint().metodoBusca();
+
+                System.out.println("Digite um dos códigos cadastrados acima:");
+                System.out.print("CÓDIGO: ");
+
+                while (!sca.hasNextInt()) {
+
+                    sca.nextLine();
+
+                    System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                    System.out.print("Digite um código válido: ");
+                }
+
+                id = sca.nextInt();
+                sca.nextLine();
+
+            } else {
+
+                return id;
+            }
+        }
+    }
+
+    public void alterarNome(int id, String nome){
+        nome = nome.toUpperCase();
+        new ProdutoDAO().alterarnome(id , nome);
+        new Produtoser().mostrarId(id);
+        System.out.println("Nome alterado!");
+    }
+    public void alterarPreco(int id , BigDecimal f){
+        new ProdutoDAO().alterarpreco(id, f);
+        new Produtoser().mostrarId(id);
+    }
+    }
 

@@ -1,23 +1,25 @@
 package entidades;
 
+import java.math.BigDecimal;
+
 public class Produto {
 
     private  int id_produtos;
     private String nome_produtos;
-    private  float preco;
+    private  BigDecimal preco;
     private  int estoque;
-    private  String categoria;
-    private String medida_vendas;
+    private  int idClasse;
+    private  int idUnidade;
 
     public Produto(){};
 
-    public Produto(String nome_produtos, float preco, int estoque, String categoria , String medida_vendas) {
+    public Produto(String nome_produtos, BigDecimal preco, int estoque, int idClasse , int idUnidade) {
+        nome_produtos = nome_produtos.toUpperCase();
         this.nome_produtos = nome_produtos;
         this.preco = preco;
         this.estoque = estoque;
-        this.categoria = categoria;
-        medida_vendas = medida_vendas.toUpperCase();
-        this.medida_vendas = medida_vendas;
+        this.idClasse = idClasse;
+        this.idUnidade = idUnidade;
     }
 
     public int getId_Produtos() {
@@ -36,11 +38,11 @@ public class Produto {
         this.nome_produtos = nome_produtos;
     }
 
-    public float getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(float preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -52,19 +54,16 @@ public class Produto {
         this.estoque = estoque;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public int getIdClasse() {
+        return idClasse;
     }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setId_produtos(int id_produtos) {
+        this.id_produtos = id_produtos;
     }
-
-    public String getMedida_vendas() {
-        return medida_vendas;
+    public int getIdUnidade() {
+        return idUnidade;
     }
-
-    public void setMedida_vendas(String medida_vendas) {
-        this.medida_vendas = medida_vendas;
+    public void setIdUnidade(int idUnidade) {
+        this.idUnidade = idUnidade;
     }
 }

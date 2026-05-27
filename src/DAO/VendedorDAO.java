@@ -16,7 +16,7 @@ public class VendedorDAO {
 
     public void addVendedor(Vendedor vendedor) {
 
-        String sql = "insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
+    String sql ="insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
 
         try {
             conn = Conexao.getConexao();
@@ -99,10 +99,8 @@ public void addComissao(int idVendedor,
                 String email = rs.getString("email_vendedor");
                 float comissao = rs.getFloat("comissao");
 
-                System.out.printf(
-                        "ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f\tEMAIL: %s%n",
-                        id, nome, tel, comissao, email
-                );
+        System.out.printf("ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tCOMISSÃO: %.2f%%\tEMAIL: %s%n",id, nome, tel, comissao, email);
+                linha();
             }
 
         } catch (Exception e) {
@@ -148,5 +146,65 @@ public void addComissao(int idVendedor,
         } catch (Exception e) {
             System.out.println("Erro ao pesquisar vendedor: " + e.getMessage());
         }
+    }
+    public Vendedor buscarPorId(int idBusca){
+        String sql ="SELECT * FROM vendedor WHERE id_vendedor=?";
+    try{
+
+        conn =Conexao.getConexao();
+        stmt =conn.prepareStatement(sql);
+        stmt.setInt(1,idBusca);
+        rs =stmt.executeQuery();
+        if(rs.next()){
+
+            Vendedor v =new Vendedor();
+            v.setIdVendedor(rs.getInt("id_vendedor"));
+            v.setNomeVendedor(rs.getString("nome_vendedor"));
+            v.setTelefoneVendedor(rs.getString("telefone_vendedor"));
+            v.setEmailVendedor(rs.getString("email_vendedor"));
+            v.setComissao(rs.getDouble("comissao"));
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+            return v;
+        }
+    }
+    catch(Exception e){
+        System.out.println(e.getMessage());
+    }
+    return null;
+}
+    public static boolean verificarExistencia(int h){
+    PreparedStatement ps =null;
+    ResultSet resultSet =null;
+    String sql ="SELECT COUNT(*) FROM vendedor WHERE id_vendedor=?";
+
+    try{
+        ps =Conexao.getConexao().prepareStatement(sql);
+        ps.setInt(1,h);
+
+        resultSet =ps.executeQuery();
+
+        if(resultSet.next()){
+            boolean existe =resultSet.getInt(1) > 0;
+            resultSet.close();
+            ps.close();
+            return existe;
+
+        }
+
+    }
+
+    catch(Exception e){
+
+        System.out.println(e.getMessage());
+    }
+    return false;
+
+}
+    public static void linha(){
+        System.out.println("========================================================================================================================================================================================");
     }
 }
