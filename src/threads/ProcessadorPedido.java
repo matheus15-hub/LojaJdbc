@@ -8,21 +8,15 @@ public class ProcessadorPedido extends Thread {
 
     @Override
     public void run() {
-        System.out.println("[THREAD] Monitor de pedidos iniciado em segundo plano.");
-
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                Thread.sleep(3000); 
-
+                Thread.sleep(5000);
                 try (Connection conn = conexao.Conexao.criarNovaConexao()) {
-                    if (conn == null || conn.isClosed()) {
-                        continue;
-                    }
+                    if (conn == null || conn.isClosed()) continue;
 
                     int idPedido = -1;
-                    String buscarPedido = "SELECT id_pedido FROM pedido WHERE status_pedido = 'FILA' LIMIT 1";
-                    
-                    try (PreparedStatement psBuscar = conn.prepareStatement(buscarPedido);
+                    String buscar = "select id_pedido from pedido where status_pedido = 'FILA' limit 1";
+                    try (PreparedStatement psBuscar = conn.prepareStatement(buscar);
                          ResultSet rs = psBuscar.executeQuery()) {
                         if (rs.next()) {
                             idPedido = rs.getInt("id_pedido");
@@ -30,30 +24,28 @@ public class ProcessadorPedido extends Thread {
                     }
 
                     if (idPedido != -1) {
-                        String atualizar = "UPDATE pedido SET status_pedido = 'PROCESSANDO' WHERE id_pedido = ?";
-                        try (PreparedStatement psUpdate = conn.prepareStatement(atualizar)) {
-                            psUpdate.setInt(1, idPedido);
-                            psUpdate.executeUpdate();
+                        String processando = "update pedido set status_pedido = 'PROCESSANDO' where id_pedido = ? and status_pedido = 'FILA'";
+                        try (PreparedStatement psProc = conn.prepareStatement(processando)) {
+                            psProc.setInt(1, idPedido);
+                            int atualizados = psProc.executeUpdate();
+                            if (atualizados == 0) continue;
                         }
 
-                        System.out.println("\n[THREAD] Pedido #" + idPedido + " capturado e alterado para PROCESSANDO...");
-
+                        System.out.println("\n[thread] processando o pedido #" + idPedido);
                         Thread.sleep(5000);
 
-                        String finalizar = "UPDATE pedido SET status_pedido = 'FINALIZADO' WHERE id_pedido = ?";
-                        try (PreparedStatement psFinalizar = conn.prepareStatement(finalizar)) {
-                            psFinalizar.setInt(1, idPedido);
-                            psFinalizar.executeUpdate();
+                        String finalizar = "update pedido set status_pedido = 'FINALIZADO' where id_pedido = ?";
+                        try (PreparedStatement psFin = conn.prepareStatement(finalizar)) {
+                            psFin.setInt(1, idPedido);
+                            psFin.executeUpdate();
                         }
-
-                        System.out.println("\n[THREAD] Sucesso! Pedido #" + idPedido + " foi FINALIZADO.");
+                        System.out.println("\n[thread] pedido #" + idPedido + " finalizado com sucesso!");
                     }
                 }
             } catch (InterruptedException e) {
-                System.out.println("[THREAD] Processador parado.");
                 break;
             } catch (Exception e) {
-                System.out.println("[THREAD] Aguardando conexão estável... " + e.getMessage());
+                
             }
         }
     }

@@ -1,4 +1,3 @@
-
 import menu.Menuadd;
 import menu.MenuAlterar.AlterarProduto;
 import menu.Menuprint;
@@ -217,48 +216,28 @@ public class Main {
 
             }  else if (escolha == 5) {
 
-                linha();
-                System.out.println("||\t\t\t\t\tCONSULTAS E RELATÓRIOS\t\t\t\t\t||");
-                linha();
-                System.out.println("||1) LISTAR CLIENTES\t2) LISTAR PEDIDOS\t3) LISTAR PRODUTOS\t4) LISTAR VENDEDORES\t||");
-                System.out.println("||5) RELATÓRIO: FATURAMENTO POR VENDEDOR\t6) RELATÓRIO: PRODUTOS MAIS VENDIDOS\t7) VOLTAR\t||");
-                linha();
-                System.out.print("||ESCOLHA : ");
-                int consulta = sca.nextInt();
-                linha();
+                System.out.println("\n=========================================================================================");
+                System.out.println("||                           INICIANDO DASHBOARD GERAL DA LOJA                         ||");
+                System.out.println("=========================================================================================");
 
-                switch (consulta) {
-                    case 1:
-                        new menu.Menuprint().printCliente();
-                        break;
+                menu.Menuprint menuPrint = new menu.Menuprint();
 
-                    case 2:
-                        new menu.Menuprint().printPedido();
-                        break;
+                System.out.println("\n--> [LISTAGEM] CLIENTES CADASTRADOS:");
+                menuPrint.printCliente();
 
-                    case 3:
-                        new menu.Menuprint().metodoBusca();
-                        break;
+                System.out.println("\n--> [LISTAGEM] EQUIPE DE VENDEDORES:");
+                menuPrint.printVendedor();
 
-                    case 4:
-                        new menu.Menuprint().printVendedor();
-                        break;
+                System.out.println("\n--> [LISTAGEM] HISTÓRICO DE PEDIDOS:");
+                menuPrint.printPedido();
 
-                    case 5:
-                        DAO.PedidoDAO.relatorioVendasPorVendedor();
-                        break;
-
-                    case 6:
-                        DAO.PedidoDAO.relatorioProdutosMaisVendidos();
-                        break;
-
-                    case 7:
-                        System.out.println("VOLTANDO...");
-                        break;
-
-                    default:
-                        System.out.println("OPÇÃO INVÁLIDA!");
-                }
+                System.out.println("\n--> [MÉTRICAS] RELATÓRIOS ANALÍTICOS DE VENDA:");
+                DAO.PedidoDAO.relatorioVendasPorVendedor();
+                DAO.PedidoDAO.relatorioProdutosMaisVendidos(); 
+                
+                System.out.println("\n=========================================================================================");
+                System.out.println("||                           FIM DO DASHBOARD GERAL                                    ||");
+                System.out.println("=========================================================================================");
 
             } else if (escolha == 6) {
 
@@ -274,7 +253,8 @@ public class Main {
 
         }
 
-        sca.close();
+    sca.close();
+
     }
 
     public static void linha() {
