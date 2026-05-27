@@ -63,21 +63,13 @@ public class Menuadd {
 
         System.out.print("CPF (com formatação exemplo: 111.222.333-44): ");
         String cpf = cin.nextLine();
-        cpf = new Clienteser().verificarCPF(cpf);
+        cpf = new Clienteser().verificarCPF_clientes(cpf);
 
         System.out.print("Email: ");
         String email_clientes = cin.nextLine();
-        email_clientes = new Clienteser().vereficaremail_clientes(email_clientes);
+        email_clientes = new Clienteser().vereficarEmail_clientes(email_clientes);
 
-        System.out.print("Endereço: ");
-        String bairroClientes = cin.nextLine();
-        bairroClientes = new Clienteser().verefiarbairroClientes(bairroClientes);
-
-        System.out.print("Endereço: ");
-        String rua_clientes = cin.nextLine();
-        rua_clientes = new Clienteser().vereficarRua_clientes(rua_clientes);
-
-        Clientes c = new Clientes(0, nome, cpf, email_clientes, bairroClientes, rua_clientes);
+        Clientes c = new Clientes(0, nome, cpf, email_clientes);
         c.setEmail(email_clientes);
 
         new Clienteser().adicionarCli(c);
@@ -125,7 +117,7 @@ public class Menuadd {
         }
 
         int idCli = cin.nextInt();
-        idCli = new Clienteser().vereficarId(idCli);
+        idCli = new Clienteser().vereficarId_clientes(idCli);
 
         // 2. Seleção de Vendedor
         System.out.println("\n--- LISTA DE VENDEDORES ---");

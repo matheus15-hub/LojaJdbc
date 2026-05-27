@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class AlterarProduto {
     Scanner sca = new Scanner(System.in);
-    int id;
+    int id_produto;
     String certezadoProduto;
 
     //Produto.
@@ -25,9 +25,9 @@ public class AlterarProduto {
                 sca.nextLine();
                 System.out.print("ID:");
             }
-            id = sca.nextInt();
-            id = new Produtoser().verificarId(id);
-            new Produtoser().mostrarId(id);
+            id_produto = sca.nextInt();
+            id_produto = new Produtoser().verificarId(id_produto);
+            new Produtoser().mostrarId(id_produto);
             System.out.println("Esse é o produto que deseja alterar? SIM = s , Não = n");
             System.out.print("Resposta: ");
             sca.nextLine();
@@ -37,9 +37,9 @@ public class AlterarProduto {
             }
         }
         System.out.print("Novo Nome: ");
-        String nome = sca.nextLine();
-        nome = new Produtoser().verificarNome(nome);
-        new Produtoser().alterarNome(id, nome);
+        String nome_produto = sca.nextLine();
+        nome_produto = new Produtoser().verificarNome(nome_produto);
+        new Produtoser().alterarNome(id_produto, nome_produto);
     }
 
     public void precoProduto(){
@@ -55,9 +55,9 @@ public class AlterarProduto {
                 sca.nextLine();
                 System.out.print("ID:");
             }
-            id = sca.nextInt();
-            id = new Produtoser().verificarId(id);
-            new Produtoser().mostrarId(id);
+            id_produto = sca.nextInt();
+            id_produto = new Produtoser().verificarId(id_produto);
+            new Produtoser().mostrarId(id_produto);
             System.out.println("Esse é o produto que deseja alterar? SIM = s , Não = n");
             System.out.print("Resposta: ");
             sca.nextLine();
@@ -68,7 +68,7 @@ public class AlterarProduto {
         }
         System.out.println("\tNovo Preco");
         BigDecimal b = new Produtoser().verificarValor();
-        new Produtoser().alterarPreco(id , b);
+        new Produtoser().alterarPreco(id_produto , b);
     }
 
 
