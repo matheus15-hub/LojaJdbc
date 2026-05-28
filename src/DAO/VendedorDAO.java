@@ -77,7 +77,6 @@ public class VendedorDAO {
                 java.math.BigDecimal salario = rs.getBigDecimal("salario");
 
                 Vendedor v = new Vendedor();
-                // CORREÇÃO: Usando os nomes exatos dos métodos da sua classe entidade
                 v.setIdVendedor(id);
                 v.setNomeVendedor(nome);
                 v.setTelefoneVendedor(telefone);

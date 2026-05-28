@@ -27,7 +27,6 @@ public class VendedorServico {
         }
     }
 
-    // Mantido por compatibilidade no seu sistema, mas ignorado no fluxo atual
     public double verificarComissao(double comissao){
         while(true){
             if(comissao < 0 || comissao > 100){
