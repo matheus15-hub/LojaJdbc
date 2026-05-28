@@ -10,7 +10,7 @@ import entidades.Endereco;
 
 public class ClientesDAO {
 
-    public  int addCliente(Clientes clientes) {
+    public int addCliente(Clientes clientes) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rsCliente = null;

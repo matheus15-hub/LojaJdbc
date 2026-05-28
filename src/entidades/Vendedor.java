@@ -14,13 +14,13 @@ public class Vendedor {
     public Vendedor() {
     }
 
-    public Vendedor( int id_vendedor, 
+    public Vendedor(
                      String nome_vendedor,
                      String telefone_vendedor,
                      String email_vendedor,
                      BigDecimal salario) {
 
-        this.id_vendedor = id_vendedor;
+
         this.nome_vendedor = nome_vendedor.toUpperCase();
         this.telefone_vendedor = telefone_vendedor.toUpperCase();
         this.email_vendedor = email_vendedor.toUpperCase();

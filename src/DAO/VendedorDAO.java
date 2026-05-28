@@ -13,17 +13,17 @@ public class VendedorDAO {
     PreparedStatement stmt;
     ResultSet rs;
 
-    public boolean addVendedor(String nome, String telefone, String email, double salario) {
+    public boolean addVendedor(Vendedor vendedor) {
         String sql = "insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, salario) values (?, ?, ?, ?)";
 
         try {
             conn = Conexao.getConexao();
             stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, nome);
-            stmt.setString(2, telefone);
-            stmt.setString(3, email);
-            stmt.setDouble(4, salario);
+            stmt.setString(1, vendedor.getNomeVendedor());
+            stmt.setString(2, vendedor.getTelefoneVendedor());
+            stmt.setString(3, vendedor.getEmailVendedor());
+            stmt.setBigDecimal(4, vendedor.getSalario());
 
             stmt.executeUpdate();
             

@@ -3,10 +3,7 @@ package menu;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-import entidades.Endereco;
-import entidades.ItemPedido;
-import entidades.Produto;
-import entidades.Clientes;
+import entidades.*;
 import servicos.*;
 import DAO.ProdutoDAO;
 import DAO.ClientesDAO;
@@ -115,17 +112,10 @@ public class Menuadd {
             sca.next();
             System.out.print("Salário: ");
         }
-        double salario = sca.nextDouble();
+        BigDecimal salario = sca.nextBigDecimal();
         sca.nextLine();
-
-        boolean sucesso = new VendedorServico().adicionarNovo(nome, tel, email, salario);
-
-        if (sucesso) {
-            System.out.println("Vendedor cadastrado com sucesso!");
-        } else {
-            System.out.println("Falha ao cadastrar o vendedor. Verifique os dados.");
-        }
-    }
+        Vendedor vendedor = new Vendedor(nome, tel ,email , salario);
+     }
 
 //===============================================================PEDIDO
     public void novoPedido() {
