@@ -2,22 +2,23 @@ package menu;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
+
+import entidades.Endereco;
 import entidades.ItemPedido;
 import entidades.Produto;
 import entidades.Clientes;
-import entidades.Vendedor;
 import servicos.*;
 import DAO.ProdutoDAO;
 import DAO.ClientesDAO;
 import DAO.VendedorDAO;
 
 public class Menuadd {
-    Scanner cin = new Scanner(System.in);
+    Scanner sca = new Scanner(System.in);
 
 //===============================================================PRODUTO
     public void Produtoadd() {
         System.out.print("Nome do Produto: ");
-        String nome = cin.nextLine();
+        String nome = sca.nextLine();
         nome = new Produtoser().verificarNome(nome);
 
         BigDecimal preco = new Produtoser().verificarValor();
@@ -27,24 +28,24 @@ public class Menuadd {
         Classeser.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar in seu produto:");
         System.out.print("Categoria: ");
-        while (!cin.hasNextInt()){
+        while (!sca.hasNextInt()){
             System.out.println("Código inválido! Digite apenas números inteiros correspondentes às categorias cadastradas.");
-            cin.nextLine();
+            sca.nextLine();
             System.out.print("Digite um Codigo Cadastrado: ");
         }
-        int categoria = cin.nextInt();
+        int categoria = sca.nextInt();
         categoria = new Classeser().vereficarid(categoria);
 
-        cin.nextLine();
+        sca.nextLine();
         Medidaser.mostrar();
         System.out.println("Escolha uma medida de venda cadastrada para colocar in seu produto:");
         System.out.print("Escolha: ");
-        while (!cin.hasNextInt()){
+        while (!sca.hasNextInt()){
             System.out.println("Código inválido! Digite apenas números inteiros correspondentes às unidades de medidas cadastradas.");
-            cin.nextLine();
+            sca.nextLine();
             System.out.print("Digite um Codigo Cadastrado: ");
         }
-        int medida = cin.nextInt();
+        int medida = sca.nextInt();
         medida = new Medidaser().vereficadorId(medida);
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
@@ -58,66 +59,64 @@ public class Menuadd {
         Clienteser clienteServico = new Clienteser();
 
         System.out.print("Nome do Cliente: ");
-        String nome = cin.nextLine();
+        String nome = sca.nextLine();
         nome = clienteServico.verificarNome(nome);
 
         System.out.print("CPF (com formatação exemplo: 111.222.333-44): ");
-        String cpf = cin.nextLine();
+        String cpf = sca.nextLine();
         cpf = clienteServico.verificarCPF_clientes(cpf);
 
         System.out.print("Email: ");
-        String email_clientes = cin.nextLine();
+        String email_clientes = sca.nextLine();
         email_clientes = clienteServico.vereficarEmail_clientes(email_clientes);
 
-        System.out.print("Bairro: ");
-        String bairro = cin.nextLine();
-        while (bairro.trim().isEmpty()) {
-            System.out.print("O bairro não pode ser vazio! Bairro: ");
-            bairro = cin.nextLine();
-        }
+        Clientes c = new Clientes( nome, cpf, email_clientes);
 
+        System.out.println("==============ENDEREÇO================");
         System.out.print("Rua: ");
-        String rua = cin.nextLine();
-        while (rua.trim().isEmpty()) {
-            System.out.print("A rua não pode ser vazia! Rua: ");
-            rua = cin.nextLine();
-        }
+        String rua = sca.nextLine();
+        rua = new EnderecoSer().vereficarRua(rua);
+        System.out.print("Numero: ");
+        String numero = sca.nextLine();
+        numero = new EnderecoSer().vereficarNumero(numero);
+        System.out.print("Bairro: ");
+        String bairro = sca.nextLine();
+        bairro = new EnderecoSer().vereficarBairro(bairro);
+        System.out.print("Cidade: ");
+        String cidade = sca.nextLine();
+        cidade = new EnderecoSer().vereficarCidade(cidade);
+        System.out.print("Cep: ");
+        String cep = sca.nextLine();
+        cep = new EnderecoSer().vereficarCep(cep);
 
-        
-        Clientes c = new Clientes(0, nome, cpf, email_clientes, bairro, rua);
+        Endereco e = new Endereco(rua, numero , bairro, cidade , cep);
 
-        boolean sucesso = clienteServico.adicionarCli(c);
-        
-        if (sucesso) {
-            System.out.println("Cliente cadastrado com sucesso!");
-        } else {
-            System.out.println("Falha ao cadastrar o cliente. Verifique os dados.");
-        };
+        new EnderecoClienteSer().addEnderecoCliente(c , e);
     }
 
 //===============================================================VENDEDOR
     public void Vendedoradd() {
 
         System.out.print("Nome do Vendedor: ");
-        String nome = cin.nextLine();
+        String nome = sca.nextLine();
         nome = new VendedorServico().verificarNome(nome);
 
         System.out.print("Telefone: ");
-        String tel = cin.nextLine();
+        String tel = sca.nextLine();
         tel = new VendedorServico().verificarTelefone(tel);
 
         System.out.print("Email: ");
-        String email = cin.nextLine();
+        String email = sca.nextLine();
         email = new VendedorServico().verificarEmail(email);
 
         System.out.print("Salário: ");
-        while (!cin.hasNextDouble()) {
+        while (!sca.hasNextDouble()) {
             System.out.println("Digite um número válido para o salário!");
-            cin.next();
+            sca.next();
             System.out.print("Salário: ");
         }
-        double salario = cin.nextDouble();
-        cin.nextLine();
+        double salario = sca.nextDouble();
+        sca.nextLine();
 
         boolean sucesso = new VendedorServico().adicionarNovo(nome, tel, email, salario);
 
@@ -137,12 +136,12 @@ public class Menuadd {
         new ClientesDAO().mostrarClient();
         System.out.print("\nDigite o ID do cliente escolhido: ");
 
-        while (!cin.hasNextInt()) {
+        while (!sca.hasNextInt()) {
             System.out.println("Digite apenas números!");
-            cin.nextLine();
+            sca.nextLine();
             System.out.print("Digite o ID do cliente escolhido: ");
         }
-        int idCli = cin.nextInt();
+        int idCli = sca.nextInt();
         idCli = new Clienteser().vereficarId_clientes(idCli);
         pedidoServico.addClientePedido(idCli);
 
@@ -151,12 +150,12 @@ public class Menuadd {
         new VendedorDAO().mostrarVendedor();
         System.out.print("Digite o ID do Vendedor escolhido: ");
 
-        while (!cin.hasNextInt()) {
+        while (!sca.hasNextInt()) {
             System.out.println("Digite apenas números!");
-            cin.nextLine();
+            sca.nextLine();
             System.out.print("Digite o ID do Vendedor escolhido: ");
         }
-        int idVend = cin.nextInt();
+        int idVend = sca.nextInt();
         idVend = new VendedorServico().vereficarId(idVend);
         pedidoServico.addVendedorPedido(idVend);
 
@@ -167,20 +166,20 @@ public class Menuadd {
             new ProdutoDAO().mostrarProduts();
 
             System.out.print("\nDigite o ID do Produto: ");
-            while (!cin.hasNextInt()) {
+            while (!sca.hasNextInt()) {
                 System.out.println("Digite apenas números!");
-                cin.nextLine();
+                sca.nextLine();
                 System.out.print("Digite o ID do Produto: ");
             }
-            int idProd = cin.nextInt();
+            int idProd = sca.nextInt();
 
             System.out.print("Quantidade: ");
-            while (!cin.hasNextInt()) {
+            while (!sca.hasNextInt()) {
                 System.out.println("Digite apenas números!");
-                cin.nextLine();
+                sca.nextLine();
                 System.out.print("Quantidade: ");
             }
-            int qtd = cin.nextInt();
+            int qtd = sca.nextInt();
 
             if (qtd <= 0) {
                 System.out.println("Quantidade inválida!");
@@ -200,12 +199,12 @@ public class Menuadd {
             }
 
             System.out.print("\nDeseja adicionar outro produto? (s/n): ");
-            continuar = cin.next();
+            continuar = sca.next();
         }
 
-        cin.nextLine();
+        sca.nextLine();
         System.out.print("Digite uma observação para o pedido (ou dê Enter para vazio): ");
-        String observacao = cin.nextLine();
+        String observacao = sca.nextLine();
         pedidoServico.definirObservacao(observacao);
 
         System.out.println("\n--- RESUMO DO PEDIDO ---");
@@ -216,13 +215,13 @@ public class Menuadd {
         System.out.println("3 - Cancelar operação");
         System.out.print("Opção: ");
 
-        while (!cin.hasNextInt()) {
+        while (!sca.hasNextInt()) {
             System.out.println("Digite apenas o número da opção!");
-            cin.nextLine();
+            sca.nextLine();
             System.out.print("Opção: ");
         }
-        int opcao = cin.nextInt();
-        cin.nextLine(); 
+        int opcao = sca.nextInt();
+        sca.nextLine();
 
         pedidoServico.finalizarFluxo(opcao);
     }

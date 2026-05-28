@@ -6,72 +6,53 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import conexao.Conexao;
 import entidades.Clientes;
+import entidades.Endereco;
 
 public class ClientesDAO {
 
-    public static boolean addCliente(Clientes clientes) {
+    public  int addCliente(Clientes clientes) {
         Connection conn = null;
-        PreparedStatement psEnd = null;
-        PreparedStatement psCli = null;
-        PreparedStatement psAssoc = null;
-        ResultSet rsEnd = null;
-        ResultSet rsCli = null;
+        PreparedStatement stmt = null;
+        ResultSet rsCliente = null;
 
-        String sqlEndereco = "INSERT INTO endereco (rua, numero, bairro, cidade, cep) VALUES (?, 'S/N', ?, 'Não Informado', '00000-000')";
         String sqlCliente = "INSERT INTO clientes (nome_clientes, cpf_clientes, email_clientes) VALUES (?, ?, ?)";
-        String sqlAssociativa = "INSERT INTO cliente_endereco (id_clientes, id_endereco) VALUES (?, ?)";
-
         try {
             conn = Conexao.getConexao();
             conn.setAutoCommit(false);
+            stmt = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, clientes.getNome_clientes());
+            stmt.setString(2, clientes.getCpf());
+            stmt.setString(3, clientes.getemail_clientes());
+            stmt.executeUpdate();
 
-            psEnd = conn.prepareStatement(sqlEndereco, Statement.RETURN_GENERATED_KEYS);
-            psEnd.setString(1, clientes.getRua_clientes());
-            psEnd.setString(2, clientes.getBairroClientes());
-            psEnd.executeUpdate();
-
-            rsEnd = psEnd.getGeneratedKeys();
-            int idEndereco = 0;
-            if (rsEnd.next()) {
-                idEndereco = rsEnd.getInt(1);
-            }
-
-            psCli = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS);
-            psCli.setString(1, clientes.getNome_clientes());
-            psCli.setString(2, clientes.getCpf());
-            psCli.setString(3, clientes.getemail_clientes());
-            psCli.executeUpdate();
-
-            rsCli = psCli.getGeneratedKeys();
+            rsCliente = stmt.getGeneratedKeys();
             int idCliente = 0;
-            if (rsCli.next()) {
-                idCliente = rsCli.getInt(1);
+            if (rsCliente.next()) {
+                 idCliente = rsCliente.getInt(1);
             }
-
-            psAssoc = conn.prepareStatement(sqlAssociativa);
-            psAssoc.setInt(1, idCliente);
-            psAssoc.setInt(2, idEndereco);
-            psAssoc.executeUpdate();
-
             conn.commit(); // Salva tudo de uma vez no banco
-            return true;
+            return idCliente ;
 
         } catch (Exception e) {
             if (conn != null) {
                 try { conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
             }
             e.printStackTrace();
-            return false;
+            return -1;
         } finally {
+
             try {
-                if (rsEnd != null) rsEnd.close();
-                if (rsCli != null) rsCli.close();
-                if (psEnd != null) psEnd.close();
-                if (psCli != null) psCli.close();
-                if (psAssoc != null) psAssoc.close();
+
+                if (rsCliente != null) rsCliente.close();
+
+                if (stmt != null) stmt.close();
+
                 if (conn != null) conn.close();
+
             } catch (Exception e) {
+
                 e.printStackTrace();
+
             }
         }
     }

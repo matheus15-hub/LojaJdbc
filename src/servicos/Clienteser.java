@@ -5,15 +5,13 @@ import java.util.Scanner;
 
 import DAO.ClientesDAO;
 import entidades.Clientes;
+import entidades.Endereco;
 import menu.Menuprint;
 
 public class Clienteser {
 
     private Scanner sca = new Scanner(System.in);
 
-    public boolean adicionarCli(Clientes c) {
-        return ClientesDAO.addCliente(c);
-    }
 
     public void removerCli(int id) {
         ClientesDAO.removerCliente(id);
