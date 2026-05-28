@@ -53,15 +53,15 @@ public class Clienteser {
         while (true) {
             if (cpf == null || cpf.trim().isEmpty()) {
                 System.out.println("O CPF não pode ser vazio!");
-                System.out.print("CPF (Ex: 000.000.000-00): ");
+                System.out.print("CPF (Ex: 11199955578): ");
                 cpf = sca.nextLine();
                 continue;
             }
 
             cpf = cpf.trim();
 
-            if (cpf.length() != 14) {
-                System.out.println("CPF inválido! O formato deve conter 14 caracteres (incluindo pontos e hífen).");
+            if (cpf.length() != 11) {
+                System.out.println("CPF inválido! O formato deve conter 11 caracteres.");
                 System.out.print("CPF: ");
                 cpf = sca.nextLine();
             } else {
