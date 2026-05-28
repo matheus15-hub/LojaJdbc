@@ -16,7 +16,7 @@ public class VendedorDAO {
 
     public void addVendedor(Vendedor vendedor) {
 
-    String sql ="insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, comissao) values (?, ?, ?, ?)";
+    String sql ="insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, salario) values (?, ?, ?, ?)";
 
         try {
             conn = Conexao.getConexao();
@@ -25,10 +25,11 @@ public class VendedorDAO {
             stmt.setString(1, vendedor.getNomeVendedor());
             stmt.setString(2, vendedor.getTelefoneVendedor());
             stmt.setString(3, vendedor.getEmailVendedor());
-            stmt.setDouble(4, 0);
+            stmt.setBigDecimal(4, vendedor.getSalario());
+            
 
             // vendedor vai iniciar zerado
-            stmt.setDouble(4, 0);
+            stmt.setDouble(5, 0);
             stmt.executeUpdate();
 
             System.out.println("Vendedor adicionado com sucesso!");
@@ -148,7 +149,7 @@ public void addComissao(int idVendedor,
         }
     }
     public Vendedor buscarPorId(int idBusca){
-        String sql ="SELECT * FROM vendedor WHERE id_vendedor=?";
+        String sql = "SELECT * FROM vendedor WHERE id_vendedor=?";
     try{
 
         conn =Conexao.getConexao();
@@ -156,20 +157,18 @@ public void addComissao(int idVendedor,
         stmt.setInt(1,idBusca);
         rs =stmt.executeQuery();
         if(rs.next()){
+                int id = rs.getInt("id_vendedor");
+                String nome = rs.getString("nome_vendedor");
+                String telefone = rs.getString("telefone_vendedor");
+                String email = rs.getString("email_vendedor");
+                double salario = rs.getDouble("salario");
+                float comissao = rs.getFloat("comissao");
 
-            Vendedor v =new Vendedor();
-            v.setIdVendedor(rs.getInt("id_vendedor"));
-            v.setNomeVendedor(rs.getString("nome_vendedor"));
-            v.setTelefoneVendedor(rs.getString("telefone_vendedor"));
-            v.setEmailVendedor(rs.getString("email_vendedor"));
-            v.setComissao(rs.getDouble("comissao"));
-
+}   
             rs.close();
             stmt.close();
             conn.close();
-
-            return v;
-        }
+        
     }
     catch(Exception e){
         System.out.println(e.getMessage());

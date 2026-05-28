@@ -75,31 +75,48 @@ public class Menuadd {
 
 //===============================================================VENDEDOR
     public void Vendedoradd() {
-        System.out.print("Nome do Vendedor: ");
-        String nome = cin.nextLine();
 
-        System.out.print("Telefone: ");
-        String tel = cin.nextLine();
-        tel = new VendedorServico().verificarTelefone(tel);
+    System.out.print("Nome do Vendedor: ");
+    String nome = cin.nextLine();
 
-        System.out.print("Email: ");
-        String email = cin.nextLine();
-        email = new VendedorServico().verificarEmail(email);
+    System.out.print("Telefone: ");
+    String tel = cin.nextLine();
 
-        System.out.print("Comissão: ");
-        while (!cin.hasNextDouble()) {
-            System.out.println("Digite um número válido!");
-            cin.next();
-        }
-        double comissao = cin.nextDouble();
-        cin.nextLine(); // Limpar o buffer
-        comissao = new VendedorServico().verificarComissao(comissao);
+    System.out.print("Email: ");
+    String email = cin.nextLine();
 
-        Vendedor v = new Vendedor(0, nome, tel, email);
-        v.setComissao(comissao);
-        new VendedorServico().adicionar(v);
-        System.out.println("Vendedor cadastrado com sucesso!");
+    email = new VendedorServico()
+            .verificarEmail(email);
+
+    System.out.print("Comissão: ");
+
+    while (!cin.hasNextDouble()) {
+
+        System.out.println(
+            "Digite um número válido!"
+        );
+
+        cin.next();
     }
+
+    double comissao = cin.nextDouble();
+
+    cin.nextLine();
+
+    comissao = new VendedorServico()
+            .verificarComissao(comissao);
+
+    //Vendedor v =
+        //new Vendedor(0, nome, tel, email);
+
+    //v.setComissao(comissao);
+
+    //new VendedorServico().adicionar(v);
+
+    System.out.println(
+        "Vendedor cadastrado com sucesso!"
+    );
+}
 
 //===============================================================PEDIDO
     public void novoPedido() {

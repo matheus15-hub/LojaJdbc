@@ -1,11 +1,14 @@
 package entidades;
 
+import java.math.BigDecimal;
+
 public class Vendedor {
 
     private int id_vendedor;
     private String nome_vendedor;
     private String telefone_vendedor;
     private String email_vendedor;
+    private BigDecimal salario;
     private double comissao;
 
     public Vendedor() {
@@ -14,14 +17,14 @@ public class Vendedor {
     public Vendedor( int id_vendedor, 
                      String nome_vendedor,
                      String telefone_vendedor,
-                     String email_vendedor) {
+                     String email_vendedor,
+                     BigDecimal salario) {
 
         this.id_vendedor = id_vendedor;
         this.nome_vendedor = nome_vendedor.toUpperCase();
         this.telefone_vendedor = telefone_vendedor.toUpperCase();
         this.email_vendedor = email_vendedor.toUpperCase();
-
-        this.comissao = 0;
+        this.salario = salario;
     }
 
     public int getIdVendedor() {
@@ -56,11 +59,10 @@ public class Vendedor {
         this.email_vendedor = email_vendedor.toUpperCase();
     }
 
-    public double getComissao() {
-        return comissao;
+    public BigDecimal getSalario() {
+        return salario;
     }
-
-    public void setComissao(double comissao) {
-        this.comissao = comissao;
+    public void setSalario(BigDecimal salario) {
+        this.salario = salario;
     }
 }
