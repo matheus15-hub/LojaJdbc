@@ -60,6 +60,7 @@ public class Clienteser {
 
             if (cpf.length() != 11) {
                 System.out.println("CPF inválido! O formato deve conter 11 caracteres.");
+                System.out.print("CPF (Ex: 11199955578): ");
                 System.out.print("CPF: ");
                 cpf = sca.nextLine();
             } else {
@@ -118,14 +119,8 @@ public class Clienteser {
 
     public void alterarNome(int id, String nome) {
         nome = nome.toUpperCase();
-        // RESOLVIDO: Mudado de alterarnome para AlterarNomeClien conforme a sua DAO
-        // manda
         new ClientesDAO().AlterarNomeClien(id, nome);
         System.out.println("Nome alteredo no banco com sucesso!");
-    }
-
-    public void alterarPreco(int id, BigDecimal f) {
-        // new ClientesDAO().alterarLimite(id, f);
     }
 
     public void alterarCPF(int id, String cpf) {

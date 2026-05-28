@@ -1,4 +1,5 @@
 import menu.Menuadd;
+import menu.MenuAlterar.AlterarCliente;
 import menu.MenuAlterar.AlterarProduto;
 import menu.Menuprint;
 import menu.Menuremov;
@@ -45,7 +46,7 @@ public class Main {
                 linha();
                 System.out.println("||\t\t\t\t\tCLIENTES\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
+                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)ALTERAR\t\t5)Voltar||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int cliente = sca.nextInt();
@@ -89,8 +90,33 @@ public class Main {
                         break;
 
                     case 4:
+                        linha();
+                        System.out.println("||\t\t\t\t\tAlterando\t\t\t\t\t||");
+                        linha();
+                        System.out.println("||1)Nome\t\t2)CPF\t\t3)Email\t||");
+                        linha();
+                        System.out.print("||ESCOLHA : ");
+                        int mudar = sca.nextInt();
+                        sca.nextLine();
+                        
+                        switch (mudar){
+                            case 1:
+                                new AlterarCliente().nomeCliente();
+                            break;
+                            case 2:
+                                new AlterarCliente().cpfCliente();
+                            break;
+                            case 3:
+                                new AlterarCliente().emailCliente(); 
+                            break;
+                            default:
+                                System.out.println("Escolha inválida");
+                            break;
+                        }
+                    break;
+                    case 5:
                         System.out.println("VOLTANDO...");
-                        break;
+                    break;
 
                     default:
                         System.out.println("OPÇÃO INVÁLIDA!");
@@ -134,7 +160,7 @@ public class Main {
                 linha();
                 System.out.println("||\t\t\t\t\tPRODUTOS\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)Alterar\t\t5)Voltar||");
+                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)ALTERAR\t\t5)Voltar||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int produto = sca.nextInt();

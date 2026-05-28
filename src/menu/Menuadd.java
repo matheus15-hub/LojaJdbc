@@ -62,7 +62,7 @@ public class Menuadd {
         String nome = sca.nextLine();
         nome = clienteServico.verificarNome(nome);
 
-        System.out.print("CPF (com formatação exemplo: 111.222.333-44): ");
+        System.out.print("CPF (sem formatação exemplo: 11122233344): ");
         String cpf = sca.nextLine();
         cpf = clienteServico.verificarCPF_clientes(cpf);
 
