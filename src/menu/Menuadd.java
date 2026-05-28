@@ -54,69 +54,81 @@ public class Menuadd {
 
 //===============================================================CLIENTE
     public void Clienteadd() {
+
+        Clienteser clienteServico = new Clienteser();
+
         System.out.print("Nome do Cliente: ");
         String nome = cin.nextLine();
-        nome = new Clienteser().verificarNome(nome);
+        nome = clienteServico.verificarNome(nome);
 
         System.out.print("CPF (com formatação exemplo: 111.222.333-44): ");
         String cpf = cin.nextLine();
-        cpf = new Clienteser().verificarCPF_clientes(cpf);
+        cpf = clienteServico.verificarCPF_clientes(cpf);
 
         System.out.print("Email: ");
         String email_clientes = cin.nextLine();
-        email_clientes = new Clienteser().vereficarEmail_clientes(email_clientes);
+        email_clientes = clienteServico.vereficarEmail_clientes(email_clientes);
 
-        Clientes c = new Clientes(0, nome, cpf, email_clientes);
-        c.setEmail(email_clientes);
+        System.out.print("Bairro: ");
+        String bairro = cin.nextLine();
+        while (bairro.trim().isEmpty()) {
+            System.out.print("O bairro não pode ser vazio! Bairro: ");
+            bairro = cin.nextLine();
+        }
 
-        new Clienteser().adicionarCli(c);
-        System.out.println("Cliente cadastrado com sucesso!");
+        System.out.print("Rua: ");
+        String rua = cin.nextLine();
+        while (rua.trim().isEmpty()) {
+            System.out.print("A rua não pode ser vazia! Rua: ");
+            rua = cin.nextLine();
+        }
+
+        
+        Clientes c = new Clientes(0, nome, cpf, email_clientes, bairro, rua);
+
+        boolean sucesso = clienteServico.adicionarCli(c);
+        
+        if (sucesso) {
+            System.out.println("Cliente cadastrado com sucesso!");
+        } else {
+            System.out.println("Falha ao cadastrar o cliente. Verifique os dados.");
+        };
     }
 
 //===============================================================VENDEDOR
     public void Vendedoradd() {
 
-    System.out.print("Nome do Vendedor: ");
-    String nome = cin.nextLine();
+        System.out.print("Nome do Vendedor: ");
+        String nome = cin.nextLine();
 
-    System.out.print("Telefone: ");
-    String tel = cin.nextLine();
+        System.out.print("Telefone: ");
+        String tel = cin.nextLine();
 
-    System.out.print("Email: ");
-    String email = cin.nextLine();
+        System.out.print("Email: ");
+        String email = cin.nextLine();
 
-    email = new VendedorServico()
-            .verificarEmail(email);
+        email = new VendedorServico().verificarEmail(email);
 
-    System.out.print("Comissão: ");
+        System.out.print("Comissão: ");
 
-    while (!cin.hasNextDouble()) {
+        while (!cin.hasNextDouble()) {
+            System.out.println("Digite um número válido!");
+            cin.next();
+        }
 
-        System.out.println(
-            "Digite um número válido!"
-        );
+        double comissao = cin.nextDouble();
+        cin.nextLine();
 
-        cin.next();
+        comissao = new VendedorServico().verificarComissao(comissao);
+
+
+        //Vendedor v = new Vendedor(0, nome, tel, email);
+        //v.setComissao(comissao);
+
+        //new VendedorServico().adicionar(v);
+
+        System.out.println("Vendedor cadastrado com sucesso!");
     }
-
-    double comissao = cin.nextDouble();
-
-    cin.nextLine();
-
-    comissao = new VendedorServico()
-            .verificarComissao(comissao);
-
-    //Vendedor v =
-        //new Vendedor(0, nome, tel, email);
-
-    //v.setComissao(comissao);
-
-    //new VendedorServico().adicionar(v);
-
-    System.out.println(
-        "Vendedor cadastrado com sucesso!"
-    );
-}
 
 //===============================================================PEDIDO
     public void novoPedido() {

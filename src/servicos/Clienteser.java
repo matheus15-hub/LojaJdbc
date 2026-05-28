@@ -4,68 +4,64 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 import DAO.ClientesDAO;
-import DAO.ProdutoDAO;
 import entidades.Clientes;
 import menu.Menuprint;
 
 public class Clienteser {
 
-    Scanner sca = new Scanner(System.in);
+    private Scanner sca = new Scanner(System.in);
 
-    public void adicionarCli(Clientes c){
-
-        ClientesDAO.addCliente(c);
-
-        System.out.println("Cliente cadastrado com sucesso!");
+    public boolean adicionarCli(Clientes c) {
+        return ClientesDAO.addCliente(c);
     }
 
-
-    public void removerCli(int c){
-        ClientesDAO.removerCliente(c);
+    public void removerCli(int id) {
+        ClientesDAO.removerCliente(id);
         System.out.println("Cliente removido com sucesso!");
     }
 
-    public void mostrar(){
+    public void mostrar() {
         new ClientesDAO().mostrarClient();
     }
 
-    public void mostrarId(int id){
-        //new ClientesDAO().filtarProdutosId(id);
+    public void mostrarId(int id) {
+        // RESOLVIDO: Agora chama o método real criado na DAO
+        new ClientesDAO().mostrarId(id);
     }
 
-    public void mostrarFiltro(String c){
-        new ClientesDAO().mostrarClientFiltro(c);
+    public void mostrarFiltro(String nome) {
+        new ClientesDAO().mostrarClientFiltro(nome);
     }
 
-    public String verificarNome(String nome_cliente){
-
+    public String verificarNome(String nome_cliente) {
         while (true) {
             if (nome_cliente == null || nome_cliente.trim().isEmpty()) {
-                System.out.println("Nome nao pode ser vazio!");
+                System.out.println("Nome não pode ser vazio!");
                 System.out.print("Nome: ");
                 nome_cliente = sca.nextLine();
-
             } else if (nome_cliente.length() > 100) {
-
-                System.out.println("Nome nao pode ter mais de 100 caracteres!");
+                System.out.println("Nome não pode ter mais de 100 caracteres!");
                 System.out.print("Nome: ");
                 nome_cliente = sca.nextLine();
-
             } else {
-                return nome_cliente;
+                return nome_cliente.trim();
             }
         }
     }
 
-    public String verificarCPF_clientes(String cpf){
-
+    public String verificarCPF_clientes(String cpf) {
         while (true) {
             if (cpf == null || cpf.trim().isEmpty()) {
-                System.out.println("O CPF nao pode ser vazio!");
-                System.out.print("CPF: ");
+                System.out.println("O CPF não pode ser vazio!");
+                System.out.print("CPF (Ex: 000.000.000-00): ");
                 cpf = sca.nextLine();
-            } else if (cpf.length() > 14 || cpf.length() < 14) {
-                System.out.println("CPF nao pode ter mais de 14 caracteres!");
+                continue;
+            }
+
+            cpf = cpf.trim();
+
+            if (cpf.length() != 14) {
+                System.out.println("CPF inválido! O formato deve conter 14 caracteres (incluindo pontos e hífen).");
                 System.out.print("CPF: ");
                 cpf = sca.nextLine();
             } else {
@@ -74,60 +70,75 @@ public class Clienteser {
         }
     }
 
-    public int vereficarId_clientes(int id){
-
-        while (true){
-            if(ClientesDAO.vereficarExistencia(id)){
-                System.out.println("Cliente com o ID " + id + " nao encontrado!");
+    public int vereficarId_clientes(int id) {
+        while (true) {
+            if (!ClientesDAO.vereficarExistencia(id)) {
+                System.out.println("Cliente com o ID " + id + " não encontrado!");
                 new Menuprint().printCliente();
-                System.out.print("\nID: ");
+                System.out.print("\nDigite um ID válido da lista acima: ");
+
                 while (!sca.hasNextInt()) {
                     System.out.println("Digite apenas números!");
                     sca.nextLine();
-                    System.out.print("Digite o ID do cliente escolhido: ");
+                    System.out.print("ID: ");
                 }
                 id = sca.nextInt();
+                sca.nextLine(); // Limpa o buffer do enter
             } else {
                 return id;
             }
         }
     }
 
-    public String vereficarEmail_clientes(String email_clientes){
+    public String vereficarEmail_clientes(String email_clientes) {
         while (true) {
             if (email_clientes == null || email_clientes.trim().isEmpty()) {
-
-                System.out.println("O email nao pode ser vazio!");
+                System.out.println("O e-mail não pode ser vazio!");
                 System.out.print("EMAIL: ");
                 email_clientes = sca.nextLine();
+                continue;
+            }
 
-            } else if (email_clientes.length() > 150) {
+            email_clientes = email_clientes.trim();
 
-                System.out.println("EMAIL nao pode ter mais de 150 caracteres!");
+            if (email_clientes.length() > 150) {
+                System.out.println("EMAIL não pode ter mais de 150 caracteres!");
                 System.out.print("EMAIL: ");
                 email_clientes = sca.nextLine();
+                continue;
+            }
 
+            if (!email_clientes.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                System.out.println("Email inválido! Tente novamente.");
+                System.out.print("EMAIL: ");
+                email_clientes = sca.nextLine();
             } else {
-                while(true){email_clientes = email_clientes.trim();
-                    if(!email_clientes.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
-                        System.out.println("Email inválido");
-                        email_clientes = new Scanner(System.in).nextLine();
-                    }else{
-                        return email_clientes;
-                    }
-                }
+                return email_clientes;
             }
         }
     }
 
-    public void alterarNome(int id, String nome){
+    public void alterarNome(int id, String nome) {
         nome = nome.toUpperCase();
-        //new ClientesDAO().alterarnome(id , nome);
-        //new Clienteser().mostrarId(id);
-        System.out.println("Nome alterado!");
+        // RESOLVIDO: Mudado de alterarnome para AlterarNomeClien conforme a sua DAO
+        // manda
+        new ClientesDAO().AlterarNomeClien(id, nome);
+        System.out.println("Nome alteredo no banco com sucesso!");
     }
-    public void alterarPreco(int id , BigDecimal f){
-        //new ClientesDAO().alterarpreco(id, f);
-        //new Clienteser().mostrarId(id);
+
+    public void alterarPreco(int id, BigDecimal f) {
+        // new ClientesDAO().alterarLimite(id, f);
+    }
+
+    public void alterarCPF(int id, String cpf) {
+        String cpfValidado = verificarCPF_clientes(cpf);
+        new ClientesDAO().AlterarCPFClien(id, cpfValidado);
+        System.out.println("CPF alterado no banco com sucesso!");
+    }
+
+    public void alterarEmail(int id, String email) {
+        String emailValidado = vereficarEmail_clientes(email);
+        new ClientesDAO().AlterarEmailClien(id, emailValidado);
+        System.out.println("E-mail alterado no banco com sucesso!");
     }
 }

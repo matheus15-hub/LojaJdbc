@@ -1,44 +1,85 @@
 package DAO;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
 import conexao.Conexao;
 import entidades.Clientes;
 
 public class ClientesDAO {
 
-    public static boolean addCliente(Clientes clientes){
-        PreparedStatement ps = null;
-        String sql = "INSERT INTO clientes (nome_clientes, CPF, email_clientes, bairroClientes, rua_clientes) VALUES(?,?,?,?,?)";
+    public static boolean addCliente(Clientes clientes) {
+        Connection conn = null;
+        PreparedStatement psEnd = null;
+        PreparedStatement psCli = null;
+        PreparedStatement psAssoc = null;
+        ResultSet rsEnd = null;
+        ResultSet rsCli = null;
+
+        String sqlEndereco = "INSERT INTO endereco (rua, numero, bairro, cidade, cep) VALUES (?, 'S/N', ?, 'Não Informado', '00000-000')";
+        String sqlCliente = "INSERT INTO clientes (nome_clientes, cpf_clientes, email_clientes) VALUES (?, ?, ?)";
+        String sqlAssociativa = "INSERT INTO cliente_endereco (id_clientes, id_endereco) VALUES (?, ?)";
 
         try {
-            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            conn = Conexao.getConexao();
+            conn.setAutoCommit(false);
 
-            ps.setString(1, clientes.getNome_clientes());
-            ps.setString(2,clientes.getCpf()); // antes estava 3, foi alterado para 2(Por que ele poderia colocar o CPF numa coluna que não existe no comando MYSQL.)
-            ps.setString(3, clientes.getemail_clientes());
+            psEnd = conn.prepareStatement(sqlEndereco, Statement.RETURN_GENERATED_KEYS);
+            psEnd.setString(1, clientes.getRua_clientes());
+            psEnd.setString(2, clientes.getBairroClientes());
+            psEnd.executeUpdate();
 
-            ps.execute();
-            ps.close();
+            rsEnd = psEnd.getGeneratedKeys();
+            int idEndereco = 0;
+            if (rsEnd.next()) {
+                idEndereco = rsEnd.getInt(1);
+            }
+
+            psCli = conn.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS);
+            psCli.setString(1, clientes.getNome_clientes());
+            psCli.setString(2, clientes.getCpf());
+            psCli.setString(3, clientes.getemail_clientes());
+            psCli.executeUpdate();
+
+            rsCli = psCli.getGeneratedKeys();
+            int idCliente = 0;
+            if (rsCli.next()) {
+                idCliente = rsCli.getInt(1);
+            }
+
+            psAssoc = conn.prepareStatement(sqlAssociativa);
+            psAssoc.setInt(1, idCliente);
+            psAssoc.setInt(2, idEndereco);
+            psAssoc.executeUpdate();
+
+            conn.commit(); // Salva tudo de uma vez no banco
+            return true;
 
         } catch (Exception e) {
-            e.printStackTrace(); // esse negocio aqui vai dizer mesmo se o banco vai querer o dado mandado.
-        }  
-
-        return true;
+            if (conn != null) {
+                try { conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (rsEnd != null) rsEnd.close();
+                if (rsCli != null) rsCli.close();
+                if (psEnd != null) psEnd.close();
+                if (psCli != null) psCli.close();
+                if (psAssoc != null) psAssoc.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public static void removerCliente(int id_clientes){
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
+    public static void removerCliente(int id_clientes) {
         String sql = "DELETE FROM clientes WHERE id_clientes = ?";
-        try {
-            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id_clientes);
             ps.execute();
         } catch (Exception e) {
@@ -46,113 +87,125 @@ public class ClientesDAO {
         }
     }
 
-
     public void mostrarClient() {
-        String sql = "SELECT * FROM clientes";
+        String sql = "SELECT c.id_clientes, c.nome_clientes, c.cpf_clientes, c.email_clientes, e.bairro, e.rua " +
+                     "FROM clientes c " +
+                     "LEFT JOIN cliente_endereco ce ON c.id_clientes = ce.id_clientes " +
+                     "LEFT JOIN endereco e ON ce.id_endereco = e.id_endereco";
         
-        try (java.sql.Connection conn = conexao.Conexao.getConexao();
-             java.sql.Statement sts = conn.createStatement();
-             java.sql.ResultSet res = sts.executeQuery(sql)) {
+        try (Connection conn = Conexao.getConexao();
+             Statement sts = conn.createStatement();
+             ResultSet res = sts.executeQuery(sql)) {
 
             while (res.next()) {
-                int id_clientes = res.getInt(1);
-                String nome_clientes = res.getString(2);
-                String cpf = res.getString(3);
-                String email_clientes = res.getString(4);
+                int id_clientes = res.getInt("id_clientes");
+                String nome_clientes = res.getString("nome_clientes");
+                String cpf = res.getString("cpf_clientes");
+                String email_clientes = res.getString("email_clientes");
                 
                 linha();
-                System.out.printf("||ID: %5d | NOME: %-20s | CPF: %-15s | EMAIL: %-20s | END: %-20s | RUA: %-20%||%n", 
+                System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n", 
                         id_clientes, nome_clientes, cpf, email_clientes);
                 linha();
             }
-            
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
         }
     }
-    public void mostrarClientFiltro(String nome_clientes){
-        PreparedStatement md = null;
-        ResultSet resultSet = null;
-        String sql = "Select * from clientes where nome_clientes like ?";
-        try {
-            md = conexao.Conexao.getConexao().prepareStatement(sql);
-            md.setString(1, nome_clientes + "%");
-            resultSet = md.executeQuery();
-            while (resultSet.next()){
-                int id_clientes = resultSet.getInt("id_clientes");
-                nome_clientes = resultSet.getNString("nome_clientes");
-                String cpf = resultSet.getNString("cpf");
-                String email_clientes = resultSet.getString("email_clientes");
-                linha();
-                System.out.printf("||ID: %5d\\t NOME: %-25s\\t CPF: %-18s \\t Bairro: %-25s\\ Rua: %-25||%n", id_clientes, nome_clientes, cpf, email_clientes);
-                linha();
+
+    public void mostrarId(int id) {
+        String sql = "SELECT id_clientes, nome_clientes, cpf_clientes, email_clientes FROM clientes WHERE id_clientes = ?";
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, id);
+            try (ResultSet res = ps.executeQuery()) {
+                if (res.next()) {
+                    linha();
+                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n", 
+                            res.getInt("id_clientes"), res.getString("nome_clientes"), res.getString("cpf_clientes"), res.getString("email_clientes"));
+                    linha();
+                }
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar id do cliente: " + e.getMessage());
+        }
+    }
+
+    public void mostrarClientFiltro(String nome_clientes) {
+        String sql = "SELECT id_clientes, nome_clientes, cpf_clientes, email_clientes FROM clientes WHERE nome_clientes LIKE ?";
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement md = conn.prepareStatement(sql)) {
+            
+            md.setString(1, nome_clientes + "%");
+            try (ResultSet resultSet = md.executeQuery()) {
+                while (resultSet.next()) {
+                    int id_clientes = resultSet.getInt("id_clientes");
+                    String nome = resultSet.getString("nome_clientes");
+                    String cpf = resultSet.getString("cpf_clientes");
+                    String email_clientes = resultSet.getString("email_clientes");
+                    linha();
+                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-18s | EMAIL: %-25s ||%n", id_clientes, nome, cpf, email_clientes);
+                    linha();
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao listar clientes com filtro: " + e.getMessage());
         }    
     }
-    public static boolean vereficarExistencia(int h){
+
+    public static boolean vereficarExistencia(int h) {
         int contador = 0;
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-        String sql = "Select * from clientes where id_clientes = ?";
-        try {
-            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+        String sql = "SELECT 1 FROM clientes WHERE id_clientes = ?";
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, h);
-            resultSet = ps.executeQuery();
-            while (resultSet.next()){
-                contador++;
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    contador++;
+                }
             }
-            if (contador <= 0){return true;}
-            else {return false;}
-
-
+            return contador > 0;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void linha(){
+    public static void linha() {
         System.out.println("==================================================================================");
     }
 
-    public void AlterarNomeClien(int id,String n){
-        PreparedStatement ps = null;
+    public void AlterarNomeClien(int id, String n) {
         String sql = "UPDATE clientes SET nome_clientes = ? WHERE id_clientes = ?";
-        try {
-            ps = Conexao.getConexao().prepareStatement(sql);
-            ps.setString(1,n);
-            ps.setInt(2,id);
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, n);
+            ps.setInt(2, id);
             ps.execute();
-            ps.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void AlterarCPFClien(int id,String n){
-        PreparedStatement ps = null;
+    public void AlterarCPFClien(int id, String n) {
         String sql = "UPDATE clientes SET cpf_clientes = ? WHERE id_clientes = ?";
-        try {
-            ps = Conexao.getConexao().prepareStatement(sql);
-            ps.setString(1,n);
-            ps.setInt(2,id);
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, n);
+            ps.setInt(2, id);
             ps.execute();
-            ps.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void AlterarEmailClien(int id,String n){
-        PreparedStatement ps = null;
+    public void AlterarEmailClien(int id, String n) {
         String sql = "UPDATE clientes SET email_clientes = ? WHERE id_clientes = ?";
-        try {
-            ps = Conexao.getConexao().prepareStatement(sql);
-            ps.setString(1,n);
-            ps.setInt(2,id);
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, n);
+            ps.setInt(2, id);
             ps.execute();
-            ps.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
