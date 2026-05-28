@@ -7,90 +7,92 @@ import menu.Menuprint;
 
 public class VendedorServico {
     Scanner sca = new Scanner(System.in);
-    public void adicionar(Vendedor v){
-        new VendedorDAO().addVendedor(v);
-        System.out.println("Cadastrado!");
+    
+    public boolean adicionarNovo(String nome, String tel, String email, double salario) {
+        return new VendedorDAO().addVendedor(nome, tel, email, salario);
     }
 
     public String verificarNome(String nome){
         while(true){
-                nome = nome.trim();
+            nome = nome.trim();
             if(nome.isEmpty()){
                 System.out.println("Nome vazio");
-
-    nome = new Scanner(System.in).nextLine();
-    }else if(
-        nome.length()>100){
-
-System.out.println("Máximo 100 caracteres");
-        nome =new Scanner(System.in).nextLine();
-        }else{
-            return nome;
-                }
+                nome = new Scanner(System.in).nextLine();
+            } else if(nome.length() > 100){
+                System.out.println("Máximo 100 caracteres");
+                nome = new Scanner(System.in).nextLine();
+            } else {
+                return nome;
             }
         }
+    }
+
+    // Mantido por compatibilidade no seu sistema, mas ignorado no fluxo atual
     public double verificarComissao(double comissao){
         while(true){
             if(comissao < 0 || comissao > 100){
-
-            System.out.println("Comissão deve ser entre 0% e 100%");
-            while(!sca.hasNextDouble()){
-                System.out.println(
-                "Digite número");
-                sca.next();
+                System.out.println("Comissão deve ser entre 0% e 100%");
+                while(!sca.hasNextDouble()){
+                    System.out.println("Digite número");
+                    sca.next();
+                }
+                comissao = sca.nextDouble();
+                sca.nextLine();
+            } else {
+                return comissao;
             }
-            comissao = sca.nextDouble();
-            sca.nextLine();
-        }
-        else{
-            return comissao;
         }
     }
-}
+
     public String verificarTelefone(String telefone){
         while(true){
             telefone = telefone.trim();
-        if(!telefone.matches("\\d{10,11}")){
-            System.out.println("Telefone inválido");
-            telefone =new Scanner(System.in).nextLine();
-        }else{
-        return telefone;
-                }     
-            }
+            if(!telefone.matches("\\d{10,11}")){
+                System.out.println("Telefone inválido");
+                telefone = new Scanner(System.in).nextLine();
+            } else {
+                return telefone;
+            }  
         }
+    }
+
     public String verificarEmail(String email){
-        while(true){email = email.trim();
-        if(!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
-        System.out.println("Email inválido");
-    email =new Scanner(System.in).nextLine();
-    }else{
-        return email;
-                }
+        while(true){
+            email = email.trim();
+            if(!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")){
+                System.out.println("Email inválido");
+                email = new Scanner(System.in).nextLine();
+            } else {
+                return email;
             }
         }
-     public void mostrar() {
+    }
+
+    public void mostrar() {
         System.out.println("MOSTRANDO TODOS OS VENDEDORES CADASTRADOS");
         new VendedorDAO().mostrarVendedor();
     }
+
     public void mostrarFiltro(String nome){
         System.out.println("PESQUISANDO VENDEDOR...");
         new VendedorDAO().mostrarVendedorFiltro(nome);
     }
+
     public int vereficarId(int id){
-    while (true){
-        if (!VendedorDAO.verificarExistencia(id)) { 
-            System.out.println("Vendedor com o ID " + id + " nao encontrado, tente novamente");
-            new Menuprint().printVendedor();
-            System.out.print("\nID: ");
-            while (!sca.hasNextInt()) {
-                System.out.println("Digite apenas números!");
-                sca.nextLine();
-                System.out.print("Digite o ID do Vendedor escolhido: ");
+        while (true){
+            if (!VendedorDAO.verificarExistencia(id)) { 
+                System.out.println("Vendedor com o ID " + id + " nao encontrado, tente novamente");
+                new Menuprint().printVendedor();
+                System.out.print("\nID: ");
+                while (!sca.hasNextInt()) {
+                    System.out.println("Digite apenas números!");
+                    sca.nextLine();
+                    System.out.print("Digite o ID do Vendedor escolhido: ");
+                }
+                id = sca.nextInt();
+            } else {
+                return id;
             }
-            id = sca.nextInt();
-        } else {
-            return id;
         }
     }
-}
 }

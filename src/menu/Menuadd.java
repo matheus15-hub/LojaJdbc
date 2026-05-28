@@ -100,34 +100,32 @@ public class Menuadd {
 
         System.out.print("Nome do Vendedor: ");
         String nome = cin.nextLine();
+        nome = new VendedorServico().verificarNome(nome);
 
         System.out.print("Telefone: ");
         String tel = cin.nextLine();
+        tel = new VendedorServico().verificarTelefone(tel);
 
         System.out.print("Email: ");
         String email = cin.nextLine();
-
         email = new VendedorServico().verificarEmail(email);
 
-        System.out.print("Comissão: ");
-
+        System.out.print("Salário: ");
         while (!cin.hasNextDouble()) {
-            System.out.println("Digite um número válido!");
+            System.out.println("Digite um número válido para o salário!");
             cin.next();
+            System.out.print("Salário: ");
         }
-
-        double comissao = cin.nextDouble();
+        double salario = cin.nextDouble();
         cin.nextLine();
 
-        comissao = new VendedorServico().verificarComissao(comissao);
+        boolean sucesso = new VendedorServico().adicionarNovo(nome, tel, email, salario);
 
-
-        //Vendedor v = new Vendedor(0, nome, tel, email);
-        //v.setComissao(comissao);
-
-        //new VendedorServico().adicionar(v);
-
-        System.out.println("Vendedor cadastrado com sucesso!");
+        if (sucesso) {
+            System.out.println("Vendedor cadastrado com sucesso!");
+        } else {
+            System.out.println("Falha ao cadastrar o vendedor. Verifique os dados.");
+        }
     }
 
 //===============================================================PEDIDO
