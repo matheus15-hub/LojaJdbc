@@ -13,12 +13,12 @@ public class VendedorDAO {
     PreparedStatement stmt;
     ResultSet rs;
 
-    public boolean addVendedor(Vendedor vendedor) {
+    public int addVendedor(Vendedor vendedor) {
         String sql = "insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, salario) values (?, ?, ?, ?)";
 
         try {
             conn = Conexao.getConexao();
-            stmt = conn.prepareStatement(sql);
+            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, vendedor.getNomeVendedor());
             stmt.setString(2, vendedor.getTelefoneVendedor());
@@ -26,14 +26,20 @@ public class VendedorDAO {
             stmt.setBigDecimal(4, vendedor.getSalario());
 
             stmt.executeUpdate();
-            
+            rs = stmt.getGeneratedKeys();
+            int ultimoid = 0;
+            if(rs.next()){
+                ultimoid = rs.getInt(1);
+            }
             stmt.close();
             conn.close();
-            return true; 
+
+            return ultimoid;
 
         } catch (Exception e) {
             System.out.println("Erro ao adicionar vendedor: " + e.getMessage());
-            return false;
+            return ultimoid;
+
         }
     }
 

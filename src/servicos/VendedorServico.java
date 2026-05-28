@@ -7,10 +7,7 @@ import menu.Menuprint;
 
 public class VendedorServico {
     Scanner sca = new Scanner(System.in);
-    
-    public boolean adicionarNovo(String nome, String tel, String email, double salario) {
-        return new VendedorDAO().addVendedor(nome, tel, email, salario);
-    }
+
 
     public String verificarNome(String nome){
         while(true){
