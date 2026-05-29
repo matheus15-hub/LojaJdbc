@@ -99,6 +99,82 @@ public class VendedorDAO {
         return null;
     }
 
+public boolean addComissao(int idPedido) {
+
+    String sqlPedido = """
+        SELECT p.valor_total, p.status_pedido, p.id_vendedor
+        FROM pedido p
+        WHERE p.id_pedido = ?
+    """;
+
+    String sqlComissao = """
+        UPDATE vendedor
+        SET comissao = comissao + ?
+        WHERE id_vendedor = ?
+    """;
+
+    try {
+
+        conn = Conexao.getConexao();
+
+        // ================= BUSCA DADOS DO PEDIDO =================
+        stmt = conn.prepareStatement(sqlPedido);
+        stmt.setInt(1, idPedido);
+
+        rs = stmt.executeQuery();
+
+        if (!rs.next()) {
+            System.out.println("Pedido não encontrado.");
+            return false;
+        }
+
+        java.math.BigDecimal valorTotal = rs.getBigDecimal("valor_total");
+
+        String statusPedido = rs.getString("status_pedido")
+                                .toUpperCase();
+
+        int idVendedor = rs.getInt("id_vendedor");
+
+        rs.close();
+        stmt.close();
+
+        // ================= VALIDA STATUS =================
+        if (!statusPedido.equals("CONCLUIDO")) {
+
+            System.out.println(
+                "Comissão não adicionada. " +
+                "Pedidos com status '" + statusPedido +
+                "' não geram comissão."
+            );
+
+            conn.close();
+            return false;
+        }
+
+        // ================= CALCULA 1% =================
+        java.math.BigDecimal comissao = valorTotal.multiply(new java.math.BigDecimal("0.01"));
+
+        // ================= ADICIONA COMISSÃO =================
+        stmt = conn.prepareStatement(sqlComissao);
+
+        stmt.setBigDecimal(1, comissao);
+        stmt.setInt(2, idVendedor);
+
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
+        System.out.println("Comissão adicionada com sucesso.");
+        return true;
+
+    } catch (Exception e) {
+
+        System.out.println("Erro ao adicionar comissão: " + e.getMessage());
+
+        return false;
+    }
+}
     public void mostrarVendedorFiltro(String nomePesquisa) {
         String sql = "select * from vendedor where nome_vendedor like ?";
         try {

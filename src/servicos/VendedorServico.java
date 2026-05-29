@@ -9,8 +9,15 @@ public class VendedorServico {
     Scanner sca = new Scanner(System.in);
     
     public boolean adicionarNovo(String nome, String tel, String email, double salario) {
-        return new VendedorDAO().addVendedor(nome, tel, email, salario);
-    }
+
+    Vendedor vendedor = new Vendedor();
+    vendedor.setNomeVendedor(verificarNome(nome).toUpperCase());
+    vendedor.setTelefoneVendedor(verificarTelefone(tel).toUpperCase());
+    vendedor.setEmailVendedor(verificarEmail(email).toUpperCase());
+    vendedor.setSalario(java.math.BigDecimal.valueOf(salario));
+
+    return new VendedorDAO().addVendedor(vendedor);
+}
 
     public String verificarNome(String nome){
         while(true){
