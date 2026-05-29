@@ -37,6 +37,16 @@ public class EnderecoDAO {
             System.out.println("Erro ao criar endereço: " + e.getMessage());
             return -1;
         }
-
+    }
+    public void excluirEndereco(Endereco e){
+        String sql = "delete from endereco where id_endereco";
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, e.getId_endereco());
+            stmt.execute();
+            stmt.close();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

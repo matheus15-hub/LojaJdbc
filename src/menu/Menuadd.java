@@ -131,8 +131,8 @@ public class Menuadd {
         System.out.print("Cep: ");
         String cep = sca.nextLine();
         cep = new EnderecoSer().vereficarCep(cep);
-        Endereco e = new Endereco(rua, numero , bairro, cidade , cep);
-
+        Endereco endereco = new Endereco(rua, numero , bairro, cidade , cep);
+        new EnderecoVendedorSer().vincular(vendedor , endereco);
      }
 
 //===============================================================PEDIDO

@@ -14,33 +14,46 @@ public class VendedorDAO {
     ResultSet rs;
 
     public int addVendedor(Vendedor vendedor) {
-        String sql = "insert into vendedor(nome_vendedor, telefone_vendedor, email_vendedor, salario) values (?, ?, ?, ?)";
+
+        String sql = """
+        INSERT INTO vendedor
+        (nome_vendedor, telefone_vendedor, email_vendedor, salario)
+        VALUES (?, ?, ?, ?)
+        """;
+
+        int ultimoId = -1;
 
         try {
-            conn = Conexao.getConexao();
-            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            Connection conn = Conexao.getConexao();
+
+            PreparedStatement stmt =
+                    conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, vendedor.getNomeVendedor());
             stmt.setString(2, vendedor.getTelefoneVendedor());
             stmt.setString(3, vendedor.getEmailVendedor());
             stmt.setBigDecimal(4, vendedor.getSalario());
+            stmt.execute();
 
-            stmt.executeUpdate();
-            rs = stmt.getGeneratedKeys();
-            int ultimoid = 0;
-            if(rs.next()){
-                ultimoid = rs.getInt(1);
-            }
+                ResultSet rs = stmt.getGeneratedKeys();
+
+                if (rs.next()) {
+                    ultimoId = rs.getInt(1);
+                }
+
+                rs.close();
+
+
             stmt.close();
             conn.close();
 
-            return ultimoid;
-
         } catch (Exception e) {
-            System.out.println("Erro ao adicionar vendedor: " + e.getMessage());
-            return ultimoid;
 
+            System.out.println("Erro ao adicionar vendedor: " + e.getMessage());
         }
+
+        return ultimoId;
     }
 
     public void mostrarVendedor() {
@@ -218,5 +231,27 @@ public boolean addComissao(int idPedido) {
 
     public static void linha() {
         System.out.println("========================================================================================================================================================================================");
+    }
+    public void excluirVendedor(Vendedor vendedor){
+
+        String sql = "DELETE FROM vendedor WHERE id_vendedor = ?";
+
+        try {
+
+            conn = Conexao.getConexao();
+
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, vendedor.getIdVendedor());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
     }
 }

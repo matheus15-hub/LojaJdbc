@@ -3,18 +3,20 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import conexao.Conexao;
+import entidades.Endereco;
+import entidades.Vendedor;
 
 public class EnderecoVendedorDAO {
     Connection conn;
     PreparedStatement stmt;
 
-    public boolean vincularEnderecoVendedor(int idVendedor, int idEndereco){
+    public boolean vincularEnderecoVendedor(Vendedor idVendedor, Endereco idEndereco){
         String sql = "INSERT INTO vendedor_endereco(id_vendedor, id_endereco) VALUES (?, ?)";
         try{
             conn = Conexao.getConexao();
             stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, idVendedor);
-            stmt.setInt(2, idEndereco);
+            stmt.setInt(1, idVendedor.getIdVendedor());
+            stmt.setInt(2, idEndereco.getId_endereco());
             stmt.executeUpdate();
             stmt.close();
             stmt.close();
