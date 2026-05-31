@@ -1,6 +1,7 @@
 import menu.Menuadd;
 import menu.MenuAlterar.AlterarCliente;
 import menu.MenuAlterar.AlterarProduto;
+import menu.MenuAlterar.AlterarVendedor;
 import menu.Menuprint;
 import menu.Menuremov;
 import threads.ProcessadorPedido;
@@ -34,7 +35,7 @@ public class Main {
             linha();
             System.out.println("||\t\t\t\t O QUE DESEJA FAZER?\t\t\t\t\t||");
             linha();
-            System.out.println("||1)Clientes\t2)PEDIDO\t3)PRODUTO\t4)VENDEDOR\t5)CONSULTAR\t6)SAIR\t||");
+            System.out.println("||1)CLIENTES\t2)PEDIDO\t3)PRODUTO\t4)VENDEDOR\t5)CONSULTAR\t6)SAIR\t||");
             linha();
             System.out.print("||ESCOLHA :");
             int escolha = sca.nextInt();
@@ -216,7 +217,7 @@ public class Main {
                 linha();
                 System.out.println("||\t\t\t\t\tVENDEDORES\t\t\t\t\t||");
                 linha();
-                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)VOLTAR\t||");
+                System.out.println("||1)CRIAR\t\t2)REMOVER\t\t3)CONSULTAR\t\t4)ALTERAR\t\t5)VOLTAR||");
                 linha();
                 System.out.print("||ESCOLHA : ");
                 int vendedor = sca.nextInt();
@@ -235,11 +236,34 @@ public class Main {
                     case 3:
                         new Menuprint().printVendedor();
                         break;
-
                     case 4:
-                        System.out.println("VOLTANDO...");
+                        System.out.println("||\t\t\t\t\tALTERANDO\t\t\t\t\t||");
+                        System.out.println("||1)NOME\n"+"2)TELEFONE\n"+"3)EMAIL\n"+"4)SALARIO||");
+                            int alterar = sca.nextInt();
+                                sca.nextLine();
+                        switch (alterar){
+                    case 1:
+                        new AlterarVendedor().alterarNome();
                         break;
 
+                    case 2:
+                        new AlterarVendedor().alterarTelefone();
+                        break;
+
+                    case 3:
+                        new AlterarVendedor().alterarEmail();
+                        break;
+
+                    case 4:
+                        new AlterarVendedor().alterarSalario();
+                        break;
+
+                    default:
+                        System.out.println("Opção inválida.");
+                    }
+                    case 5:
+                        System.out.println("VOLTANDO...");
+                        break;
                     default:
                         System.out.println("OPÇÃO INVÁLIDA!");
                 }

@@ -1,5 +1,6 @@
 package servicos;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 import DAO.VendedorDAO;
 import entidades.Vendedor;
@@ -91,4 +92,27 @@ public class VendedorServico {
             }
         }
     }
+
+    public void alterarNome(int idVendedor, String nome){
+        nome = nome.toUpperCase();
+            new VendedorDAO().alterarNome(idVendedor, nome);
+            new VendedorDAO().buscarPorId(idVendedor);
+            System.out.println("Nome alterado com sucesso!");
+    }
+
+    public void alterarTelefone(int idVendedor, String telefone){
+            new VendedorDAO().alterarTelefone(idVendedor, telefone);
+            System.out.println("Telefone alterado com sucesso!");
+    }
+
+    public void alterarEmail(int idVendedor, String email){
+        email = email.toUpperCase();
+            new VendedorDAO().alterarEmail(idVendedor, email);
+            System.out.println("Email alterado com sucesso!");
+    }
+
+    public void alterarSalario(int idVendedor, BigDecimal salario){
+        new VendedorDAO().alterarSalario(idVendedor, salario);
+        System.out.println("Salário alterado com sucesso!");
+}
 }

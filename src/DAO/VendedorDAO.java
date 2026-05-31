@@ -1,6 +1,8 @@
 package DAO;
 
 import entidades.Vendedor;
+
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,11 +17,10 @@ public class VendedorDAO {
 
     public int addVendedor(Vendedor vendedor) {
 
-        String sql = """
-        INSERT INTO vendedor
-        (nome_vendedor, telefone_vendedor, email_vendedor, salario)
-        VALUES (?, ?, ?, ?)
-        """;
+        String sql =
+            "insert into vendedor" +
+            "(nome_vendedor, telefone_vendedor, email_vendedor, salario)" +
+            "values (?, ?, ?, ?);";
 
         int ultimoId = -1;
 
@@ -120,23 +121,20 @@ public class VendedorDAO {
 
 public boolean addComissao(int idPedido) {
 
-    String sqlPedido = """
-        SELECT p.valor_total, p.status_pedido, p.id_vendedor
-        FROM pedido p
-        WHERE p.id_pedido = ?
-    """;
+    String sqlPedido =
+        "select p.valor_total, p.status_pedido, p.id_vendedor "+
+        "from pedido p "+
+        "where p.id_pedido = ?";
 
-    String sqlComissao = """
-        UPDATE vendedor
-        SET comissao = comissao + ?
-        WHERE id_vendedor = ?
-    """;
+    String sqlComissao =
+        "update vendedor" +
+        "set comissao = comissao + ?" +
+        "where id_vendedor = ?";
 
     try {
 
         conn = Conexao.getConexao();
 
-        // ================= BUSCA DADOS DO PEDIDO =================
         stmt = conn.prepareStatement(sqlPedido);
         stmt.setInt(1, idPedido);
 
@@ -157,7 +155,6 @@ public boolean addComissao(int idPedido) {
         rs.close();
         stmt.close();
 
-        // ================= VALIDA STATUS =================
         if (!statusPedido.equals("CONCLUIDO")) {
 
             System.out.println(
@@ -232,6 +229,7 @@ public boolean addComissao(int idPedido) {
     public static void linha() {
         System.out.println("========================================================================================================================================================================================");
     }
+    
     public void excluirVendedor(Vendedor vendedor){
 
         String sql = "DELETE FROM vendedor WHERE id_vendedor = ?";
@@ -254,4 +252,108 @@ public boolean addComissao(int idPedido) {
             throw new RuntimeException(e);
         }
     }
+    public void alterarNome(int idVendedor, String novoNome){
+
+    String sql =
+            "uptade vendedor" +
+            "set nome_vendedor = ?" +
+            "where id_vendedor = ?";
+
+    try{
+
+        conn = Conexao.getConexao();
+        stmt = conn.prepareStatement(sql);
+
+        stmt.setString(1, novoNome);
+        stmt.setInt(2, idVendedor);
+
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
+    }catch(Exception e){
+
+        System.out.println("Erro ao alterar nome: " + e.getMessage());
+    }
 }
+
+public void alterarTelefone(int idVendedor, String novoTelefone){
+
+    String sql =
+            "update vendedor" +
+            "set telefone_vendedor = ?" +
+            "where id_vendedor = ?";
+
+    try{
+
+        conn = Conexao.getConexao();
+        stmt = conn.prepareStatement(sql);
+
+        stmt.setString(1, novoTelefone);
+        stmt.setInt(2, idVendedor);
+
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
+    }catch(Exception e){
+
+        System.out.println("Erro ao alterar telefone: " + e.getMessage());
+    }
+}
+
+public void alterarEmail(int idVendedor, String novoEmail){
+
+    String sql =
+            "update vendedor" +
+            "set email_vendedor = ?" +
+            "where id_vendedor = ?";
+
+    try{
+
+        conn = Conexao.getConexao();
+        stmt = conn.prepareStatement(sql);
+
+        stmt.setString(1, novoEmail);
+        stmt.setInt(2, idVendedor);
+
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
+    }catch(Exception e){
+
+        System.out.println("Erro ao alterar email: " + e.getMessage());
+    }
+}
+
+public void alterarSalario(int idVendedor, BigDecimal novoSalario){
+
+    String sql =
+            "update vendedor"+
+            "set salario = ?"+
+            "where id_vendedor = ?";
+
+    try{
+
+        conn = Conexao.getConexao();
+        stmt = conn.prepareStatement(sql);
+
+        stmt.setBigDecimal(1, novoSalario);
+        stmt.setInt(2, idVendedor);
+
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+
+    }catch(Exception e){
+
+        System.out.println("Erro ao alterar salário: " + e.getMessage());
+    }
+}
+}
+

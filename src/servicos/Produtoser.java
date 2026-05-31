@@ -67,19 +67,17 @@ public class Produtoser {
 
                 if (valor.compareTo(new BigDecimal("0.01")) < 0) {
 
-                    System.out.println("""
-                            Valor inválido!
-                            O preço deve ser maior que 0.
-                            Ex: 1 | 10,50 | 25.99
-                            """);
+                    System.out.println(
+                            "Valor inválido!" +
+                            "O preço deve ser maior que 0." +
+                            "Ex: 1 | 10,50 | 25.99");
 
                 } else if (valor.scale() > 2) {
 
-                    System.out.println("""
-                        Valor inválido!
-                        O preço pode ter no máximo 2 casas decimais.
-                        Ex: 10,50 | 25.99
-                        """);
+                    System.out.println(
+                        "Valor inválido!" +
+                        "O preço pode ter no máximo 2 casas decimais." +
+                        "Ex: 10,50 | 25.99");
 
                 } else {
 
@@ -88,11 +86,10 @@ public class Produtoser {
 
             } catch (NumberFormatException e) {
 
-                System.out.println("""
-                    Entrada inválida!
-                    Digite apenas números.
-                    Ex: 10 | 15,90 | 25.99
-                    """);
+                System.out.println(
+                    "Entrada inválida!" +
+                    "Digite apenas números." +
+                    "Ex: 10 | 15,90 | 25.99");
             }
         }
     }
@@ -113,11 +110,10 @@ public class Produtoser {
                 }
 
             }catch (NumberFormatException e){
-                System.out.println("""
-                        Entrada invalida!
-                        Digite apenas numeros inteiros:
-                        EX: 1 , 10 , 30
-                        """);
+                System.out.println(
+                        "Entrada invalida!" +
+                        "Digite apenas numeros inteiros:" +
+                        "EX: 1 , 10 , 30");
             }
         }
     }
