@@ -3,11 +3,9 @@ package menu;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+import DAO.*;
 import entidades.*;
 import servicos.*;
-import DAO.ProdutoDAO;
-import DAO.ClientesDAO;
-import DAO.VendedorDAO;
 
 public class Menuadd {
     Scanner sca = new Scanner(System.in);
@@ -68,27 +66,33 @@ public class Menuadd {
         email_clientes = clienteServico.vereficarEmail_clientes(email_clientes);
 
         Clientes c = new Clientes( nome, cpf, email_clientes);
-
-        System.out.println("==============ENDEREÇO================");
-        System.out.print("Rua: ");
-        String rua = sca.nextLine();
-        rua = new EnderecoSer().vereficarRua(rua);
-        System.out.print("Numero: ");
-        String numero = sca.nextLine();
-        numero = new EnderecoSer().vereficarNumero(numero);
-        System.out.print("Bairro: ");
-        String bairro = sca.nextLine();
-        bairro = new EnderecoSer().vereficarBairro(bairro);
-        System.out.print("Cidade: ");
-        String cidade = sca.nextLine();
-        cidade = new EnderecoSer().vereficarCidade(cidade);
-        System.out.print("Cep: ");
-        String cep = sca.nextLine();
-        cep = new EnderecoSer().vereficarCep(cep);
-
-        Endereco e = new Endereco(rua, numero , bairro, cidade , cep);
-
-        new EnderecoClienteSer().addEnderecoCliente(c , e);
+        System.out.println("Dejesa: 1) Criar um novo endereço  | 2 ) Selecionar um endereço existente");
+        System.out.print("Escolha: ");
+        int escolhaVinculacaoEndereco = sca.nextInt();
+        if(escolhaVinculacaoEndereco == 1) {
+            System.out.println("========================= NOVO ENDEREÇO==========================");
+            System.out.print("Rua: ");
+            String rua = sca.nextLine();
+            rua = new EnderecoSer().vereficarRua(rua);
+            System.out.print("Numero: ");
+            String numero = sca.nextLine();
+            numero = new EnderecoSer().vereficarNumero(numero);
+            System.out.print("Bairro: ");
+            String bairro = sca.nextLine();
+            bairro = new EnderecoSer().vereficarBairro(bairro);
+            System.out.print("Cidade: ");
+            String cidade = sca.nextLine();
+            cidade = new EnderecoSer().vereficarCidade(cidade);
+            System.out.print("Cep: ");
+            String cep = sca.nextLine();
+            cep = new EnderecoSer().vereficarCep(cep);
+            Endereco e = new Endereco(rua, numero, bairro, cidade, cep);
+            new EnderecoClienteSer().addEnderecoCliente(c, e);
+        } else if (escolhaVinculacaoEndereco == 2) {
+            int idEndereco =  0;
+            idEndereco = new EnderecoSer().escolherEndereco(idEndereco);
+            new EnderecoClienteSer().vincularClienteEndereco(c , idEndereco);
+        }
     }
 
 //===============================================================VENDEDOR
@@ -115,25 +119,35 @@ public class Menuadd {
         BigDecimal salario = sca.nextBigDecimal();
         sca.nextLine();
         Vendedor vendedor = new Vendedor(nome, tel ,email , salario);
-        System.out.println("==============ENDEREÇO================");
-        System.out.print("Rua: ");
-        String rua = sca.nextLine();
-        rua = new EnderecoSer().vereficarRua(rua);
-        System.out.print("Numero: ");
-        String numero = sca.nextLine();
-        numero = new EnderecoSer().vereficarNumero(numero);
-        System.out.print("Bairro: ");
-        String bairro = sca.nextLine();
-        bairro = new EnderecoSer().vereficarBairro(bairro);
-        System.out.print("Cidade: ");
-        String cidade = sca.nextLine();
-        cidade = new EnderecoSer().vereficarCidade(cidade);
-        System.out.print("Cep: ");
-        String cep = sca.nextLine();
-        cep = new EnderecoSer().vereficarCep(cep);
-        Endereco endereco = new Endereco(rua, numero , bairro, cidade , cep);
-        new EnderecoVendedorSer().vincular(vendedor , endereco);
-     }
+        System.out.println("Dejesa: 1) Criar um novo endereço  | 2 ) Selecionar um endereço existente");
+        System.out.print("Escolha: ");
+        int escolhaVinculacaoEndereco = sca.nextInt();
+        if (escolhaVinculacaoEndereco == 1){
+            System.out.println("========================= NOVO ENDEREÇO==========================");
+            System.out.print("Rua: ");
+            String rua = sca.nextLine();
+            rua = new EnderecoSer().vereficarRua(rua);
+            System.out.print("Numero: ");
+            String numero = sca.nextLine();
+            numero = new EnderecoSer().vereficarNumero(numero);
+            System.out.print("Bairro: ");
+            String bairro = sca.nextLine();
+            bairro = new EnderecoSer().vereficarBairro(bairro);
+            System.out.print("Cidade: ");
+            String cidade = sca.nextLine();
+            cidade = new EnderecoSer().vereficarCidade(cidade);
+            System.out.print("Cep: ");
+            String cep = sca.nextLine();
+            cep = new EnderecoSer().vereficarCep(cep);
+            Endereco endereco = new Endereco(rua, numero , bairro, cidade , cep);
+            new EnderecoVendedorSer().addVendedorEndereco(vendedor , endereco);
+        } else if (escolhaVinculacaoEndereco == 2) {
+            int idEndereco =  0;
+            idEndereco = new EnderecoSer().escolherEndereco(idEndereco);
+            new EnderecoVendedorSer().vincularVendedorEndero(vendedor , idEndereco);
+        }
+
+    }
 
 //===============================================================PEDIDO
     public void novoPedido() {

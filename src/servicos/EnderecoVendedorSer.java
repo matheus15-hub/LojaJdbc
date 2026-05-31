@@ -7,24 +7,18 @@ import entidades.Endereco;
 import entidades.Vendedor;
 
 public class EnderecoVendedorSer {
-    public void vincular(Vendedor vendedor, Endereco endereco){
+    public void addVendedorEndereco(Vendedor vendedor, Endereco endereco){
         int idEndereco = new EnderecoDAO().addEndereco(endereco);
         endereco.setId_endereco(idEndereco);
         int idVendedor  = new VendedorDAO().addVendedor(vendedor);
         vendedor.setIdVendedor(idVendedor);
-        boolean vereficar =  new EnderecoVendedorDAO().vincularEnderecoVendedor(vendedor , endereco);
-
-        vereficarVinculacao(vereficar, vendedor , endereco);
-
+        new EnderecoVendedorDAO().novoEnderecoVendedor(vendedor , endereco);
 
     }
-    public void vereficarVinculacao(Boolean b, Vendedor v , Endereco e){
-        if(b){
-            System.out.println("Vendedor cadastrado com sucesso!");
-        }
-        else{
-            new VendedorDAO().excluirVendedor(v);
-            new EnderecoDAO().excluirEndereco(e);
-        }
+    public void vincularVendedorEndero(Vendedor vendedor, int id) {
+        int idVendedor = new VendedorDAO().addVendedor(vendedor);
+        vendedor.setIdVendedor(idVendedor);
+        new EnderecoVendedorDAO().vincularEnderecoVendedor(vendedor, id);
+
     }
-}
+    }

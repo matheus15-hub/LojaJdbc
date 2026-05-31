@@ -15,6 +15,11 @@ public class EnderecoClienteSer {
            clientes.setId_clientes(idCliente);
            System.out.println("ID ENDERECO: " + endereco.getId_endereco());
            System.out.println("ID CLIENTE: " + clientes.getId_clientes());
-           new EnderecoClienteDAO().VincularEnderecoCliente(clientes, endereco);
+           new EnderecoClienteDAO().novoClienteEndereco(clientes, endereco);
+       }
+       public void vincularClienteEndereco(Clientes clientes, int id){
+           int idCliente = new ClientesDAO().addCliente(clientes);
+           clientes.setId_clientes(idCliente);
+           new EnderecoClienteDAO().VincularEnderecoCliente(clientes , id);
        }
 }

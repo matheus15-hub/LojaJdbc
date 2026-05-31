@@ -2,6 +2,7 @@ package servicos;
 
 import DAO.EnderecoDAO;
 import entidades.Endereco;
+import util.Console;
 
 import java.util.Scanner;
 
@@ -167,5 +168,70 @@ public class EnderecoSer {
                 return cep.toUpperCase();
             }
         }
+    }
+    public void mostrarTudo(){
+        Console.linhaEndereco();
+        System.out.println("||\t\t\t\t\t MOSTRANDO ENDEREÇOS \t\t\t\t\t||");
+        new EnderecoDAO().mostrarEnderecos();
+    }
+    public void filtrarRua(){
+        Console.linhaEndereco();
+        System.out.print("Rua: ");
+        String rua = sca.nextLine();
+        Console.linhaEndereco();
+        System.out.println("||\t\t\t\t\t BUSACANDO POR RUA \t\t\t\t\t||");
+        new EnderecoDAO().filtrarEnderecosRua(rua);
+    }
+    public void filtrarCep(){
+        Console.linhaEndereco();
+        System.out.print("CEP: ");
+        String cep = sca.nextLine();
+        Console.linhaEndereco();
+        System.out.println("||\t\t\t\t\t BUSACANDO POR CEP \t\t\t\t\t||");
+        new EnderecoDAO().filtrarEnderecosCep(cep);
+    }
+    public void metodoBusca(){
+        while (true) {
+            Console.linhaEndereco();
+            System.out.println("||\t\t\t\tBuscar por: 1) Rua  2) Cep 3) Todos\t\t\t\t||");
+            System.out.print("Escolha: ");
+            int escolhaFiltro = sca.nextInt();
+            switch (escolhaFiltro) {
+                case 1:
+                    filtrarRua();
+                    break;
+                case 2:
+                    filtrarCep();
+                    break;
+                case 3:
+                    mostrarTudo();
+                    break;
+                default:
+                    System.out.println("Escolha invalida!");
+            }
+            System.out.println("\nGostaria de bucar novamente: 1) Sim 2)Nao");
+            System.out.print("Escolha:");
+            int buscarNovamente = sca.nextInt();
+            if (buscarNovamente == 2) {
+                break;
+            }
+        }
+    }
+    public int escolherEndereco(int id){
+
+        while (true) {
+            Console.linhaEndereco();
+            System.out.println("||\t\t\t\t\tESCOLHA DE ENDEREÇO\t\t\t\t\t||");
+            metodoBusca();
+            Console.linhaEndereco();
+            System.out.println("||\t\tDigite o Id do endereço que deseja buscar\t\t||");
+            System.out.print("ID: ");
+            id = sca.nextInt();
+            boolean vereficandoId = new EnderecoDAO().vereficarId(id);
+            if (vereficandoId == true){
+                break;
+            }
+        }
+        return id;
     }
 }

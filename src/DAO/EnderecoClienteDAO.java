@@ -14,7 +14,7 @@ public class EnderecoClienteDAO {
     PreparedStatement stmt;
 
 
-    public void VincularEnderecoCliente(Clientes clientes, Endereco endereco){
+    public void novoClienteEndereco(Clientes clientes, Endereco endereco){
         String sql = "INSERT INTO cliente_endereco(id_clientes, id_endereco) VALUES(?, ?)";
         try{
             conn = Conexao.getConexao();
@@ -31,4 +31,22 @@ public class EnderecoClienteDAO {
 
         }
     }
+    public void VincularEnderecoCliente(Clientes clientes, int idEndereco){
+        String sql = "INSERT INTO cliente_endereco(id_clientes, id_endereco) VALUES(?, ?)";
+        try{
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, clientes.getId_clientes());
+            stmt.setInt(2, idEndereco);
+            stmt.executeUpdate();
+            stmt.close();
+            conn.close();
+
+
+        } catch(Exception e){
+            System.out.println("Erro ao vincular endereço e o cliente: " + e.getMessage());
+
+        }
+    }
+
 }
