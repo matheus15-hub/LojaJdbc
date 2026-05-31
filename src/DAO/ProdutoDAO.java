@@ -206,6 +206,18 @@ public class ProdutoDAO {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
+    public void alterarEstoque(int id, int estoque){
+    PreparedStatement ps = null;
+    String sql = "UPDATE produtos SET estoque_produtos = ? WHERE id_produtos = ?";
+    try {
+        ps = Conexao.getConexao().prepareStatement(sql);
+        ps.setInt(1, estoque);
+        ps.setInt(2, id);
+        ps.execute();
+        ps.close();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+}
 }

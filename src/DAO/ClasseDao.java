@@ -42,4 +42,18 @@ public class ClasseDao {
             throw new RuntimeException(e);
         }
     }
+    public void alterarCategoria(int id, int categoria){
+    PreparedStatement ps = null;
+    String sql = "UPDATE produtos SET idclasse = ? WHERE id_produtos = ?";
+    try {
+        ps = Conexao.getConexao().prepareStatement(sql);
+        ps.setInt(1, categoria);
+        ps.setInt(2, id);
+        ps.execute();
+        ps.close();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+}
+
 }

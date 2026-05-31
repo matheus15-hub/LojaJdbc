@@ -6,7 +6,8 @@ import java.util.Scanner;
 import DAO.ClientesDAO;
 import entidades.Clientes;
 import entidades.Endereco;
-import menu.Menuprint;
+
+import menu.cliente.MenuClientePrint;
 
 public class Clienteser {
 
@@ -69,11 +70,11 @@ public class Clienteser {
         }
     }
 
-    public int vereficarId_clientes(int id) {
+    public int vereficarId(int id) {
         while (true) {
             if (!ClientesDAO.vereficarExistencia(id)) {
                 System.out.println("Cliente com o ID " + id + " não encontrado!");
-                new Menuprint().printCliente();
+                new MenuClientePrint().metodoBusca();
                 System.out.print("\nDigite um ID válido da lista acima: ");
 
                 while (!sca.hasNextInt()) {
@@ -82,7 +83,7 @@ public class Clienteser {
                     System.out.print("ID: ");
                 }
                 id = sca.nextInt();
-                sca.nextLine(); // Limpa o buffer do enter
+                sca.nextLine(); 
             } else {
                 return id;
             }
@@ -117,21 +118,20 @@ public class Clienteser {
         }
     }
 
-    public void alterarNome(int id, String nome) {
-        nome = nome.toUpperCase();
-        new ClientesDAO().AlterarNomeClien(id, nome);
-        System.out.println("Nome alteredo no banco com sucesso!");
-    }
-
-    public void alterarCPF(int id, String cpf) {
-        String cpfValidado = verificarCPF_clientes(cpf);
-        new ClientesDAO().AlterarCPFClien(id, cpfValidado);
-        System.out.println("CPF alterado no banco com sucesso!");
-    }
-
-    public void alterarEmail(int id, String email) {
-        String emailValidado = vereficarEmail_clientes(email);
-        new ClientesDAO().AlterarEmailClien(id, emailValidado);
-        System.out.println("E-mail alterado no banco com sucesso!");
-    }
+    public void alterarNome(int id, String nome){
+    nome = nome.toUpperCase();
+    new ClientesDAO().alterarNome(id, nome);
+    mostrarId(id);
+    System.out.println("Nome alterado!");
+}
+    public void alterarCpf(int id, String cpf){
+    new ClientesDAO().alterarCpf(id, cpf);
+    mostrarId(id);
+    System.out.println("CPF alterado!");
+}
+public void alterarEmail(int id, String email){
+    new ClientesDAO().alterarEmail(id, email);
+    mostrarId(id);
+    System.out.println("Email alterado!");
+}
 }

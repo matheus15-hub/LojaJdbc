@@ -9,7 +9,6 @@ import conexao.Conexao;
 import entidades.Endereco;
 import util.Console;
 
-import javax.swing.*;
 
 public class EnderecoDAO {
     Connection conn = Conexao.getConexao();;

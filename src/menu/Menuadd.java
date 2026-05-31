@@ -1,4 +1,4 @@
-package menu;
+/*package menu;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -164,7 +164,7 @@ public class Menuadd {
             System.out.print("Digite o ID do cliente escolhido: ");
         }
         int idCli = sca.nextInt();
-        idCli = new Clienteser().vereficarId_clientes(idCli);
+        idCli = new Clienteser().vereficarId(idCli);
         pedidoServico.addClientePedido(idCli);
 
         // 2. Seleção de Vendedor
@@ -248,3 +248,4 @@ public class Menuadd {
         pedidoServico.finalizarFluxo(opcao);
     }
 }
+    */

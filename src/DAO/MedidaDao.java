@@ -44,4 +44,17 @@ public class MedidaDao {
             throw new RuntimeException(e);
         }
     }
+    public void alterarMedida(int id, int medida){
+    PreparedStatement ps = null;
+    String sql = "UPDATE produtos SET idclasse = ? WHERE id_produtos = ?";
+    try {
+        ps = Conexao.getConexao().prepareStatement(sql);
+        ps.setInt(1, medida);
+        ps.setInt(2, id);
+        ps.execute();
+        ps.close();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+}
 }

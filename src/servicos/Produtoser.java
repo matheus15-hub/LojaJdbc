@@ -1,8 +1,10 @@
 package servicos;
 
+import DAO.ClasseDao;
+import DAO.MedidaDao;
 import DAO.ProdutoDAO;
 import entidades.Produto;
-import menu.Menuprint;
+import menu.produto.MenuProdutoPrint;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -129,7 +131,7 @@ public class Produtoser {
 
                 System.out.println("Produto com código " + id + " não encontrado.");
 
-                new Menuprint().metodoBusca();
+                new MenuProdutoPrint().metodoBusca();
 
                 System.out.println("Digite um dos códigos cadastrados acima:");
                 System.out.print("CÓDIGO: ");
@@ -156,11 +158,25 @@ public class Produtoser {
         nome = nome.toUpperCase();
         new ProdutoDAO().alterarnome(id , nome);
         new Produtoser().mostrarId(id);
-        System.out.println("Nome alterado!");
+    
     }
     public void alterarPreco(int id , BigDecimal f){
         new ProdutoDAO().alterarpreco(id, f);
         new Produtoser().mostrarId(id);
     }
+    public void alterarEstoque(int id, int estoque){
+    new ProdutoDAO().alterarEstoque(id, estoque);
+    new Produtoser().mostrarId(id);
+    
+}public void alterarCategoria(int id, int categoria){
+    new ClasseDao().alterarCategoria(id, categoria);
+    new Produtoser().mostrarId(id);
+  
+}public void alterarMedida(int id, int medida){
+    new MedidaDao().alterarMedida(id, medida);
+    new Produtoser().mostrarId(id);
+    
+}
+
     }
 

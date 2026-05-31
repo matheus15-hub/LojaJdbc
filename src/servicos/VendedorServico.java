@@ -3,7 +3,8 @@ package servicos;
 import java.util.Scanner;
 import DAO.VendedorDAO;
 import entidades.Vendedor;
-import menu.Menuprint;
+
+import menu.vendedor.MenuVendedorPrint;
 
 public class VendedorServico {
     Scanner sca = new Scanner(System.in);
@@ -78,7 +79,7 @@ public class VendedorServico {
         while (true){
             if (!VendedorDAO.verificarExistencia(id)) { 
                 System.out.println("Vendedor com o ID " + id + " nao encontrado, tente novamente");
-                new Menuprint().printVendedor();
+                new MenuVendedorPrint();
                 System.out.print("\nID: ");
                 while (!sca.hasNextInt()) {
                     System.out.println("Digite apenas números!");

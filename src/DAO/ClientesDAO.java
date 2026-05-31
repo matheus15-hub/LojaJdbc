@@ -69,25 +69,47 @@ public class ClientesDAO {
     }
 
     public void mostrarClient() {
-        String sql = "SELECT c.id_clientes, c.nome_clientes, c.cpf_clientes, c.email_clientes, e.bairro, e.rua " +
-                     "FROM clientes c " +
-                     "LEFT JOIN cliente_endereco ce ON c.id_clientes = ce.id_clientes " +
-                     "LEFT JOIN endereco e ON ce.id_endereco = e.id_endereco";
+        String sql = """
+                    SELECT *
+                    FROM clientes c
+                    JOIN cliente_endereco ce
+                        ON c.id_clientes = ce.id_clientes
+                    JOIN endereco e
+                        ON ce.id_endereco = e.id_endereco
+                    WHERE c.id_clientes = ?
+                    """;
         
         try (Connection conn = Conexao.getConexao();
              Statement sts = conn.createStatement();
              ResultSet res = sts.executeQuery(sql)) {
 
             while (res.next()) {
-                int id_clientes = res.getInt("id_clientes");
+               int id_clientes = res.getInt("id_clientes");
                 String nome_clientes = res.getString("nome_clientes");
                 String cpf = res.getString("cpf_clientes");
-                String email_clientes = res.getString("email_clientes");
-                
-                linha();
-                System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n", 
-                        id_clientes, nome_clientes, cpf, email_clientes);
-                linha();
+                String email = res.getString("email_clientes");
+
+                String rua = res.getString("rua");
+                String numero = res.getString("numero");
+                String bairro = res.getString("bairro");
+                String cidade = res.getString("cidade");
+                String cep = res.getString("cep");
+
+                System.out.println("========================================================================================================================");
+
+                System.out.printf(
+                    "|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n",
+                    id_clientes, nome_clientes, cpf, email
+                );
+
+                System.out.println();
+
+                System.out.printf(
+                    "|| RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n",
+                    rua, numero, bairro, cidade, cep
+                );
+
+                System.out.println("========================================================================================================================");
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
@@ -95,17 +117,43 @@ public class ClientesDAO {
     }
 
     public void mostrarId(int id) {
-        String sql = "SELECT id_clientes, nome_clientes, cpf_clientes, email_clientes FROM clientes WHERE id_clientes = ?";
+        String sql = "SELECT * " +
+             "FROM clientes c " +
+             "JOIN cliente_endereco ce ON c.id_clientes = ce.id_clientes " +
+             "JOIN endereco e ON ce.id_endereco = e.id_endereco " +
+             "WHERE c.id_clientes = ?";
         try (Connection conn = Conexao.getConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setInt(1, id);
             try (ResultSet res = ps.executeQuery()) {
                 if (res.next()) {
-                    linha();
-                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n", 
-                            res.getInt("id_clientes"), res.getString("nome_clientes"), res.getString("cpf_clientes"), res.getString("email_clientes"));
-                    linha();
+                    int id_clientes = res.getInt("id_clientes");
+                String nome_clientes = res.getString("nome_clientes");
+                String cpf = res.getString("cpf_clientes");
+                String email = res.getString("email_clientes");
+
+                String rua = res.getString("rua");
+                String numero = res.getString("numero");
+                String bairro = res.getString("bairro");
+                String cidade = res.getString("cidade");
+                String cep = res.getString("cep");
+
+                System.out.println("========================================================================================================================");
+
+                System.out.printf(
+                    "|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n",
+                    id_clientes, nome_clientes, cpf, email
+                );
+
+                System.out.println();
+
+                System.out.printf(
+                    "|| RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n",
+                    rua, numero, bairro, cidade, cep
+                );
+
+                System.out.println("========================================================================================================================");
                 }
             }
         } catch (Exception e) {
@@ -156,39 +204,44 @@ public class ClientesDAO {
         System.out.println("==================================================================================");
     }
 
-    public void AlterarNomeClien(int id, String n) {
-        String sql = "UPDATE clientes SET nome_clientes = ? WHERE id_clientes = ?";
-        try (Connection conn = Conexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, n);
-            ps.setInt(2, id);
-            ps.execute();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void alterarNome(int id, String nome){
+    PreparedStatement ps = null;
+    String sql = "UPDATE clientes SET nome_clientes = ? WHERE id_clientes = ?";
+    try {
+        ps = Conexao.getConexao().prepareStatement(sql);
+        ps.setString(1, nome);
+        ps.setInt(2, id);
+        ps.execute();
+        ps.close();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
+}
 
-    public void AlterarCPFClien(int id, String n) {
-        String sql = "UPDATE clientes SET cpf_clientes = ? WHERE id_clientes = ?";
-        try (Connection conn = Conexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, n);
-            ps.setInt(2, id);
-            ps.execute();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void alterarCpf(int id, String cpf){
+    PreparedStatement ps = null;
+    String sql = "UPDATE clientes SET cpf_clientes = ? WHERE id_clientes = ?";
+    try {
+        ps = Conexao.getConexao().prepareStatement(sql);
+        ps.setString(1, cpf);
+        ps.setInt(2, id);
+        ps.execute();
+        ps.close();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
-
-    public void AlterarEmailClien(int id, String n) {
-        String sql = "UPDATE clientes SET email_clientes = ? WHERE id_clientes = ?";
-        try (Connection conn = Conexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, n);
-            ps.setInt(2, id);
-            ps.execute();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+}
+public void alterarEmail(int id, String email){
+    PreparedStatement ps = null;
+    String sql = "UPDATE clientes SET email_clientes = ? WHERE id_clientes = ?";
+    try {
+        ps = Conexao.getConexao().prepareStatement(sql);
+        ps.setString(1, email);
+        ps.setInt(2, id);
+        ps.execute();
+        ps.close();
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
+}
 }
