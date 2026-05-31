@@ -1,11 +1,9 @@
 package servicos;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 import DAO.ClientesDAO;
-import entidades.Clientes;
-import entidades.Endereco;
+
 
 import menu.cliente.MenuClientePrint;
 
