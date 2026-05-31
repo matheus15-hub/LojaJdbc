@@ -4,9 +4,8 @@ import menu.MenuAlterar.AlterarProduto;
 import menu.MenuAlterar.AlterarVendedor;
 import menu.Menuprint;
 import menu.Menuremov;
+import menu.MenuPrincipal;
 import threads.ProcessadorPedido;
-
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -308,5 +307,10 @@ public class Main {
 
     public static void linha() {
         System.out.println("==========================================================================================");
+        ProcessadorPedido fila = new ProcessadorPedido();
+        fila.setDaemon(true);
+        fila.start();
+
+        new MenuPrincipal().iniciar();
     }
 }
