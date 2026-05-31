@@ -4,8 +4,8 @@ import menu.MenuAlterar.AlterarProduto;
 import menu.MenuAlterar.AlterarVendedor;
 import menu.Menuprint;
 import menu.Menuremov;
-import menu.MenuPrincipal;
 import threads.ProcessadorPedido;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -241,28 +241,26 @@ public class Main {
                             int alterar = sca.nextInt();
                                 sca.nextLine();
                         switch (alterar){
-                    case 1:
-                        new AlterarVendedor().alterarNome();
-                        break;
-
-                    case 2:
-                        new AlterarVendedor().alterarTelefone();
-                        break;
-
-                    case 3:
-                        new AlterarVendedor().alterarEmail();
-                        break;
-
-                    case 4:
-                        new AlterarVendedor().alterarSalario();
-                        break;
-
-                    default:
+                            case 1:
+                                new AlterarVendedor().alterarNome();
+                                break;
+                            case 2:
+                                new AlterarVendedor().alterarTelefone();
+                                break;
+                            case 3:
+                                new AlterarVendedor().alterarEmail();
+                                break;
+                            case 4:
+                                new AlterarVendedor().alterarSalario();
+                                break;
+                            default:
                         System.out.println("Opção inválida.");
                     }
+                        break;
                     case 5:
                         System.out.println("VOLTANDO...");
                         break;
+
                     default:
                         System.out.println("OPÇÃO INVÁLIDA!");
                 }
@@ -307,10 +305,5 @@ public class Main {
 
     public static void linha() {
         System.out.println("==========================================================================================");
-        ProcessadorPedido fila = new ProcessadorPedido();
-        fila.setDaemon(true);
-        fila.start();
-
-        new MenuPrincipal().iniciar();
     }
 }
