@@ -69,15 +69,15 @@ public class ClientesDAO {
     }
 
     public void mostrarClient() {
-        String sql = """
-                    SELECT *
-                    FROM clientes c
-                    JOIN cliente_endereco ce
-                        ON c.id_clientes = ce.id_clientes
-                    JOIN endereco e
-                        ON ce.id_endereco = e.id_endereco
-                    WHERE c.id_clientes = ?
-                    """;
+        String sql = 
+                    "select *"+
+                    "from clientes c"+
+                    "join cliente_endereco ce"+
+                        "on c.id_clientes = ce.id_clientes"+
+                    "join endereco e"+
+                        "on ce.id_endereco = e.id_endereco"+
+                    "where c.id_clientes = ?"
+                    ;
         
         try (Connection conn = Conexao.getConexao();
              Statement sts = conn.createStatement();
