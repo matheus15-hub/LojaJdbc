@@ -192,7 +192,85 @@ public class PedidoDAO {
         }
     }
 
-    public static void linha() {
-        System.out.println("============================================================================================");
+    
+    public static String buscarStatusPedido(int idPedido) {
+        String sql = "select status_pedido from pedido where id_pedido = ?";
+        try (Connection conn = Conexao.criarNovaConexao();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idPedido);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("status_pedido");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar status do pedido: " + e.getMessage());
+        }
+        return null;
     }
-}
+
+
+    public static boolean pedidoExiste(int idPedido) {
+        String sql = "select 1 from pedido where id_pedido = ?";
+        try (Connection conn = Conexao.criarNovaConexao();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idPedido);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+
+    public static void cancelarPedido(int idPedido) {
+        String sqlItens = "select id_produtos, quantidade from item_pedido where id_pedido = ?";
+        String sqlUpdateEstoque = "update produtos set estoque = estoque + ? where id_produtos = ?";
+        String sqlUpdatePedido = "update pedido set status_pedido = 'CANCELADO' where id_pedido = ?";
+
+        try (Connection conn = Conexao.criarNovaConexao()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement psItens = conn.prepareStatement(sqlItens)) {
+                psItens.setInt(1, idPedido);
+                try (ResultSet rs = psItens.executeQuery()) {
+                    try (PreparedStatement psEstoque = conn.prepareStatement(sqlUpdateEstoque)) {
+                        while (rs.next()) {
+                            psEstoque.setInt(1, rs.getInt("quantidade"));
+                            psEstoque.setInt(2, rs.getInt("id_produtos"));
+                            psEstoque.executeUpdate();
+                        }
+                    }
+                }
+            }
+
+            try (PreparedStatement psPedido = conn.prepareStatement(sqlUpdatePedido)) {
+                psPedido.setInt(1, idPedido);
+                psPedido.executeUpdate();
+            }
+
+            conn.commit();
+            System.out.println("Pedido #" + idPedido + " CANCELADO com sucesso e estoque devolvido!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao cancelar pedido: " + e.getMessage());
+        }
+    }
+
+    public static void alterarObservacao(int idPedido, String novaObs) {
+        String sql = "update pedido set observacao = ? where id_pedido = ?";
+        try (Connection conn = Conexao.criarNovaConexao();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, novaObs);
+            ps.setInt(2, idPedido);
+            ps.executeUpdate();
+            System.out.println("Observação do pedido #" + idPedido + " atualizada com sucesso!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao alterar observação: " + e.getMessage());
+        }
+    }
+
+        public static void linha() {
+            System.out.println("============================================================================================");
+        }
+    }

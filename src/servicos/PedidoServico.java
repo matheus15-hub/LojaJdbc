@@ -2,6 +2,7 @@ package servicos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import entidades.ItemPedido;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
@@ -14,7 +15,7 @@ public class PedidoServico {
     private double valorTotalAcumulado;
     private String observacaoPedido;
     private String statusAtualPedido;
-
+    private Scanner sca = new Scanner(System.in);
     public PedidoServico() {
         this.carrinhoComponentes = new ArrayList<>();
         this.valorTotalAcumulado = 0.0;
@@ -56,26 +57,60 @@ public class PedidoServico {
     }
 
     public void finalizarFluxo(int opcaoDecisao) {
-    if (opcaoDecisao == 1) {
-        this.statusAtualPedido = "EM_FILA";
-        PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, observacaoPedido, this.statusAtualPedido);
-        System.out.println("Pedido enviado para a fila de processamento!");
-    } else if (opcaoDecisao == 2) {
-        this.statusAtualPedido = "ABERTO";
-        PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, observacaoPedido, this.statusAtualPedido);
-        System.out.println("Pedido salvo e mantido sob o status 'ABERTO'.");
-    } else {
-        System.out.println("Venda cancelada com sucesso.");
+        if (opcaoDecisao == 1) {
+            this.statusAtualPedido = "EM_FILA";
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, observacaoPedido, this.statusAtualPedido);
+            System.out.println("Pedido enviado para a fila de processamento!");
+        } else if (opcaoDecisao == 2) {
+            this.statusAtualPedido = "ABERTO";
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, observacaoPedido, this.statusAtualPedido);
+            System.out.println("Pedido saved e mantido sob o status 'ABERTO'.");
+        } else {
+            System.out.println("Venda cancelada com sucesso.");
+        }
     }
-}
 
     public void validarSePermiteAlteracao(String statusAtual) {
-    if (!statusAtual.equalsIgnoreCase("ABERTO")) {
-        System.out.println("\n[BLOQUEIO DE SEGURANÇA] Este pedido possui o status: " + statusAtual);
-        System.out.println("Não é permitido alterar dados de pedidos que não estejam em estado 'ABERTO'.");
-        throw new IllegalStateException("Operação negada: Pedido bloqueado para alterações.");
+        if (!statusAtual.equalsIgnoreCase("ABERTO")) {
+            System.out.println("\n[BLOQUEIO DE SEGURANÇA] Este pedido possui o status: " + statusAtual);
+            System.out.println("Não é permitido alterar dados de pedidos que não estejam em estado 'ABERTO'.");
+            throw new IllegalStateException("Operação negada: Pedido bloqueado para alterações.");
+        }
     }
-}
+
+    public int verificarId(int idPedido) {
+        while (true) {
+            if (!PedidoDAO.pedidoExiste(idPedido)) {
+                System.out.println("Pedido com código " + idPedido + " não encontrado.");
+                System.out.print("Digite um ID de pedido válido: ");
+                while (!sca.hasNextInt()) {
+                    System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                    sca.next();
+                }
+                idPedido = sca.nextInt();
+            } else {
+                return idPedido;
+            }
+        }
+    }
+
+    public void processarCancelamento(int idPedido) {
+        String status = PedidoDAO.buscarStatusPedido(idPedido);
+        try {
+            validarSePermiteAlteracao(status);
+            PedidoDAO.cancelarPedido(idPedido);
+        } catch (IllegalStateException e) {
+        }
+    }
+
+    public void processarAlteracaoObservacao(int idPedido, String novaObs) {
+        String status = PedidoDAO.buscarStatusPedido(idPedido);
+        try {
+            validarSePermiteAlteracao(status);
+            PedidoDAO.alterarObservacao(idPedido, novaObs);
+        } catch (IllegalStateException e) {
+        }
+    }
 
     public List<ItemPedido> getCarrinhoComponentes() { return carrinhoComponentes; }
     public double getValorTotalAcumulado() { return valorTotalAcumulado; }

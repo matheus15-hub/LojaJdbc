@@ -9,6 +9,9 @@ import menu.produto.MenuProdutoPrint;
 import menu.produto.MenuProdutoRemover;
 import menu.produto.MenuProdutoadd;
 import menu.vendedor.MenuVendedorAdd;
+import menu.pedido.MenuPedidoAlterar;
+import menu.pedido.MenuPedidoPrint;
+import menu.pedido.MenuPedidoRemover;
 
 import java.util.Scanner;
 
@@ -91,19 +94,22 @@ public class MenuPrincipal {
         int opcao = lerInt();
         linha();
 
-        switch (opcao) {
-            case 1: new MenuPedidoAdd().novoPedido();      
-            break;
-            case 2: System.out.println("PEDIDO REMOVIDO!"); 
-            break;
-            case 3:    System.out.println("tem que ser feito"); 
-            break;
-            case 4: System.out.println("VOLTANDO..."); 
-            break;
-            default: System.out.println("OPÇÃO INVÁLIDA!");
-             break;
-        }
+    
+        switch(opcao) {
+            case 1:
+                new MenuPedidoAdd().novoPedido();
+                break;
+            case 2:
+                new MenuPedidoAlterar().alterarPedido();
+                break;
+            case 3:
+                new MenuPedidoPrint().exibirMenuPrint();
+                break;
+            case 4:
+                new MenuPedidoRemover().removerPedido();
+                break;
     }
+}
 
    
     private void menuProdutos() {
