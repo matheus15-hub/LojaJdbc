@@ -13,13 +13,12 @@ public class PedidoServico {
     private int idVendedorSelecionado;
     private List<ItemPedido> carrinhoComponentes;
     private double valorTotalAcumulado;
-    private String observacaoPedido;
     private String statusAtualPedido;
-    private Scanner sca = new Scanner(System.in);
+    private final Scanner sca = new Scanner(System.in);
+
     public PedidoServico() {
         this.carrinhoComponentes = new ArrayList<>();
         this.valorTotalAcumulado = 0.0;
-        this.observacaoPedido = "";
         this.statusAtualPedido = "ABERTO";
     }
 
@@ -39,12 +38,12 @@ public class PedidoServico {
 
         int estoque = ProdutoDAO.buscarEstoque(idProd);
         if (qtd > estoque) {
-            System.out.println("Estoque insuficiente!");
+            System.out.println("Estoque insuficiente! Estoque atual: " + estoque);
             return false;
         }
 
         double preco = ProdutoDAO.buscarPreco(idProd);
-        System.out.println("Preço do produto: R$ " + preco);
+        System.out.println("Preço unitário: R$ " + preco);
 
         ItemPedido item = new ItemPedido(idProd, qtd, preco);
         carrinhoComponentes.add(item);
@@ -52,26 +51,22 @@ public class PedidoServico {
         return true;
     }
 
-    public void definirObservacao(String observacao) {
-        this.observacaoPedido = observacao;
-    }
-
     public void finalizarFluxo(int opcaoDecisao) {
         if (opcaoDecisao == 1) {
-            this.statusAtualPedido = "EM_FILA";
-            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, observacaoPedido, this.statusAtualPedido);
-            System.out.println("Pedido enviado para a fila de processamento!");
+            this.statusAtualPedido = "FILA";
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", this.statusAtualPedido);
+            System.out.println("Pedido enviado com sucesso para a fila de processamento!");
         } else if (opcaoDecisao == 2) {
             this.statusAtualPedido = "ABERTO";
-            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, observacaoPedido, this.statusAtualPedido);
-            System.out.println("Pedido saved e mantido sob o status 'ABERTO'.");
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", this.statusAtualPedido);
+            System.out.println("Pedido salvo e mantido com o status 'ABERTO' para futuras alterações.");
         } else {
-            System.out.println("Venda cancelada com sucesso.");
+            System.out.println("Operação cancelada. A venda não foi registrada.");
         }
     }
 
     public void validarSePermiteAlteracao(String statusAtual) {
-        if (!statusAtual.equalsIgnoreCase("ABERTO")) {
+        if (statusAtual == null || !statusAtual.equalsIgnoreCase("ABERTO")) {
             System.out.println("\n[BLOQUEIO DE SEGURANÇA] Este pedido possui o status: " + statusAtual);
             System.out.println("Não é permitido alterar dados de pedidos que não estejam em estado 'ABERTO'.");
             throw new IllegalStateException("Operação negada: Pedido bloqueado para alterações.");
@@ -88,6 +83,7 @@ public class PedidoServico {
                     sca.next();
                 }
                 idPedido = sca.nextInt();
+                sca.nextLine();
             } else {
                 return idPedido;
             }
@@ -99,15 +95,6 @@ public class PedidoServico {
         try {
             validarSePermiteAlteracao(status);
             PedidoDAO.cancelarPedido(idPedido);
-        } catch (IllegalStateException e) {
-        }
-    }
-
-    public void processarAlteracaoObservacao(int idPedido, String novaObs) {
-        String status = PedidoDAO.buscarStatusPedido(idPedido);
-        try {
-            validarSePermiteAlteracao(status);
-            PedidoDAO.alterarObservacao(idPedido, novaObs);
         } catch (IllegalStateException e) {
         }
     }

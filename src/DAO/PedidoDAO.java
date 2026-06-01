@@ -14,63 +14,60 @@ import entidades.ItemPedido;
 public class PedidoDAO {
 
     public static void finalizarVenda(int idCliente, int idVendedor, List<ItemPedido> carrinho, double total, String observacao, String status) {
-    
-    String sqlPedido = "insert into pedido (id_clientes, id_vendedor, status_pedido, observacao, valor_total) values (?, ?, ?, ?, ?)";
-    String sqlItem = "insert into item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) values (?, ?, ?, ?, ?)";
-    String sqlEstoque = "update produtos set estoque = estoque - ? where id_produtos = ? and estoque >= ?";
+        String sqlPedido = "insert into pedido (id_clientes, id_vendedor, status_pedido, valor_total) values (?, ?, ?, ?)";
+        String sqlItem = "insert into item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) values (?, ?, ?, ?, ?)";
+        String sqlEstoque = "update produtos set estoque = estoque - ? where id_produtos = ? and estoque >= ?";
 
-    try (Connection conn = Conexao.criarNovaConexao();
-         PreparedStatement psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
-         PreparedStatement psItem = conn.prepareStatement(sqlItem);
-         PreparedStatement psEstoque = conn.prepareStatement(sqlEstoque)) {
+        try (Connection conn = Conexao.criarNovaConexao();
+             PreparedStatement psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement psItem = conn.prepareStatement(sqlItem);
+             PreparedStatement psEstoque = conn.prepareStatement(sqlEstoque)) {
 
-        conn.setAutoCommit(false);
+            conn.setAutoCommit(false);
 
-        psPedido.setInt(1, idCliente);
-        psPedido.setInt(2, idVendedor);
-        psPedido.setString(3, status); 
-        
-        psPedido.setString(4, observacao); 
-        psPedido.setDouble(5, total);
+            psPedido.setInt(1, idCliente);
+            psPedido.setInt(2, idVendedor);
+            psPedido.setString(3, status); 
+            psPedido.setDouble(4, total);
 
-        psPedido.executeUpdate();
+            psPedido.executeUpdate();
 
-        try (ResultSet rs = psPedido.getGeneratedKeys()) {
-            int idPedidoGerado = 0;
-            if (rs.next()) {
-                idPedidoGerado = rs.getInt(1);
-            }
-
-            for (ItemPedido item : carrinho) {
-                psEstoque.setInt(1, item.getQuantidade());
-                psEstoque.setInt(2, item.getIdProdutos());
-                psEstoque.setInt(3, item.getQuantidade());
-
-                int linhasAfetadas = psEstoque.executeUpdate();
-
-                if (linhasAfetadas == 0) {
-                    conn.rollback();
-                    System.out.println("Estoque insuficiente para o produto ID: " + item.getIdProdutos());
-                    return;
+            try (ResultSet rs = psPedido.getGeneratedKeys()) {
+                int idPedidoGerado = 0;
+                if (rs.next()) {
+                    idPedidoGerado = rs.getInt(1);
                 }
 
-                psItem.setInt(1, idPedidoGerado);
-                psItem.setInt(2, item.getIdProdutos());
-                psItem.setInt(3, item.getQuantidade());
-                psItem.setDouble(4, item.getPrecoUnitario());
-                psItem.setDouble(5, item.getSubtotal());
+                for (ItemPedido item : carrinho) {
+                    psEstoque.setInt(1, item.getQuantidade());
+                    psEstoque.setInt(2, item.getIdProdutos());
+                    psEstoque.setInt(3, item.getQuantidade());
 
-                psItem.executeUpdate();
+                    int linhasAfetadas = psEstoque.executeUpdate();
+
+                    if (linhasAfetadas == 0) {
+                        conn.rollback();
+                        System.out.println("Estoque insuficiente para o produto ID: " + item.getIdProdutos());
+                        return;
+                    }
+
+                    psItem.setInt(1, idPedidoGerado);
+                    psItem.setInt(2, item.getIdProdutos());
+                    psItem.setInt(3, item.getQuantidade());
+                    psItem.setDouble(4, item.getPrecoUnitario());
+                    psItem.setDouble(5, item.getSubtotal());
+
+                    psItem.executeUpdate();
+                }
             }
+
+            conn.commit();
+            System.out.println("Venda salva com sucesso no sistema!");
+
+        } catch (SQLException e) {
+            System.out.println("ERRO ao finalizar venda: " + e.getMessage());
         }
-
-        conn.commit();
-        System.out.println("Venda salva com sucesso no sistema!");
-
-    } catch (SQLException e) {
-        System.out.println("ERRO ao finalizar venda: " + e.getMessage());
     }
-}
 
     public static void imprimirPedidoS() {
         String sql = "select * from item_pedido i " +
@@ -85,41 +82,24 @@ public class PedidoDAO {
              
             while (resultSet.next()) {
                 int idPedido = resultSet.getInt("id_pedido");
-                int idCliente = resultSet.getInt("id_clientes");
-                int idVendedor = resultSet.getInt("id_vendedor");
-                int idProduto = resultSet.getInt("id_produtos");
-
-                String nomeProduto = resultSet.getString("nome_produtos");
+                String nomeProduto = resultSet.getString("nome_produto");
                 int quantidade = resultSet.getInt("quantidade");
                 float precouni = resultSet.getFloat("preco_unitario");
                 float subTotal = resultSet.getFloat("subtotal");
-                float totalValor = resultSet.getFloat("valor_total");
 
                 String nomeCliente = resultSet.getString("nome_clientes");
-                String cpf = resultSet.getString("cpf_clientes");
+                String cpf = resultSet.getString("cpf");
 
                 int idvendedor = resultSet.getInt("id_vendedor");
                 String nomev = resultSet.getString("nome_vendedor");
                 String telVendedor = resultSet.getString("telefone_vendedor");
-
                 String status = resultSet.getString("status_pedido");
                 
-                String obs = resultSet.getString("observacao");
-                
-                LocalDateTime data = resultSet.getTimestamp("data_pedido").toLocalDateTime();
-                
                 linha();
-                System.out.println("||\t\t\t\t\tPEDIDO: " + idPedido + " \t\t\t\t\t||");
+                System.out.println("||\t\t\t\t\tPEDIDO: " + idPedido + " [" + status + "] \t\t\t\t\t||");
                 linha();
                 System.out.printf("|| Cliente: %-20s \t Cpf: %-14s\t||%n", nomeCliente, cpf);
-                
-                if (obs != null && !obs.trim().isEmpty()) {
-                    System.out.printf("|| OBSERVAÇÃO: %-71s ||%n", obs);
-                }
-                
-                linha();
-                
-                new ItemPedidoDao().mostrarItemPedido(idPedido);
+                System.out.printf("|| Produto: %-20s \t Qtd: %-3d \t Preço: R$ %-6.2f \t Subtotal: R$ %-6.2f ||%n", nomeProduto, quantidade, precouni, subTotal);
                 linha();
                 System.out.printf("|| Vendedor: %3d\tNome: %-20s\tTelefone: %-14s\t\t||%n", idvendedor, nomev, telVendedor);
                 linha();
@@ -162,10 +142,10 @@ public class PedidoDAO {
     }
 
     public static void relatorioProdutosMaisVendidos() {
-        String sql = "select pr.nome_produtos, sum(ip.quantidade) as total_unidades, sum(ip.subtotal) as total_arrecadado " +
+        String sql = "select pr.nome_produto, sum(ip.quantidade) as total_unidades, sum(ip.subtotal) as total_arrecadado " +
                      "from item_pedido ip " +
                      "inner join produtos pr on ip.id_produtos = pr.id_produtos " +
-                     "group by pr.id_produtos, pr.nome_produtos " +
+                     "group by pr.id_produtos, pr.nome_produto " +
                      "order by total_unidades desc";
 
         try (Connection conn = Conexao.criarNovaConexao();
@@ -179,7 +159,7 @@ public class PedidoDAO {
             boolean temDados = false;
             while (rs.next()) {
                 temDados = true;
-                String nome = rs.getString("nome_produtos");
+                String nome = rs.getString("nome_produto");
                 int qtd = rs.getInt("total_unidades");
                 double total = rs.getDouble("total_arrecadado");
                 System.out.printf("%-20s | %-15d | R$ %-12.2f%n", nome, qtd, total);
@@ -192,7 +172,6 @@ public class PedidoDAO {
         }
     }
 
-    
     public static String buscarStatusPedido(int idPedido) {
         String sql = "select status_pedido from pedido where id_pedido = ?";
         try (Connection conn = Conexao.criarNovaConexao();
@@ -209,7 +188,6 @@ public class PedidoDAO {
         return null;
     }
 
-
     public static boolean pedidoExiste(int idPedido) {
         String sql = "select 1 from pedido where id_pedido = ?";
         try (Connection conn = Conexao.criarNovaConexao();
@@ -223,11 +201,10 @@ public class PedidoDAO {
         }
     }
 
-
     public static void cancelarPedido(int idPedido) {
         String sqlItens = "select id_produtos, quantidade from item_pedido where id_pedido = ?";
         String sqlUpdateEstoque = "update produtos set estoque = estoque + ? where id_produtos = ?";
-        String sqlUpdatePedido = "update pedido set status_pedido = 'CANCELADO' where id_pedido = ?";
+        String sqlUpdatePedido = "update pedido set status_pedido = 'FINALIZADO' where id_pedido = ?"; // Tabela usa FINALIZADO no lugar de CANCELADO conforme o enum
 
         try (Connection conn = Conexao.criarNovaConexao()) {
             conn.setAutoCommit(false);
@@ -251,26 +228,18 @@ public class PedidoDAO {
             }
 
             conn.commit();
-            System.out.println("Pedido #" + idPedido + " CANCELADO com sucesso e estoque devolvido!");
+            System.out.println("Pedido #" + idPedido + " processado sob encerramento e estoque atualizado!");
         } catch (SQLException e) {
             System.out.println("Erro ao cancelar pedido: " + e.getMessage());
         }
     }
 
     public static void alterarObservacao(int idPedido, String novaObs) {
-        String sql = "update pedido set observacao = ? where id_pedido = ?";
-        try (Connection conn = Conexao.criarNovaConexao();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, novaObs);
-            ps.setInt(2, idPedido);
-            ps.executeUpdate();
-            System.out.println("Observação do pedido #" + idPedido + " atualizada com sucesso!");
-        } catch (SQLException e) {
-            System.out.println("Erro ao alterar observação: " + e.getMessage());
-        }
+        System.out.println("Nota: A coluna 'observacao' foi removida do banco de dados.");
+        System.out.println("Pedido #" + idPedido + " validado, mas a observação não pôde ser salva.");
     }
 
-        public static void linha() {
-            System.out.println("============================================================================================");
-        }
+    public static void linha() {
+        System.out.println("============================================================================================");
     }
+}
