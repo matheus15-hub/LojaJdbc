@@ -86,32 +86,36 @@ public class MenuPrincipal {
    
     private void menuPedidos() {
         linha();
-        System.out.println("||                              PEDIDOS                                        ||");
+        System.out.println("||                               PEDIDOS                                        ||");
         linha();
-        System.out.println("|| 1) Criar   2) Remover   3) Consultar   4) Voltar                           ||");
+        System.out.println("|| 1) Criar   2) Remover   3) Alterar   4) Consultar   5) Voltar               ||");
         linha();
         System.out.print("|| ESCOLHA: ");
-        int opcao = lerInt();
-        linha();
+        int opcao = sca.nextInt();
+        sca.nextLine(); // Garante a limpeza do buffer do scanner
 
-    
         switch(opcao) {
             case 1:
                 new MenuPedidoAdd().novoPedido();
                 break;
             case 2:
-                new MenuPedidoAlterar().alterarPedido();
+                new menu.pedido.MenuPedidoRemover().removerPedido();
                 break;
-            case 3:
-                new MenuPedidoPrint().exibirMenuPrint();
+            case 3: 
+                new menu.pedido.MenuPedidoAlterar().alterarPedido();
                 break;
             case 4:
-                new MenuPedidoRemover().removerPedido();
+                new MenuPedidoPrint().exibirMenuPrint();
                 break;
+            case 5:
+                System.out.println("Voltando...");
+                return;
+            default:
+                System.out.println("Opção inválida!");
+                break;
+        }
     }
-}
-
-   
+ 
     private void menuProdutos() {
         linha();
         System.out.println("||                              PRODUTOS                                       ||");
