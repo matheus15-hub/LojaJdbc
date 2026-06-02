@@ -3,7 +3,7 @@ package menu.vendedor;
 
 import DAO.VendedorDAO;
 import entidades.Vendedor;
-import servicos.VendedorServico;
+import servicos.VendedorSer;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -14,7 +14,7 @@ public class MenuVendedorAlterar {
 
     private int selecionarVendedor(){
 
-        VendedorServico vendedorServico = new VendedorServico();
+        VendedorSer vendedorServico = new VendedorSer();
 
         vendedorServico.mostrar();
 
@@ -58,9 +58,9 @@ public class MenuVendedorAlterar {
         String novoNome = sca.nextLine();
 
         novoNome =
-                new VendedorServico().verificarNome(novoNome);
+                new VendedorSer().verificarNome(novoNome);
 
-        new VendedorServico()
+        new VendedorSer()
                 .alterarNome(idVendedor, novoNome);
     }
 
@@ -73,9 +73,9 @@ public class MenuVendedorAlterar {
         String novoTelefone = sca.nextLine();
 
         novoTelefone =
-                new VendedorServico().verificarTelefone(novoTelefone);
+                new VendedorSer().verificarTelefone(novoTelefone);
 
-        new VendedorServico()
+        new VendedorSer()
                 .alterarTelefone(idVendedor, novoTelefone);
     }
 
@@ -88,9 +88,9 @@ public class MenuVendedorAlterar {
         String novoEmail = sca.nextLine();
 
         novoEmail =
-                new VendedorServico().verificarEmail(novoEmail);
+                new VendedorSer().verificarEmail(novoEmail);
 
-        new VendedorServico()
+        new VendedorSer()
                 .alterarEmail(idVendedor, novoEmail);
     }
 
@@ -103,7 +103,7 @@ public class MenuVendedorAlterar {
         BigDecimal novoSalario =
                 new BigDecimal(sca.nextLine().replace(",", "."));
 
-        new VendedorServico()
+        new VendedorSer()
                 .alterarSalario(idVendedor, novoSalario);
     }
 

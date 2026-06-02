@@ -2,7 +2,7 @@ package menu.cliente;
 
 import java.util.Scanner;
 
-import servicos.Clienteser;
+import servicos.ClienteSer;
 
 public class MenuClienteAlterar {
     Scanner sca = new Scanner(System.in);
@@ -59,9 +59,9 @@ public class MenuClienteAlterar {
             }
 
             int id = sca.nextInt();
-            id = new Clienteser().vereficarId(id);
+            id = new ClienteSer().vereficarId(id);
 
-            new Clienteser().mostrarId(id);
+            new ClienteSer().mostrarId(id);
 
             System.out.println("Esse é o cliente que deseja alterar? SIM = s , NÃO = n");
             System.out.print("Resposta: ");
@@ -82,9 +82,9 @@ public class MenuClienteAlterar {
 
         System.out.print("Novo Nome: ");
         String nome = sca.nextLine();
-        nome = new Clienteser().verificarNome(nome);
+        nome = new ClienteSer().verificarNome(nome);
 
-        new Clienteser().alterarNome(id_cliente, nome);
+        new ClienteSer().alterarNome(id_cliente, nome);
     }
 
     public void cpfCliente() {
@@ -94,9 +94,9 @@ public class MenuClienteAlterar {
 
         System.out.print("Novo CPF (sem formatação): ");
         String cpf = sca.nextLine();
-        cpf = new Clienteser().verificarCPF_clientes(cpf);
+        cpf = new ClienteSer().verificarCPF_clientes(cpf);
 
-        new Clienteser().alterarCpf(id_cliente, cpf);
+        new ClienteSer().alterarCpf(id_cliente, cpf);
     }
 
     public void emailCliente() {
@@ -106,9 +106,9 @@ public class MenuClienteAlterar {
 
         System.out.print("Novo Email: ");
         String email = sca.nextLine();
-        email = new Clienteser().vereficarEmail_clientes(email);
+        email = new ClienteSer().vereficarEmail_clientes(email);
 
-        new Clienteser().alterarEmail(id_cliente, email);
+        new ClienteSer().alterarEmail(id_cliente, email);
     }
 }
 

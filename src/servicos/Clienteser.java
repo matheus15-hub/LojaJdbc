@@ -2,32 +2,32 @@ package servicos;
 
 import java.util.Scanner;
 
-import DAO.ClientesDAO;
+import DAO.ClienteDAO;
 
 
 import menu.cliente.MenuClientePrint;
 
-public class Clienteser {
+public class ClienteSer {
 
     private Scanner sca = new Scanner(System.in);
 
 
     public void removerCli(int id) {
-        ClientesDAO.removerCliente(id);
+        ClienteDAO.removerCliente(id);
         System.out.println("Cliente removido com sucesso!");
     }
 
     public void mostrar() {
-        new ClientesDAO().mostrarClient();
+        new ClienteDAO().mostrarClient();
     }
 
     public void mostrarId(int id) {
         // RESOLVIDO: Agora chama o método real criado na DAO
-        new ClientesDAO().mostrarId(id);
+        new ClienteDAO().mostrarId(id);
     }
 
     public void mostrarFiltro(String nome) {
-        new ClientesDAO().mostrarClientFiltro(nome);
+        new ClienteDAO().mostrarClientFiltro(nome);
     }
 
     public String verificarNome(String nome_cliente) {
@@ -70,7 +70,7 @@ public class Clienteser {
 
     public int vereficarId(int id) {
         while (true) {
-            if (!ClientesDAO.vereficarExistencia(id)) {
+            if (!ClienteDAO.vereficarExistencia(id)) {
                 System.out.println("Cliente com o ID " + id + " não encontrado!");
                 new MenuClientePrint().metodoBusca();
                 System.out.print("\nDigite um ID válido da lista acima: ");
@@ -118,17 +118,17 @@ public class Clienteser {
 
     public void alterarNome(int id, String nome){
     nome = nome.toUpperCase();
-    new ClientesDAO().alterarNome(id, nome);
+    new ClienteDAO().alterarNome(id, nome);
     mostrarId(id);
     System.out.println("Nome alterado!");
 }
     public void alterarCpf(int id, String cpf){
-    new ClientesDAO().alterarCpf(id, cpf);
+    new ClienteDAO().alterarCpf(id, cpf);
     mostrarId(id);
     System.out.println("CPF alterado!");
 }
 public void alterarEmail(int id, String email){
-    new ClientesDAO().alterarEmail(id, email);
+    new ClienteDAO().alterarEmail(id, email);
     mostrarId(id);
     System.out.println("Email alterado!");
 }

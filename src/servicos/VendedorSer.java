@@ -7,7 +7,7 @@ import entidades.Vendedor;
 
 import menu.vendedor.MenuVendedorPrint;
 
-public class VendedorServico {
+public class VendedorSer {
     Scanner sca = new Scanner(System.in);
 
 

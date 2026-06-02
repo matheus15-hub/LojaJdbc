@@ -4,7 +4,7 @@ import java.sql.Connection; // ALTERADO: Importado para gerenciar a conexão de 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class ItemPedidoDao {
+public class ItemPedidoDAO {
     public void mostrarItemPedido(int id){
         String sql = "select * from item_pedido i join produtos p on i.id_produtos = p.id_produtos where id_pedido = ?";
         

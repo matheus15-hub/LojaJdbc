@@ -1,7 +1,8 @@
 package servicos;
 
 import DAO.ClasseDao;
-import DAO.MedidaDao;
+import DAO.MedidaDAO;
+import DAO.MedidaDAO;
 import DAO.ProdutoDAO;
 import entidades.Produto;
 import menu.produto.MenuProdutoPrint;
@@ -9,7 +10,7 @@ import menu.produto.MenuProdutoPrint;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class Produtoser {
+public class ProdutoSer {
     Scanner sca = new Scanner(System.in);
 
 
@@ -153,24 +154,24 @@ public class Produtoser {
     public void alterarNome(int id, String nome){
         nome = nome.toUpperCase();
         new ProdutoDAO().alterarnome(id , nome);
-        new Produtoser().mostrarId(id);
+        new ProdutoSer().mostrarId(id);
     
     }
     public void alterarPreco(int id , BigDecimal f){
         new ProdutoDAO().alterarpreco(id, f);
-        new Produtoser().mostrarId(id);
+        new ProdutoSer().mostrarId(id);
     }
     public void alterarEstoque(int id, int estoque){
     new ProdutoDAO().alterarEstoque(id, estoque);
-    new Produtoser().mostrarId(id);
+    new ProdutoSer().mostrarId(id);
     
 }public void alterarCategoria(int id, int categoria){
     new ClasseDao().alterarCategoria(id, categoria);
-    new Produtoser().mostrarId(id);
+    new ProdutoSer().mostrarId(id);
   
 }public void alterarMedida(int id, int medida){
-    new MedidaDao().alterarMedida(id, medida);
-    new Produtoser().mostrarId(id);
+    new MedidaDAO().alterarMedida(id, medida);
+    new ProdutoSer().mostrarId(id);
     
 }
 

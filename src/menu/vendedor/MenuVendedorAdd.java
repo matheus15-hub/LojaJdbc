@@ -8,7 +8,7 @@ import entidades.Vendedor;
 import menu.endereco.MenuEnderecoAdd;
 import servicos.EnderecoSer;
 import servicos.EnderecoVendedorSer;
-import servicos.VendedorServico;
+import servicos.VendedorSer;
 
 public class MenuVendedorAdd {
     Scanner sca = new  Scanner(System.in);
@@ -16,15 +16,15 @@ public class MenuVendedorAdd {
 
         System.out.print("Nome do Vendedor: ");
         String nome = sca.nextLine();
-        nome = new VendedorServico().verificarNome(nome);
+        nome = new VendedorSer().verificarNome(nome);
 
         System.out.print("Telefone: ");
         String tel = sca.nextLine();
-        tel = new VendedorServico().verificarTelefone(tel);
+        tel = new VendedorSer().verificarTelefone(tel);
 
         System.out.print("Email: ");
         String email = sca.nextLine();
-        email = new VendedorServico().verificarEmail(email);
+        email = new VendedorSer().verificarEmail(email);
 
         System.out.print("Salário: ");
         while (!sca.hasNextDouble()) {

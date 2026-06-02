@@ -1,17 +1,17 @@
 package servicos;
 
-import DAO.MedidaDao;
+import DAO.MedidaDAO;
 
 import java.util.Scanner;
 
-public class Medidaser {
+public class MedidaSer {
      Scanner sca = new Scanner(System.in);
     public static void mostrar(){
-        MedidaDao.mostrar();
+        MedidaDAO.mostrar();
     }
     public int vereficadorId(int id){
         while(true){
-        if (!MedidaDao.vereficarid(id)){
+        if (!MedidaDAO.vereficarid(id)){
             System.out.println("Codigo " + id+ " não cadastrado em nosso banco de dados.");
             mostrar();
             System.out.println("Digite um dos Codigos Cadastrados Acima:");

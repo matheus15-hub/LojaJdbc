@@ -2,7 +2,7 @@ package menu.produto;
 
 import java.util.Scanner;
 
-import servicos.Produtoser;
+import servicos.ProdutoSer;
 
 public class MenuProdutoRemover {
 
@@ -31,8 +31,8 @@ public class MenuProdutoRemover {
         }
 
         int codigo_produto = sca.nextInt();
-        codigo_produto = new Produtoser().verificarId(codigo_produto);
+        codigo_produto = new ProdutoSer().verificarId(codigo_produto);
 
-        new Produtoser().remover(codigo_produto);
+        new ProdutoSer().remover(codigo_produto);
     }
 }

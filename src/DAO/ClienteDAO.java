@@ -7,7 +7,7 @@ import java.sql.Statement;
 import conexao.Conexao;
 import entidades.Clientes;
 
-public class ClientesDAO {
+public class ClienteDAO {
 
     public int addCliente(Clientes clientes) {
         Connection conn = null;

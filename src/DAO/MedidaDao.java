@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class MedidaDao {
+public class MedidaDAO {
     public static void mostrar(){
         Statement st = null;
         ResultSet rs = null;
@@ -29,7 +29,7 @@ public class MedidaDao {
             throw new RuntimeException(e);
         }
     }
-    public static boolean vereficarid(int id){
+    public static boolean vereficarid(int id){ 
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "Select * from unidade_medida where idUnidade = ?";

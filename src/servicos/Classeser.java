@@ -4,7 +4,7 @@ import DAO.ClasseDao;
 
 import java.util.Scanner;
 
-public class Classeser {
+public class ClasseSer {
     Scanner sca = new Scanner(System.in);
     public static void mostrar(){
         ClasseDao.mostrar();

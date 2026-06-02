@@ -5,14 +5,14 @@ import java.util.Scanner;
 import entidades.Clientes;
 import entidades.Endereco;
 import menu.endereco.MenuEnderecoAdd;
-import servicos.Clienteser;
+import servicos.ClienteSer;
 import servicos.EnderecoClienteSer;
 import servicos.EnderecoSer;
 
 public class MenuClienteAdd {
     Scanner sca = new Scanner(System.in);
      public void Clienteadd() {
-        Clienteser clienteServico = new Clienteser();
+        ClienteSer clienteServico = new ClienteSer();
 
         System.out.print("Nome do Cliente: ");
         String nome = sca.nextLine();

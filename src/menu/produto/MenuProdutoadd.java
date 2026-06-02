@@ -15,13 +15,13 @@ public class MenuProdutoadd {
     public void Produtoadd() {
         System.out.print("Nome do Produto: ");
         String nome = sca.nextLine();
-        nome = new Produtoser().verificarNome(nome);
+        nome = new ProdutoSer().verificarNome(nome);
 
-        BigDecimal preco = new Produtoser().verificarValor();
+        BigDecimal preco = new ProdutoSer().verificarValor();
 
-        int estoque = new Produtoser().verificarEstoque();
+        int estoque = new ProdutoSer().verificarEstoque();
 
-        Classeser.mostrar();
+        ClasseSer.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar in seu produto:");
         System.out.print("Categoria: ");
         while (!sca.hasNextInt()){
@@ -30,10 +30,10 @@ public class MenuProdutoadd {
             System.out.print("Digite um Codigo Cadastrado: ");
         }
         int categoria = sca.nextInt();
-        categoria = new Classeser().vereficarid(categoria);
+        categoria = new ClasseSer().vereficarid(categoria);
 
         sca.nextLine();
-        Medidaser.mostrar();
+        MedidaSer.mostrar();
         System.out.println("Escolha uma medida de venda cadastrada para colocar in seu produto:");
         System.out.print("Escolha: ");
         while (!sca.hasNextInt()){
@@ -42,10 +42,10 @@ public class MenuProdutoadd {
             System.out.print("Digite um Codigo Cadastrado: ");
         }
         int medida = sca.nextInt();
-        medida = new Medidaser().vereficadorId(medida);
+        medida = new MedidaSer().vereficadorId(medida);
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
-        new Produtoser().adicionar(p);
-        new Produtoser().mostrar();
+        new ProdutoSer().adicionar(p);
+        new ProdutoSer().mostrar();
     }
 }

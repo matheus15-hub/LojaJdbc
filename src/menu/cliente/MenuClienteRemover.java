@@ -2,7 +2,7 @@ package menu.cliente;
 
 import java.util.Scanner;
 
-import servicos.Clienteser;
+import servicos.ClienteSer;
 
 public class MenuClienteRemover {
 
@@ -31,8 +31,8 @@ public class MenuClienteRemover {
         }
 
         int codigo_cliente = sca.nextInt();
-        codigo_cliente = new Clienteser().vereficarId(codigo_cliente);
+        codigo_cliente = new ClienteSer().vereficarId(codigo_cliente);
 
-        new Clienteser().removerCli(codigo_cliente);
+        new ClienteSer().removerCli(codigo_cliente);
     }
 }
