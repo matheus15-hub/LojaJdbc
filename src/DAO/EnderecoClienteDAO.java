@@ -3,6 +3,7 @@ package DAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
 import conexao.Conexao;
@@ -47,6 +48,57 @@ public class EnderecoClienteDAO {
             System.out.println("Erro ao vincular endereço e o cliente: " + e.getMessage());
 
         }
+    }
+    public void mostrarEndeClie(int id){
+        String sql = "select * from clientes c " +
+                "join cliente_endereco ce on c.id_clientes = ce.id_clientes " +
+                "join endereco e on ce.id_endereco = e.id_endereco where id_clientes = ?";
+
+        try {
+            Connection conn = Conexao.getConexao();
+            stmt =  conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+             ResultSet res = stmt.executeQuery() ;
+
+            while (res.next()) {
+                int id_endereco = res.getInt("id_endereco");
+
+                String rua = res.getString("rua");
+                String numero = res.getString("numero");
+                String bairro = res.getString("bairro");
+                String cidade = res.getString("cidade");
+                String cep = res.getString("cep");
+
+                System.out.println("========================================================================================================================");
+                System.out.printf("||ID: %5d | RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n",id_endereco, rua, numero, bairro, cidade, cep);
+                System.out.println("========================================================================================================================");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
+        }
+    }
+        public boolean verificarEndeClie(int idcliente, int idendereco) {
+            String sql = """
+            SELECT 1
+            FROM cliente_endereco
+            WHERE id_clientes = ?
+              AND id_endereco = ?
+            """;
+
+            try {
+                Connection conn = Conexao.getConexao();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+
+                stmt.setInt(1, idcliente);
+                stmt.setInt(2, idendereco);
+
+                ResultSet rs = stmt.executeQuery();
+
+                return rs.next();
+
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao verificar endereço do cliente: " + e.getMessage());
+            }
     }
 
 }

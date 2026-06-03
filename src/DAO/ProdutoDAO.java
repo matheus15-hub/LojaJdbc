@@ -46,7 +46,7 @@ public class ProdutoDAO {
                 float preco = res.getFloat("preco");
                 int estoque = res.getInt("estoque");
                 String categoria = res.getString("nome_classe");
-                String classe = res.getString("sigla_medida");
+                String classe = res.getString("nome_medida");
                 linha();
                 System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-15s\tMEDIDA: %-5s||%n",
                         id, nome, preco, estoque, categoria, classe);
@@ -74,7 +74,7 @@ public class ProdutoDAO {
                 float preco = res.getFloat("preco");
                 int estoque = res.getInt("estoque");
                 String categoria = res.getString("nome_classe");
-                String classe = res.getString("sigla_medida");
+                String classe = res.getString("nome_medida");
                 linha();
                 System.out.printf("||ID: %5d\tNOME: %-25s\tPRECO: R$%.2f\tEstoque: %d\tCATEGORIA: %-12s\tMEDIDA: %-5s||%n",
                         id, nome, preco, estoque, categoria, classe);

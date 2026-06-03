@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import entidades.Endereco;
 import entidades.Vendedor;
-import menu.endereco.MenuAlteracaoEndereco;
+import menu.endereco.MenuCadastroEndereco;
 import servicos.EnderecoService;
 import servicos.EnderecoVendedorService;
 import servicos.VendedorSer;
@@ -40,7 +40,7 @@ public class MenuAlteracaoVendedor {
         int escolhaVinculacaoEndereco = sca.nextInt();
         if (escolhaVinculacaoEndereco == 1) {
  
-       Endereco endereco = new MenuAlteracaoEndereco().addEndereco();
+       Endereco endereco = new MenuCadastroEndereco().addEndereco();
 
        new EnderecoVendedorService().addVendedorEndereco(vendedor, endereco);
 

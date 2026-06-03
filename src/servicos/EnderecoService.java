@@ -234,4 +234,31 @@ public class EnderecoService {
         }
         return id;
     }
+    public void alterarRua(int id, String rua){
+        rua = rua.toUpperCase();
+        new EnderecoDAO().alterarRua(id, rua);
+        System.out.println("Rua alterada!");
+    }
+    public void alterarNumero(int id, String numero){
+        new EnderecoDAO().alterarNumero(id, numero);
+        System.out.println("Número alterado!");
+    }
+    public void alterarBairro(int id, String bairro){
+        bairro = bairro.toUpperCase();
+        new EnderecoDAO().alterarBairro(id, bairro);
+
+        System.out.println("Bairro alterado!");
+    }
+    public void alterarCidade(int id, String cidade){
+        cidade = cidade.toUpperCase();
+        new EnderecoDAO().alterarCidade(id, cidade);
+
+        System.out.println("Cidade alterada!");
+    }
+    public void alterarCep(int id, String cep){
+        new EnderecoDAO().alterarCep(id, cep);
+
+        System.out.println("CEP alterado!");
+    }
+
 }

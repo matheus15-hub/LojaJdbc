@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import entidades.Cliente;
 import entidades.Endereco;
-import menu.endereco.MenuAlteracaoEndereco;
+import menu.endereco.MenuCadastroEndereco;
 import servicos.ClienteService;
 import servicos.EnderecoClienteSer;
 import servicos.EnderecoService;
@@ -31,7 +31,7 @@ public class MenuCadastroCliente {
         System.out.print("Escolha: ");
         int escolhaVinculacaoEndereco = sca.nextInt();
         if(escolhaVinculacaoEndereco == 1) {
-            Endereco e = new MenuAlteracaoEndereco().addEndereco();
+            Endereco e = new MenuCadastroEndereco().addEndereco();
             new EnderecoClienteSer().addEnderecoCliente(c, e);
         } else if (escolhaVinculacaoEndereco == 2) {
             int idEndereco =  0;

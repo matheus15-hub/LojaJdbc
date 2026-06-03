@@ -25,6 +25,7 @@ public class MedidaDAO {
                     System.out.println("");
                 }
             }
+            System.out.println("");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

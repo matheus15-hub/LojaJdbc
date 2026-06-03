@@ -130,4 +130,75 @@ public class EnderecoDAO {
             throw new RuntimeException(e);
         }
     }
+    public void alterarRua(int id, String rua){
+        PreparedStatement ps = null;
+        String sql = "UPDATE endereco SET rua = ? WHERE id_endereco = ?";
+
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, rua);
+            ps.setInt(2, id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void alterarNumero(int id, String numero){
+        PreparedStatement ps = null;
+        String sql = "UPDATE endereco SET numero = ? WHERE id_endereco = ?";
+
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, numero);
+            ps.setInt(2, id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void alterarBairro(int id, String bairro){
+        PreparedStatement ps = null;
+        String sql = "UPDATE endereco SET bairro = ? WHERE id_endereco = ?";
+
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, bairro);
+            ps.setInt(2, id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void alterarCidade(int id, String cidade){
+        PreparedStatement ps = null;
+        String sql = "UPDATE endereco SET cidade = ? WHERE id_endereco = ?";
+
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, cidade);
+            ps.setInt(2, id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void alterarCep(int id, String cep){
+        PreparedStatement ps = null;
+        String sql = "UPDATE endereco SET cep = ? WHERE id_endereco = ?";
+
+        try {
+            ps = Conexao.getConexao().prepareStatement(sql);
+            ps.setString(1, cep);
+            ps.setInt(2, id);
+            ps.execute();
+            ps.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -5,7 +5,7 @@ import java.util.Scanner;
 import entidades.Endereco;
 import servicos.EnderecoService;
 
-public class MenuAlteracaoEndereco {
+public class MenuCadastroEndereco {
     Scanner sca = new Scanner(System.in);
     public Endereco addEndereco(){
                System.out.println("========================= NOVO ENDEREÇO==========================");

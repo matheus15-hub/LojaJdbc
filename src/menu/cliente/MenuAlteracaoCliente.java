@@ -2,6 +2,7 @@ package menu.cliente;
 
 import java.util.Scanner;
 
+import menu.endereco.MenuAlterarEndereco;
 import servicos.ClienteService;
 
 public class MenuAlteracaoCliente {
@@ -10,8 +11,8 @@ public class MenuAlteracaoCliente {
 
     while (true) {
 
-        System.out.println("\n================ ALTERAÇÃO DE CLIENTES ================");
-        System.out.println("1) Alterar Nome | 2) Alterar CPF | 3) Alterar Email | 0) Voltar");
+        System.out.println("\n========================== ALTERAÇÃO DE CLIENTES ================================");
+        System.out.println("1) Alterar Nome | 2) Alterar CPF | 3) Alterar Email | 4) Alterar Endereco 0) Voltar");
         System.out.print("Escolha: ");
 
         while (!sca.hasNextInt()) {
@@ -36,6 +37,9 @@ public class MenuAlteracaoCliente {
             case 3:
                 emailCliente();
                 break;
+            case 4:
+                int id = selecionarCliente();
+                new MenuAlterarEndereco().menuAlterarEnderecoCliente(id);
 
             case 0:
                 return;
