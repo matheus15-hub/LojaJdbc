@@ -147,15 +147,14 @@ public boolean addComissao(int idPedido) {
 
         java.math.BigDecimal valorTotal = rs.getBigDecimal("valor_total");
 
-        String statusPedido = rs.getString("status_pedido")
-                                .toUpperCase();
+        String statusPedido = rs.getString("status_pedido");
 
         int idVendedor = rs.getInt("id_vendedor");
 
         rs.close();
         stmt.close();
 
-        if (!statusPedido.equals("CONCLUIDO")) {
+        if (statusPedido.equalsIgnoreCase("CONCLUIDO")) {
 
             System.out.println(
                 "Comissão não adicionada. " +
@@ -165,7 +164,6 @@ public boolean addComissao(int idPedido) {
 
             conn.close();
             return false;
-        }
 
         // ================= CALCULA 1% =================
         java.math.BigDecimal comissao = valorTotal.multiply(new java.math.BigDecimal("0.01"));
@@ -184,6 +182,7 @@ public boolean addComissao(int idPedido) {
         System.out.println("Comissão adicionada com sucesso.");
         return true;
 
+        }
     } catch (Exception e) {
 
         System.out.println("Erro ao adicionar comissão: " + e.getMessage());
