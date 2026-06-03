@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import conexao.Conexao;
 import entidades.ItemPedido;
 
@@ -206,6 +208,17 @@ public class PedidoDAO {
         System.out.println("Erro ao alterar observação: " + e.getMessage());
     }
 }
+
+    public static void concluirPedido(int idPedido) {
+        String sql = "UPDATE pedido set status_pedido = 'FINALIZADO' where id_pedido = ?";
+        try(Connection conn = Conexao.criarNovaConexao(); 
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, idPedido);
+            ps.executeUpdate();
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public static void linha() {
         System.out.println("============================================================================================");

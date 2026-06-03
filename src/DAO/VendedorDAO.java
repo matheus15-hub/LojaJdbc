@@ -138,7 +138,7 @@ public class VendedorDAO {
 
         rs.next();
 
-        if (!"CONCLUIDO".equalsIgnoreCase(rs.getString("status_pedido"))) {
+        if (!"FINALIZADO".equalsIgnoreCase(rs.getString("status_pedido"))) {
             return;
         }
 

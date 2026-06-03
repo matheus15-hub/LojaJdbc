@@ -6,6 +6,7 @@ import java.util.Scanner;
 import entidades.ItemPedido;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
+import DAO.VendedorDAO;
 
 public class PedidoService {
 
@@ -97,6 +98,13 @@ public class PedidoService {
             PedidoDAO.cancelarPedido(idPedido);
         } catch (IllegalStateException e) {
         }
+    }
+
+    public void concluirPedido(int idPedido) {
+        PedidoDAO.concluirPedido(idPedido);
+
+        VendedorDAO vendedorDAO = new VendedorDAO();
+        vendedorDAO.addComissao(idPedido);
     }
 
     public List<ItemPedido> getCarrinhoComponentes() { return carrinhoComponentes; }
