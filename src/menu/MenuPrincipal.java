@@ -1,17 +1,15 @@
 package menu;
 import menu.cliente.MenuCadastroCliente;
 import menu.cliente.MenuAlteracaoCliente;
-import menu.cliente.MenuRemocaoCliente;
 import menu.cliente.MenuConsultaCliente;
+import menu.cliente.MenuRemocaoCliente;
 import menu.pedido.MenuAlteracaoPedido;
 import menu.produto.MenuCadastroProduto;
 import menu.produto.MenuConsultaProduto;
 import menu.produto.MenuRemocaoProduto;
 import menu.produto.MenuAlteracaoProduto;
 import menu.vendedor.MenuAlteracaoVendedor;
-import menu.pedido.MenuCadastroPedido;
 import menu.pedido.MenuConsultaPedido;
-import menu.pedido.MenuRemocaoPedido;
 
 import java.util.Scanner;
 
@@ -63,11 +61,11 @@ public class MenuPrincipal {
                 break;
 
             case 2:
-                new MenuConsultaCliente().clienteRemover();
+                new MenuRemocaoCliente().clienteRemover();
                 break;
 
             case 3:
-                new MenuRemocaoCliente().metodoBusca();
+                new MenuConsultaCliente().metodoBusca();
                 break;
 
             case 4:

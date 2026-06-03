@@ -8,7 +8,9 @@ import servicos.EnderecoService;
 public class MenuCadastroEndereco {
     Scanner sca = new Scanner(System.in);
     public Endereco addEndereco(){
-               System.out.println("========================= NOVO ENDEREÇO==========================");
+            System.out.println("=========================================================");
+            System.out.println("\t\t\t\t NOVO ENDEREÇO \t\t\t\t");
+            System.out.println("=========================================================");
             System.out.print("Rua: ");
             String rua = sca.nextLine();
             rua = new EnderecoService().vereficarRua(rua);

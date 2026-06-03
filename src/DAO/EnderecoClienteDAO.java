@@ -50,9 +50,11 @@ public class EnderecoClienteDAO {
         }
     }
     public void mostrarEndeClie(int id){
-        String sql = "select * from clientes c " +
-                "join cliente_endereco ce on c.id_clientes = ce.id_clientes " +
-                "join endereco e on ce.id_endereco = e.id_endereco where id_clientes = ?";
+        String sql = """
+                select * from clientes c 
+                join cliente_endereco ce on c.id_clientes = ce.id_clientes 
+                join endereco e on ce.id_endereco = e.id_endereco 
+                where ce.id_clientes = ?""";
 
         try {
             Connection conn = Conexao.getConexao();

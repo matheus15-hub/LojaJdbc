@@ -51,7 +51,7 @@ public class MenuAlteracaoCliente {
 }
     private int selecionarCliente() {
         while (true) {
-            new MenuRemocaoCliente().metodoBusca();
+            new MenuConsultaCliente().metodoBusca();
             System.out.println("======================================================\n");
             System.out.println("Escolha o ID correspondente do cliente:");
             System.out.print("ID: ");

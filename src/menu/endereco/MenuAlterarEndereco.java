@@ -12,9 +12,10 @@ public class MenuAlterarEndereco {
         int idEndereco = selecionarEndereco(id);
         System.out.println("=================================================================");
         System.out.println("||\t\tO que deseja alterar nesse endereço\t\t||");
-        System.out.println("|| 1)RUA | 2)NUMERO 3)BAIRRO | 4)CIDADE | 5)CEP | 6)VOLTAR ||");
+        System.out.println("|| 1) RUA  2) NUMERO  3) BAIRRO  4) CIDADE  5) CEP  0) VOLTAR ||");
         System.out.print("||Escolha: ");
         int escolha = sca.nextInt();
+        sca.nextLine();
         switch (escolha){
             case 1:
                 ruaEndereco(id);
@@ -31,7 +32,7 @@ public class MenuAlterarEndereco {
             case 5:
                 cepEndereco(id);
                 break;
-            case 6:
+            case 0:
                 return;
             default:
                 System.out.println("Opcão invalida!");
@@ -59,7 +60,7 @@ public class MenuAlterarEndereco {
             }
             idendereco = sca.nextInt();
             idendereco = new EnderecoClienteSer().vereficarLigacao(id, idendereco);
-            System.out.println("Deseja mesmo altera o endereço com ID:" + id+" ?");
+            System.out.println("Deseja mesmo altera o endereço com ID:" + idendereco+" ?");
             System.out.print("1) Sim | 2)Não :");
             int queralterar = sca.nextInt();
             if(queralterar == 1) break;

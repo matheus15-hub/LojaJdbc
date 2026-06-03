@@ -1,51 +1,38 @@
 package menu.cliente;
 
-import servicos.ClienteService;
-
 import java.util.Scanner;
+
+import servicos.ClienteService;
 
 public class MenuRemocaoCliente {
 
     Scanner sca = new Scanner(System.in);
 
-    public void metodoBusca() {
-        while (true) {
-            System.out.println("=========================== Metodo de Busca ===========================");
-            System.out.println("Buscar: 1) Com filtro (caso deseje um cliente específico) 2) Todos os clientes cadastrados");
-            System.out.print("Escolha: ");
+    public void clienteRemover() {
 
-            while (!sca.hasNextInt()) {
-                System.out.println("Digite apenas números!");
-                sca.nextLine();
-                System.out.print("Escolha: ");
-            }
+        System.out.println("\t\tDeletando CLIENTES");
+        System.out.println("Buscar Clientes 1) Sim 2) Não");
+        System.out.print("Escolha: ");
 
-            int busca = sca.nextInt();
+        int resposta = sca.nextInt();
+
+        if (resposta == 1) {
             sca.nextLine();
-
-            if (busca == 1) {
-                printCliente();
-                break;
-            } else if (busca == 2) {
-                printClienteFiltro();
-                break;
-            } else {
-                System.out.println("=========================== Escolha inválida! ===========================");
-                System.out.println("=========================== Tente novamente ===========================");
-            }
+            new MenuConsultaCliente().metodoBusca();
         }
-    }
 
-    public void printCliente() {
-        new ClienteService().mostrar();
-    }
+        System.out.println("SELECIONE O ID DO CLIENTE QUE DESEJA EXCLUIR");
+        System.out.print("ID: ");
 
-    public void printClienteFiltro() {
-        System.out.print("Nome do Cliente: ");
-        String nome = sca.nextLine();
+        while (!sca.hasNextInt()) {
+            System.out.println("Código inválido! Digite apenas números inteiros correspondentes aos clientes cadastrados.");
+            sca.nextLine();
+            System.out.print("Digite um Código Cadastrado: ");
+        }
 
-        nome = new ClienteService().verificarNome(nome);
+        int codigo_cliente = sca.nextInt();
+        codigo_cliente = new ClienteService().vereficarId(codigo_cliente);
 
-        new ClienteService().mostrarFiltro(nome);
+        new ClienteService().removerCli(codigo_cliente);
     }
 }
