@@ -17,10 +17,9 @@ public class VendedorDAO {
 
     public int addVendedor(Vendedor vendedor) {
 
-        String sql =
-            "insert into vendedor" +
-            "(nome_vendedor, telefone_vendedor, email_vendedor, salario)" +
-            "values (?, ?, ?, ?);";
+        String sql = "insert into vendedor" +
+                "(nome_vendedor, telefone_vendedor, email_vendedor, salario)" +
+                "values (?, ?, ?, ?);";
 
         int ultimoId = -1;
 
@@ -28,8 +27,7 @@ public class VendedorDAO {
 
             Connection conn = Conexao.getConexao();
 
-            PreparedStatement stmt =
-                    conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, vendedor.getNomeVendedor());
             stmt.setString(2, vendedor.getTelefoneVendedor());
@@ -37,14 +35,13 @@ public class VendedorDAO {
             stmt.setBigDecimal(4, vendedor.getSalario());
             stmt.execute();
 
-                ResultSet rs = stmt.getGeneratedKeys();
+            ResultSet rs = stmt.getGeneratedKeys();
 
-                if (rs.next()) {
-                    ultimoId = rs.getInt(1);
-                }
+            if (rs.next()) {
+                ultimoId = rs.getInt(1);
+            }
 
-                rs.close();
-
+            rs.close();
 
             stmt.close();
             conn.close();
@@ -88,7 +85,7 @@ public class VendedorDAO {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, idBusca);
             rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
                 int id = rs.getInt("id_vendedor");
                 String nome = rs.getString("nome_vendedor");
@@ -106,88 +103,58 @@ public class VendedorDAO {
                 rs.close();
                 stmt.close();
                 conn.close();
-                return v; 
+                return v;
             }
-            
+
             rs.close();
             stmt.close();
             conn.close();
-            
+
         } catch (Exception e) {
             System.out.println("Erro ao buscar por ID: " + e.getMessage());
         }
         return null;
     }
 
-public boolean addComissao(int idPedido) {
+   public void addComissao(int idPedido) {
+    String sqlPedido = """
+        SELECT valor_total, status_pedido, id_vendedor
+        FROM pedido
+        WHERE id_pedido = ?
+        """;
 
-    String sqlPedido =
-        "select p.valor_total, p.status_pedido, p.id_vendedor "+
-        "from pedido p "+
-        "where p.id_pedido = ?";
-
-    String sqlComissao =
-        "update vendedor" +
-        "set comissao = comissao + ?" +
-        "where id_vendedor = ?";
+    String sqlComissao = """
+        UPDATE vendedor
+        SET comissao = comissao + ?
+        WHERE id_vendedor = ?
+        """;
 
     try {
-
         conn = Conexao.getConexao();
 
         stmt = conn.prepareStatement(sqlPedido);
         stmt.setInt(1, idPedido);
-
         rs = stmt.executeQuery();
 
-        if (!rs.next()) {
-            System.out.println("Pedido não encontrado.");
-            return false;
+        rs.next();
+
+        if (!"CONCLUIDO".equalsIgnoreCase(rs.getString("status_pedido"))) {
+            return;
         }
 
-        java.math.BigDecimal valorTotal = rs.getBigDecimal("valor_total");
+        BigDecimal comissao = rs.getBigDecimal("valor_total")
+                .multiply(BigDecimal.valueOf(0.01));
 
-        String statusPedido = rs.getString("status_pedido");
-
-        int idVendedor = rs.getInt("id_vendedor");
-
-        rs.close();
-        stmt.close();
-
-        if (statusPedido.equalsIgnoreCase("CONCLUIDO")) {
-
-            System.out.println(
-                "Comissão não adicionada. " +
-                "Pedidos com status '" + statusPedido +
-                "' não geram comissão."
-            );
-
-            conn.close();
-            return false;
-
-        // ================= CALCULA 1% =================
-        java.math.BigDecimal comissao = valorTotal.multiply(new java.math.BigDecimal("0.01"));
-
-        // ================= ADICIONA COMISSÃO =================
         stmt = conn.prepareStatement(sqlComissao);
-
         stmt.setBigDecimal(1, comissao);
-        stmt.setInt(2, idVendedor);
-
+        stmt.setInt(2, rs.getInt("id_vendedor"));
         stmt.executeUpdate();
 
-        stmt.close();
-        conn.close();
-
         System.out.println("Comissão adicionada com sucesso.");
-        return true;
 
-        }
     } catch (Exception e) {
-
-        System.out.println("Erro ao adicionar comissão: " + e.getMessage());
-
-        return false;
+        System.out.println("Aviso: Não foi possível processar a comissão (" +
+                e.getMessage() + "). O sistema continuará normalmente.");
     }
 }
     public void mostrarVendedorFiltro(String nomePesquisa) {
@@ -206,30 +173,43 @@ public boolean addComissao(int idPedido) {
                 String email = rs.getString("email_vendedor");
                 System.out.printf("ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tEMAIL: %s%n", id, nome, tel, email);
             }
-            if (!encontrou) { System.out.println("Nenhum vendedor encontrado."); }
-            rs.close(); stmt.close(); conn.close();
-        } catch (Exception e) { System.out.println("Erro ao pesquisar vendedor: " + e.getMessage()); }
+            if (!encontrou) {
+                System.out.println("Nenhum vendedor encontrado.");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao pesquisar vendedor: " + e.getMessage());
+        }
     }
 
     public static boolean verificarExistencia(int h) {
-        PreparedStatement ps = null; ResultSet resultSet = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
         String sql = "SELECT COUNT(*) FROM vendedor WHERE id_vendedor=?";
         try {
             ps = Conexao.getConexao().prepareStatement(sql);
-            ps.setInt(1, h); resultSet = ps.executeQuery();
+            ps.setInt(1, h);
+            resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 boolean existe = resultSet.getInt(1) > 0;
-                resultSet.close(); ps.close(); return existe;
+                resultSet.close();
+                ps.close();
+                return existe;
             }
-        } catch (Exception e) { System.out.println(e.getMessage()); }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return false;
     }
 
     public static void linha() {
-        System.out.println("========================================================================================================================================================================================");
+        System.out.println(
+                "========================================================================================================================================================================================");
     }
-    
-    public void excluirVendedor(Vendedor vendedor){
+
+    public void excluirVendedor(Vendedor vendedor) {
 
         String sql = "DELETE FROM vendedor WHERE id_vendedor = ?";
 
@@ -251,108 +231,104 @@ public boolean addComissao(int idPedido) {
             throw new RuntimeException(e);
         }
     }
-    public void alterarNome(int idVendedor, String novoNome){
 
-    String sql =
-            "uptade vendedor" +
-            "set nome_vendedor = ?" +
-            "where id_vendedor = ?";
+    public void alterarNome(int idVendedor, String novoNome) {
 
-    try{
+        String sql = "uptade vendedor" +
+                "set nome_vendedor = ?" +
+                "where id_vendedor = ?";
 
-        conn = Conexao.getConexao();
-        stmt = conn.prepareStatement(sql);
+        try {
 
-        stmt.setString(1, novoNome);
-        stmt.setInt(2, idVendedor);
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
 
-        stmt.executeUpdate();
+            stmt.setString(1, novoNome);
+            stmt.setInt(2, idVendedor);
 
-        stmt.close();
-        conn.close();
+            stmt.executeUpdate();
 
-    }catch(Exception e){
+            stmt.close();
+            conn.close();
 
-        System.out.println("Erro ao alterar nome: " + e.getMessage());
+        } catch (Exception e) {
+
+            System.out.println("Erro ao alterar nome: " + e.getMessage());
+        }
+    }
+
+    public void alterarTelefone(int idVendedor, String novoTelefone) {
+
+        String sql = "update vendedor" +
+                "set telefone_vendedor = ?" +
+                "where id_vendedor = ?";
+
+        try {
+
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, novoTelefone);
+            stmt.setInt(2, idVendedor);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+
+            System.out.println("Erro ao alterar telefone: " + e.getMessage());
+        }
+    }
+
+    public void alterarEmail(int idVendedor, String novoEmail) {
+
+        String sql = "update vendedor" +
+                "set email_vendedor = ?" +
+                "where id_vendedor = ?";
+
+        try {
+
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, novoEmail);
+            stmt.setInt(2, idVendedor);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+
+            System.out.println("Erro ao alterar email: " + e.getMessage());
+        }
+    }
+
+    public void alterarSalario(int idVendedor, BigDecimal novoSalario) {
+
+        String sql = "update vendedor" +
+                "set salario = ?" +
+                "where id_vendedor = ?";
+
+        try {
+
+            conn = Conexao.getConexao();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setBigDecimal(1, novoSalario);
+            stmt.setInt(2, idVendedor);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+
+            System.out.println("Erro ao alterar salário: " + e.getMessage());
+        }
     }
 }
-
-public void alterarTelefone(int idVendedor, String novoTelefone){
-
-    String sql =
-            "update vendedor" +
-            "set telefone_vendedor = ?" +
-            "where id_vendedor = ?";
-
-    try{
-
-        conn = Conexao.getConexao();
-        stmt = conn.prepareStatement(sql);
-
-        stmt.setString(1, novoTelefone);
-        stmt.setInt(2, idVendedor);
-
-        stmt.executeUpdate();
-
-        stmt.close();
-        conn.close();
-
-    }catch(Exception e){
-
-        System.out.println("Erro ao alterar telefone: " + e.getMessage());
-    }
-}
-
-public void alterarEmail(int idVendedor, String novoEmail){
-
-    String sql =
-            "update vendedor" +
-            "set email_vendedor = ?" +
-            "where id_vendedor = ?";
-
-    try{
-
-        conn = Conexao.getConexao();
-        stmt = conn.prepareStatement(sql);
-
-        stmt.setString(1, novoEmail);
-        stmt.setInt(2, idVendedor);
-
-        stmt.executeUpdate();
-
-        stmt.close();
-        conn.close();
-
-    }catch(Exception e){
-
-        System.out.println("Erro ao alterar email: " + e.getMessage());
-    }
-}
-
-public void alterarSalario(int idVendedor, BigDecimal novoSalario){
-
-    String sql =
-            "update vendedor"+
-            "set salario = ?"+
-            "where id_vendedor = ?";
-
-    try{
-
-        conn = Conexao.getConexao();
-        stmt = conn.prepareStatement(sql);
-
-        stmt.setBigDecimal(1, novoSalario);
-        stmt.setInt(2, idVendedor);
-
-        stmt.executeUpdate();
-
-        stmt.close();
-        conn.close();
-
-    }catch(Exception e){
-
-        System.out.println("Erro ao alterar salário: " + e.getMessage());
-    }
-}
-}
-
