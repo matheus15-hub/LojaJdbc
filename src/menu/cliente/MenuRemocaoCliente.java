@@ -1,10 +1,10 @@
 package menu.cliente;
 
-import servicos.ClienteSer;
+import servicos.ClienteService;
 
 import java.util.Scanner;
 
-public class MenuClientePrint {
+public class MenuRemocaoCliente {
 
     Scanner sca = new Scanner(System.in);
 
@@ -37,15 +37,15 @@ public class MenuClientePrint {
     }
 
     public void printCliente() {
-        new ClienteSer().mostrar();
+        new ClienteService().mostrar();
     }
 
     public void printClienteFiltro() {
         System.out.print("Nome do Cliente: ");
         String nome = sca.nextLine();
 
-        nome = new ClienteSer().verificarNome(nome);
+        nome = new ClienteService().verificarNome(nome);
 
-        new ClienteSer().mostrarFiltro(nome);
+        new ClienteService().mostrarFiltro(nome);
     }
 }

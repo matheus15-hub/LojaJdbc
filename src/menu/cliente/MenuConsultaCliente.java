@@ -2,9 +2,9 @@ package menu.cliente;
 
 import java.util.Scanner;
 
-import servicos.ClienteSer;
+import servicos.ClienteService;
 
-public class MenuClienteRemover {
+public class MenuConsultaCliente {
 
     Scanner sca = new Scanner(System.in);
 
@@ -18,7 +18,7 @@ public class MenuClienteRemover {
 
         if (resposta == 1) {
             sca.nextLine();
-            new MenuClientePrint().metodoBusca();
+            new MenuRemocaoCliente().metodoBusca();
         }
 
         System.out.println("SELECIONE O ID DO CLIENTE QUE DESEJA EXCLUIR");
@@ -31,8 +31,8 @@ public class MenuClienteRemover {
         }
 
         int codigo_cliente = sca.nextInt();
-        codigo_cliente = new ClienteSer().vereficarId(codigo_cliente);
+        codigo_cliente = new ClienteService().vereficarId(codigo_cliente);
 
-        new ClienteSer().removerCli(codigo_cliente);
+        new ClienteService().removerCli(codigo_cliente);
     }
 }

@@ -1,16 +1,16 @@
 package servicos;
 
-import DAO.ClasseDao;
+import DAO.ClasseDAO;
 import DAO.MedidaDAO;
 import DAO.MedidaDAO;
 import DAO.ProdutoDAO;
 import entidades.Produto;
-import menu.produto.MenuProdutoPrint;
+import menu.produto.MenuConsultaProduto;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class ProdutoSer {
+public class ProdutoService {
     Scanner sca = new Scanner(System.in);
 
 
@@ -20,7 +20,7 @@ public class ProdutoSer {
     }
 
     public void mostrar() {
-        new ProdutoDAO().mostrarProduts();
+        new ProdutoDAO().listarProdutos();
     }
     public void mostrarId(int id){
         new ProdutoDAO().filtarProdutosId(id);
@@ -128,7 +128,7 @@ public class ProdutoSer {
 
                 System.out.println("Produto com código " + id + " não encontrado.");
 
-                new MenuProdutoPrint().metodoBusca();
+                new MenuConsultaProduto().metodoBusca();
 
                 System.out.println("Digite um dos códigos cadastrados acima:");
                 System.out.print("CÓDIGO: ");
@@ -154,24 +154,24 @@ public class ProdutoSer {
     public void alterarNome(int id, String nome){
         nome = nome.toUpperCase();
         new ProdutoDAO().alterarnome(id , nome);
-        new ProdutoSer().mostrarId(id);
+        new ProdutoService().mostrarId(id);
     
     }
     public void alterarPreco(int id , BigDecimal f){
         new ProdutoDAO().alterarpreco(id, f);
-        new ProdutoSer().mostrarId(id);
+        new ProdutoService().mostrarId(id);
     }
     public void alterarEstoque(int id, int estoque){
     new ProdutoDAO().alterarEstoque(id, estoque);
-    new ProdutoSer().mostrarId(id);
+    new ProdutoService().mostrarId(id);
     
 }public void alterarCategoria(int id, int categoria){
-    new ClasseDao().alterarCategoria(id, categoria);
-    new ProdutoSer().mostrarId(id);
+    new ClasseDAO().alterarCategoria(id, categoria);
+    new ProdutoService().mostrarId(id);
   
 }public void alterarMedida(int id, int medida){
     new MedidaDAO().alterarMedida(id, medida);
-    new ProdutoSer().mostrarId(id);
+    new ProdutoService().mostrarId(id);
     
 }
 

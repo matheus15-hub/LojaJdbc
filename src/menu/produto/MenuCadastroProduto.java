@@ -1,14 +1,14 @@
 package menu.produto;
 
 
-import servicos.ClasseSer;
-import servicos.MedidaSer;
-import servicos.ProdutoSer;
+import servicos.ClasseService;
+import servicos.MedidaService;
+import servicos.ProdutoService;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class MenuProdutoAlterar {
+public class MenuCadastroProduto {
     Scanner sca = new Scanner(System.in);
     int id_produto;
     String certezadoProduto;
@@ -61,7 +61,7 @@ public class MenuProdutoAlterar {
 }
     private int selecionarProduto() {
     while (true) {
-        new MenuProdutoPrint().metodoBusca();
+        new MenuConsultaProduto().metodoBusca();
         System.out.println("======================================================\n");
         System.out.println("Escolha o ID correspondente do produto:");
         System.out.print("ID: ");
@@ -73,9 +73,9 @@ public class MenuProdutoAlterar {
         }
 
         int id = sca.nextInt();
-        id = new ProdutoSer().verificarId(id);
+        id = new ProdutoService().verificarId(id);
 
-        new ProdutoSer().mostrarId(id);
+        new ProdutoService().mostrarId(id);
 
         System.out.println("Esse é o produto que deseja alterar? SIM = s , NÃO = n");
         System.out.print("Resposta: ");
@@ -95,9 +95,9 @@ public class MenuProdutoAlterar {
 
     System.out.print("Novo Nome: ");
     String nome_produto = sca.nextLine();
-    nome_produto = new ProdutoSer().verificarNome(nome_produto);
+    nome_produto = new ProdutoService().verificarNome(nome_produto);
 
-    new ProdutoSer().alterarNome(id_produto, nome_produto);
+    new ProdutoService().alterarNome(id_produto, nome_produto);
 }
 public void precoProduto() {
     System.out.println("Alteração de Preço de Produto");
@@ -105,25 +105,25 @@ public void precoProduto() {
     int id_produto = selecionarProduto();
 
     System.out.println("\tNovo Preço");
-    BigDecimal preco = new ProdutoSer().verificarValor();
+    BigDecimal preco = new ProdutoService().verificarValor();
 
-    new ProdutoSer().alterarPreco(id_produto, preco);
+    new ProdutoService().alterarPreco(id_produto, preco);
 }
 public void estoqueProduto() {
     System.out.println("Alteração de Estoque de Produto");
 
     int id_produto = selecionarProduto();
 
-    int estoque = new ProdutoSer().verificarEstoque();
+    int estoque = new ProdutoService().verificarEstoque();
 
-    new ProdutoSer().alterarEstoque(id_produto, estoque);
+    new ProdutoService().alterarEstoque(id_produto, estoque);
 }
 public void categoriaProduto() {
     System.out.println("Alteração de Categoria de Produto");
 
     int id_produto = selecionarProduto();
 
-    ClasseSer.mostrar();
+    ClasseService.mostrar();
 
     System.out.print("Nova Categoria: ");
 
@@ -133,16 +133,16 @@ public void categoriaProduto() {
     }
 
     int categoria = sca.nextInt();
-    categoria = new ClasseSer().vereficarid(categoria);
+    categoria = new ClasseService().vereficarid(categoria);
 
-    new ProdutoSer().alterarCategoria(id_produto, categoria);
+    new ProdutoService().alterarCategoria(id_produto, categoria);
 }
 public void medidaProduto() {
     System.out.println("Alteração de Unidade de Medida");
 
     int id_produto = selecionarProduto();
 
-    MedidaSer.mostrar();
+    MedidaService.mostrar();
 
     System.out.print("Nova Medida: ");
 
@@ -152,8 +152,8 @@ public void medidaProduto() {
     }
 
     int medida = sca.nextInt();
-    medida = new MedidaSer().vereficadorId(medida);
+    medida = new MedidaService().vereficadorId(medida);
 
-    new ProdutoSer().alterarMedida(id_produto, medida);
+    new ProdutoService().alterarMedida(id_produto, medida);
 }
 }

@@ -3,7 +3,7 @@ package menu.pedido;
 import java.util.Scanner;
 import DAO.PedidoDAO;
 
-public class MenuPedidoPrint {
+public class MenuConsultaPedido {
     private Scanner sca = new Scanner(System.in);
 
     public void exibirMenuPrint() {

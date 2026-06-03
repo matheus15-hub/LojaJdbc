@@ -8,7 +8,7 @@ import servicos.VendedorSer;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class MenuVendedorAlterar {
+public class MenuCadastroVendedor {
 
     Scanner sca = new Scanner(System.in);
 

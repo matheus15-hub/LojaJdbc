@@ -1,17 +1,17 @@
 package servicos;
 
-import DAO.ClasseDao;
+import DAO.ClasseDAO;
 
 import java.util.Scanner;
 
-public class ClasseSer {
+public class ClasseService {
     Scanner sca = new Scanner(System.in);
     public static void mostrar(){
-        ClasseDao.mostrar();
+        ClasseDAO.mostrar();
     }
     public int vereficarid(int id){
         while (true){
-            if (!ClasseDao.vereficarId(id)) {
+            if (!ClasseDAO.vereficarId(id)) {
 
                 System.out.println("Código " + id + " não cadastrado em nosso banco de dados.");
 

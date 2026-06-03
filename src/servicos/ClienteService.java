@@ -5,9 +5,9 @@ import java.util.Scanner;
 import DAO.ClienteDAO;
 
 
-import menu.cliente.MenuClientePrint;
+import menu.cliente.MenuRemocaoCliente;
 
-public class ClienteSer {
+public class ClienteService {
 
     private Scanner sca = new Scanner(System.in);
 
@@ -72,7 +72,7 @@ public class ClienteSer {
         while (true) {
             if (!ClienteDAO.vereficarExistencia(id)) {
                 System.out.println("Cliente com o ID " + id + " não encontrado!");
-                new MenuClientePrint().metodoBusca();
+                new MenuRemocaoCliente().metodoBusca();
                 System.out.print("\nDigite um ID válido da lista acima: ");
 
                 while (!sca.hasNextInt()) {

@@ -2,17 +2,17 @@ package menu.cliente;
 
 import java.util.Scanner;
 
-import entidades.Clientes;
+import entidades.Cliente;
 import entidades.Endereco;
-import menu.endereco.MenuEnderecoAdd;
-import servicos.ClienteSer;
+import menu.endereco.MenuAlteracaoEndereco;
+import servicos.ClienteService;
 import servicos.EnderecoClienteSer;
-import servicos.EnderecoSer;
+import servicos.EnderecoService;
 
-public class MenuClienteAdd {
+public class MenuCadastroCliente {
     Scanner sca = new Scanner(System.in);
      public void Clienteadd() {
-        ClienteSer clienteServico = new ClienteSer();
+        ClienteService clienteServico = new ClienteService();
 
         System.out.print("Nome do Cliente: ");
         String nome = sca.nextLine();
@@ -26,16 +26,16 @@ public class MenuClienteAdd {
         String email_clientes = sca.nextLine();
         email_clientes = clienteServico.vereficarEmail_clientes(email_clientes);
 
-        Clientes c = new Clientes( nome, cpf, email_clientes);
+        Cliente c = new Cliente( nome, cpf, email_clientes);
         System.out.println("Dejesa: 1) Criar um novo endereço  | 2 ) Selecionar um endereço existente");
         System.out.print("Escolha: ");
         int escolhaVinculacaoEndereco = sca.nextInt();
         if(escolhaVinculacaoEndereco == 1) {
-            Endereco e = new MenuEnderecoAdd().addEndereco();
+            Endereco e = new MenuAlteracaoEndereco().addEndereco();
             new EnderecoClienteSer().addEnderecoCliente(c, e);
         } else if (escolhaVinculacaoEndereco == 2) {
             int idEndereco =  0;
-            idEndereco = new EnderecoSer().escolherEndereco(idEndereco);
+            idEndereco = new EnderecoService().escolherEndereco(idEndereco);
             new EnderecoClienteSer().vincularClienteEndereco(c , idEndereco);
         }
     }

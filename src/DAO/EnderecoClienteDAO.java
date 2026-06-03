@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.concurrent.ExecutionException;
 
 import conexao.Conexao;
-import entidades.Clientes;
+import entidades.Cliente;
 import entidades.Endereco;
 
 public class EnderecoClienteDAO {
@@ -14,7 +14,7 @@ public class EnderecoClienteDAO {
     PreparedStatement stmt;
 
 
-    public void novoClienteEndereco(Clientes clientes, Endereco endereco){
+    public void novoClienteEndereco(Cliente clientes, Endereco endereco){
         String sql = "INSERT INTO cliente_endereco(id_clientes, id_endereco) VALUES(?, ?)";
         try{
             conn = Conexao.getConexao();
@@ -31,7 +31,7 @@ public class EnderecoClienteDAO {
 
         }
     }
-    public void VincularEnderecoCliente(Clientes clientes, int idEndereco){
+    public void VincularEnderecoCliente(Cliente clientes, int idEndereco){
         String sql = "INSERT INTO cliente_endereco(id_clientes, id_endereco) VALUES(?, ?)";
         try{
             conn = Conexao.getConexao();

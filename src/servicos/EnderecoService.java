@@ -6,7 +6,7 @@ import util.Console;
 
 import java.util.Scanner;
 
-public class EnderecoSer {
+public class EnderecoService {
 
     Scanner sca = new Scanner(System.in);
 

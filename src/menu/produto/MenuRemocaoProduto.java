@@ -2,9 +2,9 @@ package menu.produto;
 
 import java.util.Scanner;
 
-import servicos.ProdutoSer;
+import servicos.ProdutoService;
 
-public class MenuProdutoRemover {
+public class MenuRemocaoProduto {
 
     Scanner sca = new Scanner(System.in);
 
@@ -18,7 +18,7 @@ public class MenuProdutoRemover {
 
         if (resposta == 1) {
             sca.nextLine();
-            new MenuProdutoPrint().metodoBusca();
+            new MenuConsultaProduto().metodoBusca();
         }
 
         System.out.println("SELECIONE O ID DO PRODUTO QUE DESEJA EXCLUIR");
@@ -31,8 +31,8 @@ public class MenuProdutoRemover {
         }
 
         int codigo_produto = sca.nextInt();
-        codigo_produto = new ProdutoSer().verificarId(codigo_produto);
+        codigo_produto = new ProdutoService().verificarId(codigo_produto);
 
-        new ProdutoSer().remover(codigo_produto);
+        new ProdutoService().remover(codigo_produto);
     }
 }

@@ -2,9 +2,9 @@ package menu.cliente;
 
 import java.util.Scanner;
 
-import servicos.ClienteSer;
+import servicos.ClienteService;
 
-public class MenuClienteAlterar {
+public class MenuAlteracaoCliente {
     Scanner sca = new Scanner(System.in);
     public void menuAlterarCliente() {
 
@@ -47,7 +47,7 @@ public class MenuClienteAlterar {
 }
     private int selecionarCliente() {
         while (true) {
-            new MenuClientePrint().metodoBusca();
+            new MenuRemocaoCliente().metodoBusca();
             System.out.println("======================================================\n");
             System.out.println("Escolha o ID correspondente do cliente:");
             System.out.print("ID: ");
@@ -59,9 +59,9 @@ public class MenuClienteAlterar {
             }
 
             int id = sca.nextInt();
-            id = new ClienteSer().vereficarId(id);
+            id = new ClienteService().vereficarId(id);
 
-            new ClienteSer().mostrarId(id);
+            new ClienteService().mostrarId(id);
 
             System.out.println("Esse é o cliente que deseja alterar? SIM = s , NÃO = n");
             System.out.print("Resposta: ");
@@ -82,9 +82,9 @@ public class MenuClienteAlterar {
 
         System.out.print("Novo Nome: ");
         String nome = sca.nextLine();
-        nome = new ClienteSer().verificarNome(nome);
+        nome = new ClienteService().verificarNome(nome);
 
-        new ClienteSer().alterarNome(id_cliente, nome);
+        new ClienteService().alterarNome(id_cliente, nome);
     }
 
     public void cpfCliente() {
@@ -94,9 +94,9 @@ public class MenuClienteAlterar {
 
         System.out.print("Novo CPF (sem formatação): ");
         String cpf = sca.nextLine();
-        cpf = new ClienteSer().verificarCPF_clientes(cpf);
+        cpf = new ClienteService().verificarCPF_clientes(cpf);
 
-        new ClienteSer().alterarCpf(id_cliente, cpf);
+        new ClienteService().alterarCpf(id_cliente, cpf);
     }
 
     public void emailCliente() {
@@ -106,9 +106,9 @@ public class MenuClienteAlterar {
 
         System.out.print("Novo Email: ");
         String email = sca.nextLine();
-        email = new ClienteSer().vereficarEmail_clientes(email);
+        email = new ClienteService().vereficarEmail_clientes(email);
 
-        new ClienteSer().alterarEmail(id_cliente, email);
+        new ClienteService().alterarEmail(id_cliente, email);
     }
 }
 

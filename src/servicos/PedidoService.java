@@ -7,7 +7,7 @@ import entidades.ItemPedido;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
 
-public class PedidoSer {
+public class PedidoService {
 
     private int idClienteSelecionado;
     private int idVendedorSelecionado;
@@ -16,7 +16,7 @@ public class PedidoSer {
     private String statusAtualPedido;
     private final Scanner sca = new Scanner(System.in);
 
-    public PedidoSer() {
+    public PedidoService() {
         this.carrinhoComponentes = new ArrayList<>();
         this.valorTotalAcumulado = 0.0;
         this.statusAtualPedido = "ABERTO";

@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import conexao.Conexao;
-import entidades.Clientes;
+import entidades.Cliente;
 
 public class ClienteDAO {
 
-    public int addCliente(Clientes clientes) {
+    public int addCliente(Cliente clientes) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rsCliente = null;

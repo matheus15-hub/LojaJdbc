@@ -1,23 +1,23 @@
 package entidades;
 
-public class Clientes {
+public class Cliente {
     private int id_clientes;
     private String nome_clientes;
     private String cpf;
     private String email_clientes;
 
 
-    public Clientes(){
+    public Cliente(){
 
     };
-    public Clientes( String nome_clientes, String cpf, String email_clientes){
+    public Cliente( String nome_clientes, String cpf, String email_clientes){
         this.cpf = cpf;
         this.nome_clientes = nome_clientes.toUpperCase();
         this.email_clientes = email_clientes;
 
     }
 
-    // Getters e Setters
+    
     public int getId_clientes() {
         return id_clientes;
     }

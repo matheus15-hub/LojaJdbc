@@ -6,7 +6,7 @@ import DAO.VendedorDAO;
 import entidades.Endereco;
 import entidades.Vendedor;
 
-public class EnderecoVendedorSer {
+public class EnderecoVendedorService {
     public void addVendedorEndereco(Vendedor vendedor, Endereco endereco){
         int idEndereco = new EnderecoDAO().addEndereco(endereco);
         endereco.setId_endereco(idEndereco);

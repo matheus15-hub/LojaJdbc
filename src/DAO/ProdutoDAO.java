@@ -29,11 +29,11 @@ public class ProdutoDAO {
             ps.close();
 
         } catch (Exception e) {
-            // TODO: handle exception
+            
         }
     }
 
-    public void mostrarProduts() {
+    public void listarProdutos() {
         Statement sts = null;
         ResultSet res = null;
         String sql = "Select * from produtos p join classe c on p.idClasse = c.idClasse join unidade_medida u on p.idUnidade = u.idUnidade";

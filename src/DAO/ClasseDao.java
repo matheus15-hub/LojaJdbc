@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class ClasseDao {
+public class ClasseDAO {
     public static void mostrar(){
         Statement st = null;
         ResultSet rs = null;

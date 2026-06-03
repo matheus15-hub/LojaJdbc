@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 import entidades.Endereco;
 import entidades.Vendedor;
-import menu.endereco.MenuEnderecoAdd;
-import servicos.EnderecoSer;
-import servicos.EnderecoVendedorSer;
+import menu.endereco.MenuAlteracaoEndereco;
+import servicos.EnderecoService;
+import servicos.EnderecoVendedorService;
 import servicos.VendedorSer;
 
-public class MenuVendedorAdd {
+public class MenuAlteracaoVendedor {
     Scanner sca = new  Scanner(System.in);
       public void Vendedoradd() {
 
@@ -40,16 +40,16 @@ public class MenuVendedorAdd {
         int escolhaVinculacaoEndereco = sca.nextInt();
         if (escolhaVinculacaoEndereco == 1) {
  
-       Endereco endereco = new MenuEnderecoAdd().addEndereco();
+       Endereco endereco = new MenuAlteracaoEndereco().addEndereco();
 
-       new EnderecoVendedorSer().addVendedorEndereco(vendedor, endereco);
+       new EnderecoVendedorService().addVendedorEndereco(vendedor, endereco);
 
     } else if (escolhaVinculacaoEndereco == 2) {
 
     int idEndereco = 0;
-    idEndereco = new EnderecoSer().escolherEndereco(idEndereco);
+    idEndereco = new EnderecoService().escolherEndereco(idEndereco);
 
-    new EnderecoVendedorSer().vincularVendedorEndero(vendedor, idEndereco);
+    new EnderecoVendedorService().vincularVendedorEndero(vendedor, idEndereco);
 }
 
     }

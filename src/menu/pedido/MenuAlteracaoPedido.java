@@ -4,13 +4,13 @@ import java.util.Scanner;
 import DAO.ProdutoDAO;
 import DAO.VendedorDAO;
 import entidades.ItemPedido;
-import servicos.PedidoSer;
+import servicos.PedidoService;
 
-public class MenuPedidoAdd {
+public class MenuAlteracaoPedido {
     private final Scanner sca = new Scanner(System.in);
 
     public void novoPedido() {
-        PedidoSer pedidoServico = new PedidoSer();
+        PedidoService pedidoServico = new PedidoService();
 
         int idCli = escolhaCliente();
         pedidoServico.addClientePedido(idCli);
@@ -74,11 +74,11 @@ public class MenuPedidoAdd {
         return idVend;
     }
 
-    public void adicionadoProdutosPedido(PedidoSer pedidoServico) {
+    public void adicionadoProdutosPedido(PedidoService pedidoServico) {
         String continuar = "s";
         while (continuar.equalsIgnoreCase("s")) {
             System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
-            new ProdutoDAO().mostrarProduts();
+            new ProdutoDAO().listarProdutos();
 
             System.out.print("\nDigite o ID do Produto: ");
             while (!sca.hasNextInt()) {

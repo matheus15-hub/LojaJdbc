@@ -1,11 +1,11 @@
 package menu.produto;
 
-import servicos.ProdutoSer;
+import servicos.ProdutoService;
 
 import java.util.Scanner;
 
 
-public class MenuProdutoPrint {
+public class MenuConsultaProduto {
     
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
@@ -29,13 +29,13 @@ public class MenuProdutoPrint {
     }
 
     public void printProduto() {
-        new ProdutoSer().mostrar();
+        new ProdutoService().mostrar();
     }
 
     public void printProdutoFiltro() {
         System.out.print("Nome do Produto: ");
         String nome = sca.nextLine();
-        new ProdutoSer().filtro(nome);
+        new ProdutoService().filtro(nome);
     }
 
 }

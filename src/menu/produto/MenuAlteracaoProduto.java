@@ -7,7 +7,7 @@ import java.util.Scanner;
 import DAO.*;
 import entidades.*;
 import servicos.*;
-public class MenuProdutoadd {
+public class MenuAlteracaoProduto {
 
 
     Scanner sca = new Scanner(System.in);
@@ -15,13 +15,13 @@ public class MenuProdutoadd {
     public void Produtoadd() {
         System.out.print("Nome do Produto: ");
         String nome = sca.nextLine();
-        nome = new ProdutoSer().verificarNome(nome);
+        nome = new ProdutoService().verificarNome(nome);
 
-        BigDecimal preco = new ProdutoSer().verificarValor();
+        BigDecimal preco = new ProdutoService().verificarValor();
 
-        int estoque = new ProdutoSer().verificarEstoque();
+        int estoque = new ProdutoService().verificarEstoque();
 
-        ClasseSer.mostrar();
+        ClasseService.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar in seu produto:");
         System.out.print("Categoria: ");
         while (!sca.hasNextInt()){
@@ -30,10 +30,10 @@ public class MenuProdutoadd {
             System.out.print("Digite um Codigo Cadastrado: ");
         }
         int categoria = sca.nextInt();
-        categoria = new ClasseSer().vereficarid(categoria);
+        categoria = new ClasseService().vereficarid(categoria);
 
         sca.nextLine();
-        MedidaSer.mostrar();
+        MedidaService.mostrar();
         System.out.println("Escolha uma medida de venda cadastrada para colocar in seu produto:");
         System.out.print("Escolha: ");
         while (!sca.hasNextInt()){
@@ -42,10 +42,10 @@ public class MenuProdutoadd {
             System.out.print("Digite um Codigo Cadastrado: ");
         }
         int medida = sca.nextInt();
-        medida = new MedidaSer().vereficadorId(medida);
+        medida = new MedidaService().vereficadorId(medida);
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
-        new ProdutoSer().adicionar(p);
-        new ProdutoSer().mostrar();
+        new ProdutoService().adicionar(p);
+        new ProdutoService().mostrar();
     }
 }

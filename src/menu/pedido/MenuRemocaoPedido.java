@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import conexao.Conexao;
 import DAO.PedidoDAO;
 
-public class MenuPedidoRemover {
+public class MenuRemocaoPedido {
     private Scanner sca = new Scanner(System.in);
 
     public void removerPedido() {

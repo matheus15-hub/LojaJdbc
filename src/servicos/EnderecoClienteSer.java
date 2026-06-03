@@ -3,12 +3,12 @@ package servicos;
 import DAO.ClienteDAO;
 import DAO.EnderecoClienteDAO;
 import DAO.EnderecoDAO;
-import entidades.Clientes;
+import entidades.Cliente;
 import entidades.Endereco;
 
 public class EnderecoClienteSer {
 
-       public void addEnderecoCliente(Clientes clientes , Endereco endereco){
+       public void addEnderecoCliente(Cliente clientes , Endereco endereco){
            int idEndereco = new EnderecoDAO().addEndereco(endereco);
            endereco.setId_endereco(idEndereco);
            int idCliente = new ClienteDAO().addCliente(clientes);
@@ -17,7 +17,7 @@ public class EnderecoClienteSer {
            System.out.println("ID CLIENTE: " + clientes.getId_clientes());
            new EnderecoClienteDAO().novoClienteEndereco(clientes, endereco);
        }
-       public void vincularClienteEndereco(Clientes clientes, int id){
+       public void vincularClienteEndereco(Cliente clientes, int id){
            int idCliente = new ClienteDAO().addCliente(clientes);
            clientes.setId_clientes(idCliente);
            new EnderecoClienteDAO().VincularEnderecoCliente(clientes , id);

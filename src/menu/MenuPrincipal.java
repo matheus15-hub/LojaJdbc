@@ -1,17 +1,17 @@
 package menu;
-import menu.cliente.MenuClienteAdd;
-import menu.cliente.MenuClienteAlterar;
-import menu.cliente.MenuClientePrint;
-import menu.cliente.MenuClienteRemover;
-import menu.pedido.MenuPedidoAdd;
-import menu.produto.MenuProdutoAlterar;
-import menu.produto.MenuProdutoPrint;
-import menu.produto.MenuProdutoRemover;
-import menu.produto.MenuProdutoadd;
-import menu.vendedor.MenuVendedorAdd;
-import menu.pedido.MenuPedidoAlterar;
-import menu.pedido.MenuPedidoPrint;
-import menu.pedido.MenuPedidoRemover;
+import menu.cliente.MenuCadastroCliente;
+import menu.cliente.MenuAlteracaoCliente;
+import menu.cliente.MenuRemocaoCliente;
+import menu.cliente.MenuConsultaCliente;
+import menu.pedido.MenuAlteracaoPedido;
+import menu.produto.MenuCadastroProduto;
+import menu.produto.MenuConsultaProduto;
+import menu.produto.MenuRemocaoProduto;
+import menu.produto.MenuAlteracaoProduto;
+import menu.vendedor.MenuAlteracaoVendedor;
+import menu.pedido.MenuCadastroPedido;
+import menu.pedido.MenuConsultaPedido;
+import menu.pedido.MenuRemocaoPedido;
 
 import java.util.Scanner;
 
@@ -59,19 +59,19 @@ public class MenuPrincipal {
 
         switch (opcao) {
             case 1:
-                new MenuClienteAdd().Clienteadd();;
+                new MenuCadastroCliente().Clienteadd();;
                 break;
 
             case 2:
-                new MenuClienteRemover().clienteRemover();
+                new MenuConsultaCliente().clienteRemover();
                 break;
 
             case 3:
-                new MenuClientePrint().metodoBusca();
+                new MenuRemocaoCliente().metodoBusca();
                 break;
 
             case 4:
-                new MenuClienteAlterar().menuAlterarCliente();
+                new MenuAlteracaoCliente().menuAlterarCliente();
                 break;
 
             case 5:
@@ -96,16 +96,16 @@ public class MenuPrincipal {
 
         switch(opcao) {
             case 1:
-                new MenuPedidoAdd().novoPedido();
+                new MenuAlteracaoPedido().novoPedido();
                 break;
             case 2:
-                new menu.pedido.MenuPedidoRemover().removerPedido();
+                new menu.pedido.MenuRemocaoPedido().removerPedido();
                 break;
             case 3: 
-                new menu.pedido.MenuPedidoAlterar().alterarPedido();
+                new menu.pedido.MenuCadastroPedido().alterarPedido();
                 break;
             case 4:
-                new MenuPedidoPrint().exibirMenuPrint();
+                new MenuConsultaPedido().exibirMenuPrint();
                 break;
             case 5:
                 System.out.println("Voltando...");
@@ -127,13 +127,13 @@ public class MenuPrincipal {
         linha();
 
         switch (opcao) {
-            case 1: new MenuProdutoadd().Produtoadd();
+            case 1: new MenuAlteracaoProduto().Produtoadd();
             break;
-            case 2: new MenuProdutoRemover().produtoRemover();;  
+            case 2: new MenuRemocaoProduto().produtoRemover();;  
             break;
-            case 3: new MenuProdutoPrint().metodoBusca();  
+            case 3: new MenuConsultaProduto().metodoBusca();  
             break;
-            case 4: new MenuProdutoAlterar().menuAlterarProduto();
+            case 4: new MenuCadastroProduto().menuAlterarProduto();
             break;
             case 5: System.out.println("VOLTANDO..."); 
             break;
@@ -155,7 +155,7 @@ public class MenuPrincipal {
         linha();
 
         switch (opcao) {
-            case 1: new MenuVendedorAdd().Vendedoradd();
+            case 1: new MenuAlteracaoVendedor().Vendedoradd();
                        break;
             case 2: System.out.println("VENDEDOR REMOVIDO!"); 
             break;

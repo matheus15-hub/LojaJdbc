@@ -4,7 +4,7 @@ import DAO.MedidaDAO;
 
 import java.util.Scanner;
 
-public class MedidaSer {
+public class MedidaService {
      Scanner sca = new Scanner(System.in);
     public static void mostrar(){
         MedidaDAO.mostrar();
