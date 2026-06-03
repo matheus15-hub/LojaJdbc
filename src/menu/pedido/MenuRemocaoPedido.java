@@ -5,15 +5,15 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import conexao.Conexao;
-import DAO.PedidoDAO;
+import servicos.PedidoService;
 
 public class MenuRemocaoPedido {
-    private Scanner sca = new Scanner(System.in);
+    private final Scanner sca = new Scanner(System.in);
 
     public void removerPedido() {
         System.out.println("\n--- CANCELAR / REMOVER PEDIDO ---");
         System.out.println("=======================================================================");
-        System.out.println("|| PEDIDOS DISPONÍVEIS PARA REMOÇÃO (STATUS: ABERTO):                 ||");
+        System.out.println("|| PEDIDOS DISPONÍVEIS PARA REMOÇÃO (STATUS: ABERTO):               ||");
         System.out.println("=======================================================================");
 
         String sqlAbertos = "SELECT id_pedido, valor_total FROM pedido WHERE status_pedido = 'ABERTO'";
@@ -33,7 +33,7 @@ public class MenuRemocaoPedido {
             }
 
         } catch (Exception e) {
-            System.out.println("|| Erro ao carregar lista de abertos: " + e.getMessage());
+            System.out.println("|| Erro ao listar pedidos: " + e.getMessage());
         }
         System.out.println("=======================================================================\n");
 
@@ -42,35 +42,17 @@ public class MenuRemocaoPedido {
             return;
         }
 
-        System.out.print("Digite o ID do pedido que deseja cancelar: ");
-        
+        System.out.print("Digite o ID do pedido que deseja deletar do sistema: ");
         while (!sca.hasNextInt()) {
-            System.out.println("Digite apenas números inteiros!");
+            System.out.println("Por favor, insira um número inteiro válido.");
             System.out.print("Digite o ID do pedido: ");
             sca.next();
         }
         int idPedido = sca.nextInt();
         sca.nextLine();
 
-        if (!PedidoDAO.pedidoExiste(idPedido)) {
-            System.out.println("Pedido com código " + idPedido + " não encontrado.");
-            return;
-        }
-
-        String status = PedidoDAO.buscarStatusPedido(idPedido);
-        if (!"ABERTO".equalsIgnoreCase(status)) {
-            System.out.println("\n[BLOQUEIO DE SEGURANÇA] Este pedido possui o status: " + status);
-            System.out.println("Não é permitido remover/cancelar pedidos que não estejam em estado 'ABERTO'.");
-            return;
-        }
-
-        System.out.print("Tem certeza que deseja cancelar o pedido #" + idPedido + "? (s/n): ");
-        String confirmacao = sca.nextLine();
-
-        if (confirmacao.equalsIgnoreCase("s")) {
-            PedidoDAO.cancelarPedido(idPedido);
-        } else {
-            System.out.println("Operação cancelada pelo usuário.");
-        }
+        PedidoService service = new PedidoService();
+        idPedido = service.verificarId(idPedido);
+        service.processarCancelamento(idPedido);
     }
 }
