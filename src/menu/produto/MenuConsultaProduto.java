@@ -1,7 +1,7 @@
 package menu.produto;
 
 import servicos.ProdutoService;
-
+import DAO.Relatorio.RelatorioProdutoDAO;
 import java.util.Scanner;
 
 
@@ -20,6 +20,10 @@ public class MenuConsultaProduto {
         } else if (busca == 2) {
             printProdutoFiltro();
             break;
+        }else if (busca == 3) {
+            new RelatorioProdutoDAO().QuantidadeProduto();
+            break;
+        
         }else {
             System.out.println("===========================Escolha invalida!===========================");
             System.out.println("===========================Tente novamente===========================");
