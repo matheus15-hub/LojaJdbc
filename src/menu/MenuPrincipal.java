@@ -10,10 +10,12 @@ import menu.produto.MenuCadastroProduto;
 import menu.produto.MenuConsultaProduto;
 import menu.produto.MenuRemocaoProduto;
 import menu.produto.MenuAlteracaoProduto;
+import menu.produto.MenuRelatorioProduto;
 import menu.vendedor.MenuAlteracaoVendedor;
 import menu.vendedor.MenuCadastroVendedor;
 import menu.vendedor.MenuConsultaVendedor;
 import menu.pedido.MenuConsultaPedido;
+import menu.MenuRelatorio;
 
 import java.util.Scanner;
 
@@ -27,7 +29,7 @@ public class MenuPrincipal {
             linha();
             System.out.println("||                          O QUE DESEJA FAZER?                               ||");
             linha();
-            System.out.println("|| 1) Clientes   2) Pedido   3) Produto   4) Vendedor   5) Consultar  6) Sair ||");
+            System.out.println("|| 1) Clientes   2) Pedido   3) Produto   4) Vendedor   5) Consultar 6) Relatórios 7) Sair ||");
             linha();
             System.out.print("|| ESCOLHA: ");
             int escolha = lerInt();
@@ -51,6 +53,9 @@ public class MenuPrincipal {
                     ;
                     break;
                 case 6:
+                    new MenuRelatorio().metodoBusca();
+                    break;
+                case 7:
                     System.out.println("SAINDO DO SISTEMA...");
                     return;
                 default:
@@ -160,6 +165,8 @@ public class MenuPrincipal {
                 new MenuCadastroProduto().menuAlterarProduto();
                 break;
             case 5:
+
+
                 System.out.println("VOLTANDO...");
                 break;
             default:

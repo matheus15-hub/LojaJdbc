@@ -2,8 +2,8 @@ package servicos;
 
 import DAO.ClasseDAO;
 import DAO.MedidaDAO;
-import DAO.MedidaDAO;
 import DAO.ProdutoDAO;
+import DAO.Relatorio.RelatorioProdutoDAO;
 import entidades.Produto;
 import menu.produto.MenuConsultaProduto;
 
@@ -155,25 +155,47 @@ public class ProdutoService {
         nome = nome.toUpperCase();
         new ProdutoDAO().alterarNome(id , nome);
         new ProdutoService().mostrarId(id);
-    
     }
+
     public void alterarPreco(int id , BigDecimal f){
         new ProdutoDAO().alterarPreco(id, f);
         new ProdutoService().mostrarId(id);
     }
+
     public void alterarEstoque(int id, int estoque){
     new ProdutoDAO().alterarEstoque(id, estoque);
     new ProdutoService().mostrarId(id);
+    }
     
-}public void alterarCategoria(int id, int categoria){
+    public void alterarCategoria(int id, int categoria){
     new ClasseDAO().alterarCategoria(id, categoria);
     new ProdutoService().mostrarId(id);
-  
-}public void alterarMedida(int id, int medida){
+    }
+    
+    public void alterarMedida(int id, int medida){
     new MedidaDAO().alterarMedida(id, medida);
     new ProdutoService().mostrarId(id);
-    
-}
-
     }
+
+    public void quantidadeProduto(){
+        new RelatorioProdutoDAO().MaiorQuantidadeProduto();
+    }
+
+    public void precoAltoProduto(){
+        new RelatorioProdutoDAO().PrecoAltoProduto();
+    }
+
+    public void precoBaixoProduto(){
+        new RelatorioProdutoDAO().PrecoBaixoProduto();
+    }
+
+    public void maisVendidos(){
+        new RelatorioProdutoDAO().MaisVendidoProduto();
+    }
+
+    public void quantidadeCategoria(){
+        new RelatorioProdutoDAO().QuantidadeCategoriaProduto();
+    }
+
+}
 

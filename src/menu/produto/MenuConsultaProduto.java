@@ -21,7 +21,7 @@ public class MenuConsultaProduto {
             printProdutoFiltro();
             break;
         }else if (busca == 3) {
-            new RelatorioProdutoDAO().QuantidadeProduto();
+            new RelatorioProdutoDAO().MaiorQuantidadeProduto();
             break;
         
         }else {

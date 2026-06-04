@@ -1,21 +1,21 @@
 package entidades;
 
 public class ItemPedido {
-    private int idProdutos;
+    private int id_produtos;
     private String nomeProduto;
     private int quantidade;
     private double precoUnitario;
     private double subtotal;
 
     public ItemPedido(int idProdutos, int quantidade, double precoUnitario) {
-        this.idProdutos = idProdutos;
+        this.id_produtos = idProdutos;
         this.quantidade = quantidade;
         this.precoUnitario = precoUnitario;
         this.subtotal = quantidade * precoUnitario;
     }
 
     public int getIdProdutos() {
-        return idProdutos;
+        return id_produtos;
     }
 
     public int getQuantidade() {
