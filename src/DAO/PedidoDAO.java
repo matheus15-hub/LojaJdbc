@@ -146,6 +146,40 @@ public class PedidoDAO {
         }
     }
 
+    public static void listarItensPedido(int idPedido) {
+
+        String sql = "SELECT item_pedido.id_produtos, item_pedido.quantidade, item_pedido.preco_unitario, item_pedido.subtotal FROM item_pedido INNER JOIN produtos ON produtos.id_produtos = item_pedido.id_produtos WHERE item_pedido.id_pedido = ?";
+
+        try (Connection conn = Conexao.criarNovaConexao();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idPedido);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                System.out.println("\n==============================================");
+                System.out.println("ITENS DO PEDIDO #" + idPedido);
+                System.out.println("==============================================");
+
+                while (rs.next()) {
+
+                    System.out.println(
+                            "Produto ID: " + rs.getInt("id_produtos") +
+                            /* " | Nome: " + rs.getString("nome") + */
+                                    " | Quantidade: " + rs.getInt("quantidade") +
+                                    " | Preço: R$ " + rs.getDouble("preco_unitario") +
+                                    " | Subtotal: R$ " + rs.getDouble("subtotal"));
+
+                }
+
+                System.out.println("==============================================");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao listar itens: " + e.getMessage());
+        }
+    }
+
     public static String buscarStatusPedido(int idPedido) {
         String sql = "select status_pedido from pedido where id_pedido = ?";
         try (Connection conn = Conexao.criarNovaConexao();
@@ -203,6 +237,145 @@ public class PedidoDAO {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static void removerProdutoPedido(int idPedido, int idProduto) {
+
+        String sqlBuscarQtd = "SELECT quantidade FROM item_pedido WHERE id_pedido = ? AND id_produtos = ?";
+        String sqlEstoque = "UPDATE produtos SET estoque = estoque + ? WHERE id_produtos = ?";
+        String sqlDelete = "DELETE FROM item_pedido WHERE id_pedido = ? AND id_produtos = ?";
+
+        try (Connection conn = Conexao.criarNovaConexao()) {
+
+            int quantidade = 0;
+
+            try (PreparedStatement ps = conn.prepareStatement(sqlBuscarQtd)) {
+
+                ps.setInt(1, idPedido);
+                ps.setInt(2, idProduto);
+
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    quantidade = rs.getInt("quantidade");
+                } else {
+                    System.out.println("Produto não encontrado no pedido.");
+                    return;
+                }
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(sqlEstoque)) {
+
+                ps.setInt(1, quantidade);
+                ps.setInt(2, idProduto);
+
+                ps.executeUpdate();
+            }
+
+            try (PreparedStatement ps = conn.prepareStatement(sqlDelete)) {
+
+                ps.setInt(1, idPedido);
+                ps.setInt(2, idProduto);
+
+                ps.executeUpdate();
+            }
+
+            System.out.println("Produto removido do pedido.");
+
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    public static void recalcularTotalPedido(int idPedido) {
+
+        String sqlSoma = "SELECT SUM(subtotal) AS total FROM item_pedido WHERE id_pedido = ?";
+        String sqlUpdate = "UPDATE pedido SET valor_total = ? WHERE id_pedido = ?";
+
+        try (
+                Connection conn = Conexao.criarNovaConexao();
+                PreparedStatement psSoma = conn.prepareStatement(sqlSoma);
+                PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate)) {
+
+            psSoma.setInt(1, idPedido);
+
+            double total = 0;
+
+            try (ResultSet rs = psSoma.executeQuery()) {
+                if (rs.next()) {
+                    total = rs.getDouble("total");
+                }
+            }
+
+            psUpdate.setDouble(1, total);
+            psUpdate.setInt(2, idPedido);
+            psUpdate.executeUpdate();
+
+        } catch (Exception e) {
+            System.out.println("Erro ao recalcular pedido: " + e.getMessage());
+        }
+    }
+
+    public static void alterarQuantidadeProdutoPedido(
+            int idPedido,
+            int idProduto,
+            int novaQuantidade) {
+
+        String sqlBuscar = "SELECT quantidade, preco_unitario FROM item_pedido WHERE id_pedido = ? AND id_produtos = ?";
+        String sqlEstoque = "UPDATE produtos SET estoque = estoque + ? WHERE id_produtos = ?";
+        String sqlItem = "UPDATE item_pedido SET quantidade = ?, subtotal = ? WHERE id_pedido = ? AND id_produtos = ?";
+
+        try (Connection conn = Conexao.criarNovaConexao()) {
+
+            int quantidadeAntiga = 0;
+            double precoUnitario = 0;
+
+            try (PreparedStatement ps = conn.prepareStatement(sqlBuscar)) {
+
+                ps.setInt(1, idPedido);
+                ps.setInt(2, idProduto);
+
+                try (ResultSet rs = ps.executeQuery()) {
+
+                    if (rs.next()) {
+                        quantidadeAntiga = rs.getInt("quantidade");
+                        precoUnitario = rs.getDouble("preco_unitario");
+                    } else {
+                        System.out.println("Produto não encontrado no pedido.");
+                        return;
+                    }
+                }
+            }
+
+            int diferenca = quantidadeAntiga - novaQuantidade;
+
+            try (PreparedStatement ps = conn.prepareStatement(sqlEstoque)) {
+
+                ps.setInt(1, diferenca);
+                ps.setInt(2, idProduto);
+
+                ps.executeUpdate();
+            }
+
+            double novoSubtotal = precoUnitario * novaQuantidade;
+
+            try (PreparedStatement ps = conn.prepareStatement(sqlItem)) {
+
+                ps.setInt(1, novaQuantidade);
+                ps.setDouble(2, novoSubtotal);
+                ps.setInt(3, idPedido);
+                ps.setInt(4, idProduto);
+
+                ps.executeUpdate();
+            }
+
+            recalcularTotalPedido(idPedido);
+
+            System.out.println("Quantidade alterada com sucesso!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao alterar quantidade: " + e.getMessage());
         }
     }
 

@@ -59,7 +59,10 @@ public class MenuAlteracaoPedido {
             return;
         }
 
+        PedidoDAO.listarItensPedido(idPedido);
+
         String status = PedidoDAO.buscarStatusPedido(idPedido);
+
         if (!"ABERTO".equalsIgnoreCase(status)) {
             System.out.println("\n[BLOQUEIO DE SEGURANÇA] Este pedido possui o status: " + status);
             System.out.println("Não é permitido alterar dados de pedidos que não estejam em estado 'ABERTO'.");
@@ -98,42 +101,128 @@ public class MenuAlteracaoPedido {
                     break;
 
                 case 2:
-                    System.out.println(
-                            "\n[AVISO] Para alterar os produtos, os itens antigos deste pedido serão resetados e o estoque devolvido.");
-                    System.out.print("Deseja continuar? (s/n): ");
-                    String opc = sca.nextLine();
-                    if (opc.equalsIgnoreCase("s")) {
-                        devolverEstoqueELimparItens(idPedido);
 
-                        System.out.println("\n--- REINSERÇÃO DE PRODUTOS ---");
+                    while (true) {
 
-                        double novoValorTotal = 0.0;
-                        boolean adicionando = true;
+                        System.out.println("\n=================================");
+                        System.out.println("|| GERENCIAR ITENS DO PEDIDO   ||");
+                        System.out.println("=================================");
+                        System.out.println("|| 1) Adicionar Produto        ||");
+                        System.out.println("|| 2) Remover Produto          ||");
+                        System.out.println("|| 3) Alterar Quantidade       ||");
+                        System.out.println("|| 4) Refazer Pedido Inteiro   ||");
+                        System.out.println("|| 5) Voltar                   ||");
+                        System.out.println("=================================");
+                        System.out.print("Escolha: ");
 
-                        while (adicionando) {
-                            System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
-                            new DAO.ProdutoDAO().listarProdutos();
+                        int opcaoItem = sca.nextInt();
+                        sca.nextLine();
 
-                            System.out.print("Digite o ID do Produto: ");
-                            int idProd = sca.nextInt();
-                            System.out.print("Quantidade: ");
-                            int qtd = sca.nextInt();
-                            sca.nextLine();
+                        switch (opcaoItem) {
 
-                            double precoUnidade = calcularPrecoProduto(idProd);
-                            double subtotal = precoUnidade * qtd;
-                            novoValorTotal += subtotal;
+                            case 1:
+                                adicionarProdutoPedido(idPedido);
+                                break;
 
-                            inserirNovoItem(idPedido, idProd, qtd, precoUnidade, subtotal);
-                            atualizarEstoqueProduto(idProd, -qtd);
+                            case 2:
+                                PedidoDAO.listarItensPedido(idPedido);
 
-                            System.out.print("Deseja adicionar outro produto? (s/n): ");
-                            adicionando = sca.nextLine().equalsIgnoreCase("s");
+                                System.out.print("Digite o ID do produto que deseja remover: ");
+                                int idProduto = sca.nextInt();
+                                sca.nextLine();
+
+                                PedidoDAO.removerProdutoPedido(idPedido, idProduto);
+                                PedidoDAO.recalcularTotalPedido(idPedido);
+
+                                break;
+
+                            case 3:
+
+                                PedidoDAO.listarItensPedido(idPedido);
+
+                                System.out.print("Digite o ID do produto: ");
+                                int idProdutoAlterar = sca.nextInt();
+
+                                System.out.print("Nova quantidade: ");
+                                int novaQuantidade = sca.nextInt();
+
+                                sca.nextLine();
+
+                                PedidoDAO.alterarQuantidadeProdutoPedido(
+                                        idPedido,
+                                        idProdutoAlterar,
+                                        novaQuantidade);
+
+                                break;
+
+                            case 4:
+                                System.out.println(
+                                        "\n[AVISO] Para alterar os produtos, os itens antigos deste pedido serão resetados e o estoque devolvido.");
+                                System.out.print("Deseja continuar? (s/n): ");
+
+                                String opc = sca.nextLine();
+
+                                if (opc.equalsIgnoreCase("s")) {
+
+                                    devolverEstoqueELimparItens(idPedido);
+
+                                    System.out.println("\n--- REINSERÇÃO DE PRODUTOS ---");
+
+                                    double novoValorTotal = 0.0;
+                                    boolean adicionando = true;
+
+                                    while (adicionando) {
+
+                                        System.out.println("\n--- PRODUTOS DISPONÍVEIS ---");
+                                        new DAO.ProdutoDAO().listarProdutos();
+
+                                        System.out.print("Digite o ID do Produto: ");
+                                        int idProd = sca.nextInt();
+
+                                        System.out.print("Quantidade: ");
+                                        int qtd = sca.nextInt();
+                                        sca.nextLine();
+
+                                        double precoUnidade = calcularPrecoProduto(idProd);
+                                        double subtotal = precoUnidade * qtd;
+
+                                        novoValorTotal += subtotal;
+
+                                        inserirNovoItem(
+                                                idPedido,
+                                                idProd,
+                                                qtd,
+                                                precoUnidade,
+                                                subtotal);
+
+                                        atualizarEstoqueProduto(idProd, -qtd);
+
+                                        System.out.print("Deseja adicionar outro produto? (s/n): ");
+                                        adicionando = sca.nextLine().equalsIgnoreCase("s");
+                                    }
+
+                                    executarUpdateDouble(
+                                            "UPDATE pedido SET valor_total = ? WHERE id_pedido = ?",
+                                            novoValorTotal,
+                                            idPedido,
+                                            "Produtos e valor total atualizados!");
+                                }
+
+                                break;
+
+                            case 5:
+                                break;
+
+                            default:
+                                System.out.println("Opção inválida!");
+                                continue;
                         }
 
-                        executarUpdateDouble("UPDATE pedido SET valor_total = ? WHERE id_pedido = ?", novoValorTotal,
-                                idPedido, "Produtos e valor total atualizados!");
+                        if (opcaoItem == 5) {
+                            break;
+                        }
                     }
+
                     break;
 
                 case 3:
@@ -243,6 +332,34 @@ public class MenuAlteracaoPedido {
         } catch (SQLException e) {
             System.out.println("Erro ao inserir novo item: " + e.getMessage());
         }
+    }
+
+    private void adicionarProdutoPedido(int idPedido) {
+
+        new DAO.ProdutoDAO().listarProdutos();
+
+        System.out.print("ID Produto: ");
+        int idProd = sca.nextInt();
+
+        System.out.print("Quantidade: ");
+        int qtd = sca.nextInt();
+        sca.nextLine();
+
+        double preco = calcularPrecoProduto(idProd);
+        double subtotal = preco * qtd;
+
+        inserirNovoItem(
+                idPedido,
+                idProd,
+                qtd,
+                preco,
+                subtotal);
+
+        atualizarEstoqueProduto(idProd, -qtd);
+
+        PedidoDAO.recalcularTotalPedido(idPedido);
+
+        System.out.println("Produto adicionado ao pedido!");
     }
 
 }
