@@ -28,7 +28,7 @@ public class MenuCadastroVendedor {
         int idVendedor = sca.nextInt();
         sca.nextLine();
 
-        idVendedor = vendedorServico.vereficarId(idVendedor);
+        idVendedor = vendedorServico.verificarId(idVendedor);
 
         Vendedor vendedor = new VendedorDAO().buscarPorId(idVendedor);
 

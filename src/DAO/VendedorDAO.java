@@ -117,7 +117,7 @@ public class VendedorDAO {
     }
 
    
-    public void mostrarVendedorFiltro(String nomePesquisa) {
+    public void mostrarVendedorPorFiltro(String nomePesquisa) {
         String sql = "select * from vendedor where nome_vendedor like ?";
         try {
             conn = Conexao.getConexao();

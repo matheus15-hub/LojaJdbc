@@ -12,7 +12,7 @@ import entidades.Produto;
 
 public class ProdutoDAO {
 
-    public static void addProduto(Produto produto) {
+    public static void adicionarProduto(Produto produto) {
         PreparedStatement ps = null;
         String sql = "INSERT INTO produtos (nome_produtos, preco , estoque, idClasse, idUnidade) VALUES(?,?,?,?,?)";
 
@@ -181,7 +181,7 @@ public class ProdutoDAO {
     public static void linha(){
         System.out.println("=======================================================================================================================");
     }
-    public void alterarnome(int id,String n){
+    public void alterarNome(int id,String n){
         PreparedStatement ps = null;
         String sql = "UPDATE produtos SET nome_produtos = ? WHERE id_produtos = ?";
         try {
@@ -194,7 +194,7 @@ public class ProdutoDAO {
             throw new RuntimeException(e);
         }
     }
-    public void alterarpreco(int id , BigDecimal p){
+    public void alterarPreco(int id , BigDecimal p){
         PreparedStatement ps = null;
         String sql = "UPDATE produtos SET preco = ? WHERE id_produtos = ?";
         try {

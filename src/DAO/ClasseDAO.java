@@ -30,7 +30,7 @@ public class ClasseDAO {
             throw new RuntimeException(e);
         }
     }
-    public static boolean vereficarId(int id){
+    public static boolean verificarId(int id){
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select * from classe where idClasse = ?";

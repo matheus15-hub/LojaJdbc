@@ -29,33 +29,35 @@ public class EnderecoClienteSer {
         System.out.println("ID CLIENTE: " + clientes.getId_clientes());
         new EnderecoClienteDAO().novoClienteEndereco(clientes, endereco);
     }
-    public void maisvincularClienteEndereco(Cliente clientes, int id){
-        new EnderecoClienteDAO().VincularEnderecoCliente(clientes , id);
-    }
-       public void vincularClienteEndereco(Cliente clientes, int id){
-           int idCliente = new ClienteDAO().addCliente(clientes);
-           clientes.setId_clientes(idCliente);
-           new EnderecoClienteDAO().VincularEnderecoCliente(clientes , id);
-       }
+    public void maisvincularClienteEndereco(Cliente clientes, int id) {
+    new EnderecoClienteDAO().vincularEnderecoCliente(clientes, id);
+}
 
-       public  void mostrarEnderecosClientes(int id){
-           new EnderecoClienteDAO().mostrarEndeClie(id);
-       }
-       public int vereficarLigacao( int idclientes , int idendereco) {
-           while (!vereficarEnderecosCliente(idclientes, idendereco)) {
-                   System.out.println("\n=====================================================================");
-                   System.out.println("||\t\t\t\t ID DO ENDEREÇO INVALIDO \t\t\t\t||");
-                   System.out.println("||\t\t\t ESCOLHA UM ENDEREÇO VINCULADO COM CLINTE \t\t\t||");
-                   System.out.println("=====================================================================\n");
-                   mostrarEnderecosClientes(idclientes);
-                   System.out.println("Selecione o ID do endereço que deseja alterar:");
-                   System.out.print("Escolha: ");
-                   idendereco = sca.nextInt();
-                   sca.nextLine();
-           }
-                   return idendereco;
-       }
-       public  boolean vereficarEnderecosCliente(int idclientes , int idendereco){
-           return  enderecoClienteDAO.verificarEndeClie(idclientes ,idendereco);
+public void vincularClienteEndereco(Cliente clientes, int id) {
+    int idCliente = new ClienteDAO().addCliente(clientes);
+    clientes.setId_clientes(idCliente);
+    new EnderecoClienteDAO().vincularEnderecoCliente(clientes, id);
+}
+
+public void mostrarEnderecoCliente(int id) {
+    new EnderecoClienteDAO().mostrarEnderecoCliente(id);
+}
+
+public int verificarLigacao(int idclientes, int idendereco) {
+    while (!enderecoClienteDAO.verificarEnderecoCliente(idclientes, idendereco)) {
+        System.out.println("\n=====================================================================");
+        System.out.println("||\t\t\t\t ID DO ENDEREÇO INVALIDO \t\t\t\t||");
+        System.out.println("||\t\t\t ESCOLHA UM ENDEREÇO VINCULADO COM O CLIENTE \t\t\t||");
+        System.out.println("=====================================================================\n");
+        mostrarEnderecoCliente(idclientes);
+        System.out.println("Selecione o ID do endereço que deseja alterar:");
+        System.out.print("Escolha: ");
+        idendereco = sca.nextInt();
+        sca.nextLine();
+    }
+    return idendereco;
+}
+       public  boolean maisvincularClienteEndereco(int idclientes , int idendereco){
+           return  enderecoClienteDAO.verificarEnderecoCliente(idclientes ,idendereco);
        }
 }

@@ -9,9 +9,9 @@ public class MedidaService {
     public static void mostrar(){
         MedidaDAO.mostrar();
     }
-    public int vereficadorId(int id){
+    public int verificadorId(int id){
         while(true){
-        if (!MedidaDAO.vereficarid(id)){
+        if (!MedidaDAO.verificarid(id)){
             System.out.println("Codigo " + id+ " não cadastrado em nosso banco de dados.");
             mostrar();
             System.out.println("Digite um dos Codigos Cadastrados Acima:");

@@ -13,19 +13,19 @@ public class MenuCadastroEndereco {
             System.out.println("=========================================================");
             System.out.print("Rua: ");
             String rua = sca.nextLine();
-            rua = new EnderecoService().vereficarRua(rua);
+            rua = new EnderecoService().verificarRua(rua);
             System.out.print("Numero: ");
             String numero = sca.nextLine();
-            numero = new EnderecoService().vereficarNumero(numero);
+            numero = new EnderecoService().verificarNumero(numero);
             System.out.print("Bairro: ");
             String bairro = sca.nextLine();
-            bairro = new EnderecoService().vereficarBairro(bairro);
+            bairro = new EnderecoService().verificarBairro(bairro);
             System.out.print("Cidade: ");
             String cidade = sca.nextLine();
-            cidade = new EnderecoService().vereficarCidade(cidade);
+            cidade = new EnderecoService().verificarCidade(cidade);
             System.out.print("Cep: ");
             String cep = sca.nextLine();
-            cep = new EnderecoService().vereficarCep(cep);
+            cep = new EnderecoService().verificarCep(cep);
             return new Endereco(rua, numero, bairro, cidade, cep);
     }
 

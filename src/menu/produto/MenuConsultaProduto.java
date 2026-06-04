@@ -35,7 +35,7 @@ public class MenuConsultaProduto {
     public void printProdutoFiltro() {
         System.out.print("Nome do Produto: ");
         String nome = sca.nextLine();
-        new ProdutoService().filtro(nome);
+        new ProdutoService().filtrarProdutos(nome);
     }
 
 }

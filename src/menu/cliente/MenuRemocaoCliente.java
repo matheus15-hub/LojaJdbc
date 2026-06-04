@@ -31,8 +31,8 @@ public class MenuRemocaoCliente {
         }
 
         int codigo_cliente = sca.nextInt();
-        codigo_cliente = new ClienteService().vereficarId(codigo_cliente);
+        codigo_cliente = new ClienteService().verificarId(codigo_cliente);
 
-        new ClienteService().removerCli(codigo_cliente);
+        new ClienteService().removerCliente(codigo_cliente);
     }
 }

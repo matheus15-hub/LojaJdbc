@@ -119,7 +119,7 @@ public class EnderecoDAO {
             throw new RuntimeException(e);
         }
     }
-    public boolean vereficarId(int id){;
+    public boolean verificarId(int id){;
         String sql = "select * from endereco where id_endereco = ?";
         try {
             stmt = conn.prepareStatement(sql);

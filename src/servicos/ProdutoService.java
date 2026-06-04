@@ -14,8 +14,8 @@ public class ProdutoService {
     Scanner sca = new Scanner(System.in);
 
 
-    public void adicionar(Produto produto) {
-            ProdutoDAO.addProduto(produto);
+    public void adicionarProduto(Produto produto) {
+            ProdutoDAO.adicionarProduto(produto);
             System.out.println("Produto cadastrado");
     }
 
@@ -25,7 +25,7 @@ public class ProdutoService {
     public void mostrarId(int id){
         new ProdutoDAO().filtarProdutosId(id);
     }
-    public  void filtro(String n){
+    public  void filtrarProdutos(String n){
         new ProdutoDAO().filtarProdutos(n);
     }
     public void remover(int x){
@@ -153,12 +153,12 @@ public class ProdutoService {
 
     public void alterarNome(int id, String nome){
         nome = nome.toUpperCase();
-        new ProdutoDAO().alterarnome(id , nome);
+        new ProdutoDAO().alterarNome(id , nome);
         new ProdutoService().mostrarId(id);
     
     }
     public void alterarPreco(int id , BigDecimal f){
-        new ProdutoDAO().alterarpreco(id, f);
+        new ProdutoDAO().alterarPreco(id, f);
         new ProdutoService().mostrarId(id);
     }
     public void alterarEstoque(int id, int estoque){

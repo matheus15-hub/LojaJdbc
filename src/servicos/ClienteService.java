@@ -12,7 +12,7 @@ public class ClienteService {
     private Scanner sca = new Scanner(System.in);
 
 
-    public void removerCli(int id) {
+    public void removerCliente(int id) {
         ClienteDAO.removerCliente(id);
         System.out.println("Cliente removido com sucesso!");
     }
@@ -27,7 +27,7 @@ public class ClienteService {
     }
 
     public void mostrarFiltro(String nome) {
-        new ClienteDAO().mostrarClientFiltro(nome);
+        new ClienteDAO().mostrarClientePorFiltro(nome);
     }
 
     public String verificarNome(String nome_cliente) {
@@ -68,9 +68,9 @@ public class ClienteService {
         }
     }
 
-    public int vereficarId(int id) {
+    public int verificarId(int id) {
         while (true) {
-            if (!ClienteDAO.vereficarExistencia(id)) {
+            if (!ClienteDAO.verificarExistencia(id)) {
                 System.out.println("Cliente com o ID " + id + " não encontrado!");
                 new MenuConsultaCliente().metodoBusca();
                 System.out.print("\nDigite um ID válido da lista acima: ");
@@ -88,7 +88,7 @@ public class ClienteService {
         }
     }
 
-    public String vereficarEmail_clientes(String email_clientes) {
+    public String verificarEmail_clientes(String email_clientes) {
         while (true) {
             if (email_clientes == null || email_clientes.trim().isEmpty()) {
                 System.out.println("O e-mail não pode ser vazio!");

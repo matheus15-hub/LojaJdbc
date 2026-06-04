@@ -133,7 +133,7 @@ public void categoriaProduto() {
     }
 
     int categoria = sca.nextInt();
-    categoria = new ClasseService().vereficarid(categoria);
+    categoria = new ClasseService().verificarid(categoria);
 
     new ProdutoService().alterarCategoria(id_produto, categoria);
 }
@@ -152,7 +152,7 @@ public void medidaProduto() {
     }
 
     int medida = sca.nextInt();
-    medida = new MedidaService().vereficadorId(medida);
+    medida = new MedidaService().verificadorId(medida);
 
     new ProdutoService().alterarMedida(id_produto, medida);
 }

@@ -30,7 +30,7 @@ public class MedidaDAO {
             throw new RuntimeException(e);
         }
     }
-    public static boolean vereficarid(int id){ 
+    public static boolean verificarid(int id){ 
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "Select * from unidade_medida where idUnidade = ?";

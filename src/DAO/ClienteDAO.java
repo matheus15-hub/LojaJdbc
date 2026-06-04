@@ -125,7 +125,7 @@ public class ClienteDAO {
         }
     }
 
-    public void mostrarClientFiltro(String nome_clientes) {
+    public void mostrarClientePorFiltro(String nome_clientes) {
         String sql = "SELECT id_clientes, nome_clientes, cpf_clientes, email_clientes FROM clientes WHERE nome_clientes LIKE ?";
         try (Connection conn = Conexao.getConexao();
              PreparedStatement md = conn.prepareStatement(sql)) {
@@ -147,7 +147,7 @@ public class ClienteDAO {
         }    
     }
 
-    public static boolean vereficarExistencia(int h) {
+    public static boolean verificarExistencia(int h) {
         int contador = 0;
         String sql = "SELECT 1 FROM clientes WHERE id_clientes = ?";
         try (Connection conn = Conexao.getConexao();

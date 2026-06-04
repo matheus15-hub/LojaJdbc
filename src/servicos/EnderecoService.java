@@ -14,7 +14,7 @@ public class EnderecoService {
          new EnderecoDAO().addEndereco(e);
     }
 
-    public String vereficarRua(String rua) {
+    public String verificarRua(String rua) {
 
         while (true) {
 
@@ -44,7 +44,7 @@ public class EnderecoService {
         }
     }
 
-    public String vereficarNumero(String numero) {
+    public String verificarNumero(String numero) {
 
         while (true) {
 
@@ -84,7 +84,7 @@ public class EnderecoService {
         }
     }
 
-    public String vereficarBairro(String bairro) {
+    public String verificarBairro(String bairro) {
 
         while (true) {
 
@@ -114,7 +114,7 @@ public class EnderecoService {
         }
     }
 
-    public String vereficarCidade(String cidade) {
+    public String verificarCidade(String cidade) {
 
         while (true) {
 
@@ -144,7 +144,7 @@ public class EnderecoService {
         }
     }
 
-    public String vereficarCep(String cep) {
+    public String verificarCep(String cep) {
 
         while (true) {
 
@@ -227,7 +227,7 @@ public class EnderecoService {
             System.out.println("||\t\tDigite o Id do endereço que deseja buscar\t\t||");
             System.out.print("ID: ");
             id = sca.nextInt();
-            boolean vereficandoId = new EnderecoDAO().vereficarId(id);
+            boolean vereficandoId = new EnderecoDAO().verificarId(id);
             if (vereficandoId == true){
                 break;
             }

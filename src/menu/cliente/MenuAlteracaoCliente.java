@@ -73,7 +73,7 @@ public class MenuAlteracaoCliente {
             }
 
             int id = sca.nextInt();
-            id = new ClienteService().vereficarId(id);
+            id = new ClienteService().verificarId(id);
 
             new ClienteService().mostrarId(id);
 
@@ -120,7 +120,7 @@ public class MenuAlteracaoCliente {
 
         System.out.print("Novo Email: ");
         String email = sca.nextLine();
-        email = new ClienteService().vereficarEmail_clientes(email);
+        email = new ClienteService().verificarEmail_clientes(email);
 
         new ClienteService().alterarEmail(id_cliente, email);
     }

@@ -9,9 +9,9 @@ public class ClasseService {
     public static void mostrar(){
         ClasseDAO.mostrar();
     }
-    public int vereficarid(int id){
+    public int verificarid(int id){
         while (true){
-            if (!ClasseDAO.vereficarId(id)) {
+            if (!ClasseDAO.verificarId(id)) {
 
                 System.out.println("Código " + id + " não cadastrado em nosso banco de dados.");
 

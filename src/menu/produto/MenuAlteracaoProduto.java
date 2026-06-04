@@ -30,7 +30,7 @@ public class MenuAlteracaoProduto {
             System.out.print("Digite um Codigo Cadastrado: ");
         }
         int categoria = sca.nextInt();
-        categoria = new ClasseService().vereficarid(categoria);
+        categoria = new ClasseService().verificarid(categoria);
 
         sca.nextLine();
         MedidaService.mostrar();
@@ -42,10 +42,10 @@ public class MenuAlteracaoProduto {
             System.out.print("Digite um Codigo Cadastrado: ");
         }
         int medida = sca.nextInt();
-        medida = new MedidaService().vereficadorId(medida);
+        medida = new MedidaService().verificadorId(medida);
 
         Produto p = new Produto(nome, preco, estoque, categoria, medida);
-        new ProdutoService().adicionar(p);
+        new ProdutoService().adicionarProduto(p);
         new ProdutoService().mostrar();
     }
 }

@@ -24,7 +24,7 @@ public class MenuCadastroCliente {
 
         System.out.print("Email: ");
         String email_clientes = sca.nextLine();
-        email_clientes = clienteServico.vereficarEmail_clientes(email_clientes);
+        email_clientes = clienteServico.verificarEmail_clientes(email_clientes);
 
         Cliente c = new Cliente( nome, cpf, email_clientes);
         System.out.println("Dejesa: 1) Criar um novo endereço  | 2 ) Selecionar um endereço existente");

@@ -47,7 +47,7 @@ public class MenuAlterarEndereco {
 
             System.out.println("=================================================================");
             System.out.println("|| TODOS OS ENDEREÇOS VINCULADOS AO CLINTE " + id + " :");
-            new EnderecoClienteDAO().mostrarEndeClie(id);
+            new EnderecoClienteDAO().mostrarEnderecoCliente(id);
             System.out.println("Selecione o ID do endereço que deseja alterar:");
             System.out.print("Escolha: ");
             while (!sca.hasNextInt()) {
@@ -59,7 +59,7 @@ public class MenuAlterarEndereco {
 
             }
             idendereco = sca.nextInt();
-            idendereco = new EnderecoClienteSer().vereficarLigacao(id, idendereco);
+            idendereco = new EnderecoClienteSer().verificarLigacao(id, idendereco);
             System.out.println("Deseja mesmo altera o endereço com ID:" + idendereco+" ?");
             System.out.print("1) Sim | 2)Não :");
             int queralterar = sca.nextInt();
@@ -72,7 +72,7 @@ public class MenuAlterarEndereco {
         System.out.println("Alteração de Rua");
         System.out.print("Nova Rua: ");
         String rua = sca.nextLine();
-        rua = new EnderecoService().vereficarRua(rua);
+        rua = new EnderecoService().verificarRua(rua);
 
         new EnderecoService().alterarRua(id_endereco, rua);
     }
@@ -81,7 +81,7 @@ public class MenuAlterarEndereco {
 
         System.out.print("Novo Número: ");
         String numero = sca.nextLine();
-        numero = new EnderecoService().vereficarNumero(numero);
+        numero = new EnderecoService().verificarNumero(numero);
 
         new EnderecoService().alterarNumero(id_endereco, numero);
     }
@@ -90,7 +90,7 @@ public class MenuAlterarEndereco {
 
         System.out.print("Novo Bairro: ");
         String bairro = sca.nextLine();
-        bairro = new EnderecoService().vereficarBairro(bairro);
+        bairro = new EnderecoService().verificarBairro(bairro);
 
         new EnderecoService().alterarBairro(id_endereco, bairro);
     }
@@ -101,7 +101,7 @@ public class MenuAlterarEndereco {
 
         System.out.print("Nova Cidade: ");
         String cidade = sca.nextLine();
-        cidade = new EnderecoService().vereficarCidade(cidade);
+        cidade = new EnderecoService().verificarCidade(cidade);
 
         new EnderecoService().alterarCidade(id_endereco, cidade);
     }
@@ -109,7 +109,7 @@ public class MenuAlterarEndereco {
         System.out.println("Alteração de CEP");
         System.out.print("Novo CEP (sem formatação): ");
         String cep = sca.nextLine();
-        cep = new EnderecoService().vereficarCep(cep);
+        cep = new EnderecoService().verificarCep(cep);
 
         new EnderecoService().alterarCep(id_endereco, cep);
     }

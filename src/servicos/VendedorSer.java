@@ -73,10 +73,10 @@ public class VendedorSer {
 
     public void mostrarFiltro(String nome){
         System.out.println("PESQUISANDO VENDEDOR...");
-        new VendedorDAO().mostrarVendedorFiltro(nome);
+        new VendedorDAO().mostrarVendedorPorFiltro(nome);
     }
 
-    public int vereficarId(int id){
+    public int verificarId(int id){
         while (true){
             if (!VendedorDAO.verificarExistencia(id)) { 
                 System.out.println("Vendedor com o ID " + id + " nao encontrado, tente novamente");
