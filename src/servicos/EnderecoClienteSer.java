@@ -20,6 +20,18 @@ public class EnderecoClienteSer {
            System.out.println("ID CLIENTE: " + clientes.getId_clientes());
            new EnderecoClienteDAO().novoClienteEndereco(clientes, endereco);
        }
+    public void maisEnderecoCliente(int idClientes , Endereco endereco){
+        Cliente clientes = new Cliente();
+        int idEndereco = new EnderecoDAO().addEndereco(endereco);
+        endereco.setId_endereco(idEndereco);
+        clientes.setId_clientes(idClientes);
+        System.out.println("ID ENDERECO: " + endereco.getId_endereco());
+        System.out.println("ID CLIENTE: " + clientes.getId_clientes());
+        new EnderecoClienteDAO().novoClienteEndereco(clientes, endereco);
+    }
+    public void maisvincularClienteEndereco(Cliente clientes, int id){
+        new EnderecoClienteDAO().VincularEnderecoCliente(clientes , id);
+    }
        public void vincularClienteEndereco(Cliente clientes, int id){
            int idCliente = new ClienteDAO().addCliente(clientes);
            clientes.setId_clientes(idCliente);

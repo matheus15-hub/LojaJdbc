@@ -13,10 +13,11 @@ import entidades.ItemPedido;
 
 public class PedidoDAO {
 
-    public static void finalizarVenda(int idCliente, int idVendedor, List<ItemPedido> carrinho, double total, String observacao, String status) {
+    public static int finalizarVenda(int idCliente, int idVendedor, List<ItemPedido> carrinho, double total, String observacao, String status) {
         String sqlPedido = "insert into pedido (id_clientes, id_vendedor, status_pedido, valor_total) values (?, ?, ?, ?)";
         String sqlItem = "insert into item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) values (?, ?, ?, ?, ?)";
         String sqlEstoque = "update produtos set estoque = estoque - ? where id_produtos = ? and estoque >= ?";
+        int idPrecisoComissao = 0;
 
         try (Connection conn = Conexao.criarNovaConexao();
              PreparedStatement psPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
@@ -27,7 +28,7 @@ public class PedidoDAO {
 
             psPedido.setInt(1, idCliente);
             psPedido.setInt(2, idVendedor);
-            psPedido.setString(3, status); 
+            psPedido.setString(3, status);
             psPedido.setDouble(4, total);
 
             psPedido.executeUpdate();
@@ -36,6 +37,7 @@ public class PedidoDAO {
                 int idPedidoGerado = 0;
                 if (rs.next()) {
                     idPedidoGerado = rs.getInt(1);
+                    idPrecisoComissao = rs.getInt(1);
                 }
 
                 for (ItemPedido item : carrinho) {
@@ -48,7 +50,7 @@ public class PedidoDAO {
                     if (linhasAfetadas == 0) {
                         conn.rollback();
                         System.out.println("Estoque insuficiente para o produto ID: " + item.getIdProdutos());
-                        return;
+                        return -1;
                     }
 
                     psItem.setInt(1, idPedidoGerado);
@@ -63,9 +65,10 @@ public class PedidoDAO {
 
             conn.commit();
             System.out.println("Venda salva com sucesso no sistema!");
-
+        return idPrecisoComissao;
         } catch (SQLException e) {
             System.out.println("ERRO ao finalizar venda: " + e.getMessage());
+            return 0;
         }
     }
 

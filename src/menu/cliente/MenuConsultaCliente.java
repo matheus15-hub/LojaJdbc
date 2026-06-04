@@ -23,10 +23,10 @@ public class MenuConsultaCliente {
             int busca = sca.nextInt();
             sca.nextLine();
 
-            if (busca == 1) {
+            if (busca == 2) {
                 printCliente();
                 break;
-            } else if (busca == 2) {
+            } else if (busca == 1) {
                 printClienteFiltro();
                 break;
             } else {

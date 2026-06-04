@@ -92,6 +92,7 @@ public class PedidoService {
     }
 
 
+
     public List<ItemPedido> getCarrinhoComponentes() { return carrinhoComponentes; }
     public double getValorTotalAcumulado() { return valorTotalAcumulado; }
 }

@@ -2,8 +2,13 @@ package menu.cliente;
 
 import java.util.Scanner;
 
+import entidades.Cliente;
+import entidades.Endereco;
 import menu.endereco.MenuAlterarEndereco;
+import menu.endereco.MenuCadastroEndereco;
 import servicos.ClienteService;
+import servicos.EnderecoClienteSer;
+import servicos.EnderecoService;
 
 public class MenuAlteracaoCliente {
     Scanner sca = new Scanner(System.in);
@@ -12,7 +17,8 @@ public class MenuAlteracaoCliente {
     while (true) {
 
         System.out.println("\n========================== ALTERAÇÃO DE CLIENTES ================================");
-        System.out.println("1) Alterar Nome | 2) Alterar CPF | 3) Alterar Email | 4) Alterar Endereco 0) Voltar");
+        System.out.println(" 1) Alterar Nome  |  2) Alterar CPF  |  3) Alterar Email  |  4) Alterar Endereco ");
+        System.out.println("              5) Adicionar Endereço  |  0) Voltar                                ");
         System.out.print("Escolha: ");
 
         while (!sca.hasNextInt()) {
@@ -40,6 +46,10 @@ public class MenuAlteracaoCliente {
             case 4:
                 int id = selecionarCliente();
                 new MenuAlterarEndereco().menuAlterarEnderecoCliente(id);
+                break;
+            case 5:
+                adicionarEnderecoCliente();
+                break;
 
             case 0:
                 return;
@@ -113,6 +123,43 @@ public class MenuAlteracaoCliente {
         email = new ClienteService().vereficarEmail_clientes(email);
 
         new ClienteService().alterarEmail(id_cliente, email);
+    }
+    public void adicionarEnderecoCliente() {
+        Cliente cliente = new Cliente();
+        int idCliente = selecionarCliente();
+        cliente.setId_clientes(idCliente);
+
+        System.out.println("Deseja:");
+        System.out.println("1) Criar um novo endereço");
+        System.out.println("2) Vincular um endereço existente");
+        System.out.print("Escolha: ");
+
+        int opcao = sca.nextInt();
+        sca.nextLine();
+
+        switch (opcao) {
+
+            case 1:
+
+                Endereco endereco = new MenuCadastroEndereco().addEndereco();
+
+                new EnderecoClienteSer().maisEnderecoCliente(idCliente, endereco);
+
+                System.out.println("Endereço cadastrado e vinculado com sucesso.");
+                break;
+
+            case 2:
+
+                int idEndereco = new EnderecoService().escolherEndereco(0);
+
+                new EnderecoClienteSer().maisvincularClienteEndereco(cliente, idEndereco);
+
+                System.out.println("Endereço vinculado com sucesso.");
+                break;
+
+            default:
+                System.out.println("Opção inválida.");
+        }
     }
 }
 
