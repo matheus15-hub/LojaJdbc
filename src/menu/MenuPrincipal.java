@@ -97,8 +97,7 @@ public class MenuPrincipal {
                 new MenuAlteracaoPedido().novoPedido();
                 break;
             case 2:
-                new menu.pedido.MenuRemocaoPedido().removerPedido();
-                break;
+                return;
             case 3: 
                 new menu.pedido.MenuCadastroPedido().alterarPedido();
                 break;

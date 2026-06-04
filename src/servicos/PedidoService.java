@@ -91,14 +91,6 @@ public class PedidoService {
         }
     }
 
-    public void processarCancelamento(int idPedido) {
-        String status = PedidoDAO.buscarStatusPedido(idPedido);
-        try {
-            validarSePermiteAlteracao(status);
-            PedidoDAO.cancelarPedido(idPedido);
-        } catch (IllegalStateException e) {
-        }
-    }
 
     public List<ItemPedido> getCarrinhoComponentes() { return carrinhoComponentes; }
     public double getValorTotalAcumulado() { return valorTotalAcumulado; }

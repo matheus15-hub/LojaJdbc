@@ -158,44 +158,6 @@ public class PedidoDAO {
         }
     }
 
-    public static void cancelarPedido(int idPedido) {
-    String sqlItens = "SELECT id_produtos, quantidade FROM item_pedido WHERE id_pedido = ?";
-    String sqlUpdateEstoque = "UPDATE produtos SET estoque = estoque + ? WHERE id_produtos = ?";
-    String sqlDeleteItens = "DELETE FROM item_pedido WHERE id_pedido = ?";
-    String sqlDeletePedido = "DELETE FROM pedido WHERE id_pedido = ?";
-
-    try (Connection conn = Conexao.criarNovaConexao()) {
-        conn.setAutoCommit(false);
-        try (PreparedStatement psItens = conn.prepareStatement(sqlItens)) {
-            psItens.setInt(1, idPedido);
-            try (ResultSet rs = psItens.executeQuery()) {
-                try (PreparedStatement psEstoque = conn.prepareStatement(sqlUpdateEstoque)) {
-                    while (rs.next()) {
-                        psEstoque.setInt(1, rs.getInt("quantidade"));
-                        psEstoque.setInt(2, rs.getInt("id_produtos"));
-                        psEstoque.executeUpdate();
-                    }
-                }
-            }
-        }
-        
-        try (PreparedStatement psDeleteItens = conn.prepareStatement(sqlDeleteItens)) {
-            psDeleteItens.setInt(1, idPedido);
-            psDeleteItens.executeUpdate();
-        }
-
-        try (PreparedStatement psDeletePedido = conn.prepareStatement(sqlDeletePedido)) {
-            psDeletePedido.setInt(1, idPedido);
-            psDeletePedido.executeUpdate();
-        }
-        
-        conn.commit();
-        System.out.println("Pedido #" + idPedido + " removido e estoque devolvido com sucesso!");
-    } catch (SQLException e) {
-        System.out.println("Erro ao cancelar o pedido: " + e.getMessage());
-    }
-}
-
     public static void alterarObservacao(int idPedido, String novaObs) {
     String sql = "UPDATE pedido SET observacao = ? WHERE id_pedido = ?";
     try (Connection conn = Conexao.criarNovaConexao();
