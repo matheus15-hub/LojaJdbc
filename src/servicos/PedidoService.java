@@ -100,13 +100,6 @@ public class PedidoService {
         }
     }
 
-    public void concluirPedido(int idPedido) {
-        PedidoDAO.concluirPedido(idPedido);
-
-        VendedorDAO vendedorDAO = new VendedorDAO();
-        vendedorDAO.addComissao(idPedido);
-    }
-
     public List<ItemPedido> getCarrinhoComponentes() { return carrinhoComponentes; }
     public double getValorTotalAcumulado() { return valorTotalAcumulado; }
 }

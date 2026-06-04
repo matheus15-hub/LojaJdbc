@@ -116,47 +116,7 @@ public class VendedorDAO {
         return null;
     }
 
-   public void addComissao(int idPedido) {
-    String sqlPedido = """
-        SELECT valor_total, status_pedido, id_vendedor
-        FROM pedido
-        WHERE id_pedido = ?
-        """;
-
-    String sqlComissao = """
-        UPDATE vendedor
-        SET comissao = comissao + ?
-        WHERE id_vendedor = ?
-        """;
-
-    try {
-        conn = Conexao.getConexao();
-
-        stmt = conn.prepareStatement(sqlPedido);
-        stmt.setInt(1, idPedido);
-        rs = stmt.executeQuery();
-
-        rs.next();
-
-        if (!"FINALIZADO".equalsIgnoreCase(rs.getString("status_pedido"))) {
-            return;
-        }
-
-        BigDecimal comissao = rs.getBigDecimal("valor_total")
-                .multiply(BigDecimal.valueOf(0.01));
-
-        stmt = conn.prepareStatement(sqlComissao);
-        stmt.setBigDecimal(1, comissao);
-        stmt.setInt(2, rs.getInt("id_vendedor"));
-        stmt.executeUpdate();
-
-        System.out.println("Comissão adicionada com sucesso.");
-
-    } catch (Exception e) {
-        System.out.println("Aviso: Não foi possível processar a comissão (" +
-                e.getMessage() + "). O sistema continuará normalmente.");
-    }
-}
+   
     public void mostrarVendedorFiltro(String nomePesquisa) {
         String sql = "select * from vendedor where nome_vendedor like ?";
         try {
