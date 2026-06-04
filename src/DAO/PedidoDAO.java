@@ -317,10 +317,12 @@ public class PedidoDAO {
         }
     }
 
-    public static void alterarQuantidadeProdutoPedido(
-            int idPedido,
-            int idProduto,
-            int novaQuantidade) {
+    public static void alterarQuantidadeProdutoPedido( int idPedido, int idProduto, int novaQuantidade) {
+
+        if(novaQuantidade < 1) {
+            System.out.println("Quantidade Invalida");
+            return;
+        }
 
         String sqlBuscar = "SELECT quantidade, preco_unitario FROM item_pedido WHERE id_pedido = ? AND id_produtos = ?";
         String sqlEstoque = "UPDATE produtos SET estoque = estoque + ? WHERE id_produtos = ?";

@@ -146,6 +146,11 @@ public class MenuAlteracaoPedido {
                                 System.out.print("Nova quantidade: ");
                                 int novaQuantidade = sca.nextInt();
 
+                                if (novaQuantidade < 1) {
+                                    System.out.println("A quantidade de ser maior que zero");
+                                    break;
+                                }
+
                                 sca.nextLine();
 
                                 PedidoDAO.alterarQuantidadeProdutoPedido(
@@ -188,12 +193,11 @@ public class MenuAlteracaoPedido {
 
                                         novoValorTotal += subtotal;
 
-                                        inserirNovoItem(
+                                        inserirOuAtualizarItem(
                                                 idPedido,
                                                 idProd,
                                                 qtd,
-                                                precoUnidade,
-                                                subtotal);
+                                                precoUnidade);
 
                                         atualizarEstoqueProduto(idProd, -qtd);
 
@@ -319,18 +323,47 @@ public class MenuAlteracaoPedido {
         return 0.0;
     }
 
-    private void inserirNovoItem(int idPedido, int idProd, int qtd, double precoUnitario, double subtotal) {
-        String sql = "INSERT INTO item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = Conexao.criarNovaConexao();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idPedido);
-            ps.setInt(2, idProd);
-            ps.setInt(3, qtd);
-            ps.setDouble(4, precoUnitario);
-            ps.setDouble(5, subtotal);
-            ps.executeUpdate();
+    private void inserirOuAtualizarItem(int idPedido, int idProd, int qtd, double precoUnitario) {
+
+        String select = "SELECT quantidade FROM item_pedido WHERE id_pedido = ? AND id_produtos = ?";
+        String insert = "INSERT INTO item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
+        String update = "UPDATE item_pedido SET quantidade = quantidade + ?, subtotal = subtotal + ? WHERE id_pedido = ? AND id_produtos = ?";
+
+        try (Connection conn = Conexao.criarNovaConexao()) {
+
+            try (PreparedStatement ps = conn.prepareStatement(select)) {
+                ps.setInt(1, idPedido);
+                ps.setInt(2, idProd);
+
+                ResultSet rs = ps.executeQuery();
+
+                double subtotal = qtd * precoUnitario;
+
+                if (rs.next()) {
+
+                    try (PreparedStatement up = conn.prepareStatement(update)) {
+                        up.setInt(1, qtd);
+                        up.setDouble(2, subtotal);
+                        up.setInt(3, idPedido);
+                        up.setInt(4, idProd);
+                        up.executeUpdate();
+                    }
+
+                } else {
+
+                    try (PreparedStatement ins = conn.prepareStatement(insert)) {
+                        ins.setInt(1, idPedido);
+                        ins.setInt(2, idProd);
+                        ins.setInt(3, qtd);
+                        ins.setDouble(4, precoUnitario);
+                        ins.setDouble(5, subtotal);
+                        ins.executeUpdate();
+                    }
+                }
+            }
+
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir novo item: " + e.getMessage());
+            System.out.println("Erro: " + e.getMessage());
         }
     }
 
@@ -348,12 +381,11 @@ public class MenuAlteracaoPedido {
         double preco = calcularPrecoProduto(idProd);
         double subtotal = preco * qtd;
 
-        inserirNovoItem(
+        inserirOuAtualizarItem(
                 idPedido,
                 idProd,
                 qtd,
-                preco,
-                subtotal);
+                preco);
 
         atualizarEstoqueProduto(idProd, -qtd);
 
