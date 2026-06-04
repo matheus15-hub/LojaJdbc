@@ -1,110 +1,57 @@
 package menu.vendedor;
 
-
-import DAO.VendedorDAO;
-import entidades.Vendedor;
-import servicos.VendedorSer;
-
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+import entidades.Endereco;
+import entidades.Vendedor;
+import menu.endereco.MenuCadastroEndereco;
+import servicos.EnderecoService;
+import servicos.EnderecoVendedorService;
+import servicos.VendedorSer;
+
 public class MenuCadastroVendedor {
+    Scanner sca = new  Scanner(System.in);
+      public void Vendedoradd() {
 
-    Scanner sca = new Scanner(System.in);
+        System.out.print("Nome do Vendedor: ");
+        String nome = sca.nextLine();
+        nome = new VendedorSer().verificarNome(nome);
 
-    private int selecionarVendedor(){
+        System.out.print("Telefone: ");
+        String tel = sca.nextLine();
+        tel = new VendedorSer().verificarTelefone(tel);
 
-        VendedorSer vendedorServico = new VendedorSer();
+        System.out.print("Email: ");
+        String email = sca.nextLine();
+        email = new VendedorSer().verificarEmail(email);
 
-        vendedorServico.mostrar();
-
-        System.out.print("Digite o ID do vendedor: ");
-
-        while(!sca.hasNextInt()){
-            System.out.println("Digite apenas números.");
-            sca.nextLine();
+        System.out.print("Salário: ");
+        while (!sca.hasNextDouble()) {
+            System.out.println("Digite um número válido para o salário!");
+            sca.next();
+            System.out.print("Salário: ");
         }
-
-        int idVendedor = sca.nextInt();
+        BigDecimal salario = sca.nextBigDecimal();
         sca.nextLine();
+        Vendedor vendedor = new Vendedor(nome, tel ,email , salario);
+        System.out.println("Dejesa: 1) Criar um novo endereço  | 2 ) Selecionar um endereço existente");
+        System.out.print("Escolha: ");
+        int escolhaVinculacaoEndereco = sca.nextInt();
+        if (escolhaVinculacaoEndereco == 1) {
+ 
+       Endereco endereco = new MenuCadastroEndereco().addEndereco();
 
-        idVendedor = vendedorServico.verificarId(idVendedor);
+       new EnderecoVendedorService().addVendedorEndereco(vendedor, endereco);
 
-        Vendedor vendedor = new VendedorDAO().buscarPorId(idVendedor);
+    } else if (escolhaVinculacaoEndereco == 2) {
 
-        System.out.println("\nVendedor Selecionado:");
-        System.out.println("ID: " + vendedor.getIdVendedor());
-        System.out.println("Nome: " + vendedor.getNomeVendedor());
-        System.out.println("Telefone: " + vendedor.getTelefoneVendedor());
-        System.out.println("Email: " + vendedor.getEmailVendedor());
+    int idEndereco = 0;
+    idEndereco = new EnderecoService().escolherEndereco(idEndereco);
 
-        System.out.print("\nÉ este vendedor? (S/N): ");
+    new EnderecoVendedorService().vincularVendedorEndero(vendedor, idEndereco);
+}
 
-        String confirmacao = sca.nextLine();
-
-        if(!confirmacao.equalsIgnoreCase("S")){
-            return selecionarVendedor();
-        }
-
-        return idVendedor;
-    }
-
-    public void alterarNome(){
-
-        int idVendedor = selecionarVendedor();
-
-        System.out.print("Novo nome: ");
-
-        String novoNome = sca.nextLine();
-
-        novoNome =
-                new VendedorSer().verificarNome(novoNome);
-
-        new VendedorSer()
-                .alterarNome(idVendedor, novoNome);
-    }
-
-    public void alterarTelefone(){
-
-        int idVendedor = selecionarVendedor();
-
-        System.out.print("Novo telefone: ");
-
-        String novoTelefone = sca.nextLine();
-
-        novoTelefone =
-                new VendedorSer().verificarTelefone(novoTelefone);
-
-        new VendedorSer()
-                .alterarTelefone(idVendedor, novoTelefone);
-    }
-
-    public void alterarEmail(){
-
-        int idVendedor = selecionarVendedor();
-
-        System.out.print("Novo email: ");
-
-        String novoEmail = sca.nextLine();
-
-        novoEmail =
-                new VendedorSer().verificarEmail(novoEmail);
-
-        new VendedorSer()
-                .alterarEmail(idVendedor, novoEmail);
-    }
-
-    public void alterarSalario(){
-
-        int idVendedor = selecionarVendedor();
-
-        System.out.print("Novo salário: ");
-
-        BigDecimal novoSalario =
-                new BigDecimal(sca.nextLine().replace(",", "."));
-
-        new VendedorSer()
-                .alterarSalario(idVendedor, novoSalario);
     }
 
 }

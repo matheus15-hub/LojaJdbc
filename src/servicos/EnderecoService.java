@@ -170,29 +170,29 @@ public class EnderecoService {
         }
     }
     public void mostrarTudo(){
-        Console.linhaEndereco();
+        Console.linha();
         System.out.println("||\t\t\t\t\t MOSTRANDO ENDEREÇOS \t\t\t\t\t||");
         new EnderecoDAO().mostrarEnderecos();
     }
     public void filtrarRua(){
-        Console.linhaEndereco();
+        Console.linha();
         System.out.print("Rua: ");
         String rua = sca.nextLine();
-        Console.linhaEndereco();
+        Console.linha();
         System.out.println("||\t\t\t\t\t BUSACANDO POR RUA \t\t\t\t\t||");
         new EnderecoDAO().filtrarEnderecosRua(rua);
     }
     public void filtrarCep(){
-        Console.linhaEndereco();
+        Console.linha();
         System.out.print("CEP: ");
         String cep = sca.nextLine();
-        Console.linhaEndereco();
+        Console.linha();
         System.out.println("||\t\t\t\t\t BUSACANDO POR CEP \t\t\t\t\t||");
         new EnderecoDAO().filtrarEnderecosCep(cep);
     }
     public void metodoBusca(){
         while (true) {
-            Console.linhaEndereco();
+            Console.linha();
             System.out.println("||\t\t\t\tBuscar por: 1) Rua  2) Cep 3) Todos\t\t\t\t||");
             System.out.print("Escolha: ");
             int escolhaFiltro = sca.nextInt();
@@ -220,10 +220,10 @@ public class EnderecoService {
     public int escolherEndereco(int id){
 
         while (true) {
-            Console.linhaEndereco();
+            Console.linha();
             System.out.println("||\t\t\t\t\tESCOLHA DE ENDEREÇO\t\t\t\t\t||");
             metodoBusca();
-            Console.linhaEndereco();
+            Console.linha();
             System.out.println("||\t\tDigite o Id do endereço que deseja buscar\t\t||");
             System.out.print("ID: ");
             id = sca.nextInt();

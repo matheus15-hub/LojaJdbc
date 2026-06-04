@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import conexao.Conexao;
 import entidades.Cliente;
+import util.Console;
 
 public class ClienteDAO {
 
@@ -27,22 +28,29 @@ public class ClienteDAO {
             rsCliente = stmt.getGeneratedKeys();
             int idCliente = 0;
             if (rsCliente.next()) {
-                 idCliente = rsCliente.getInt(1);
+                idCliente = rsCliente.getInt(1);
             }
-            conn.commit(); 
+            conn.commit();
             return idCliente;
 
         } catch (Exception e) {
             if (conn != null) {
-                try { conn.rollback(); } catch (Exception ex) { ex.printStackTrace(); }
+                try {
+                    conn.rollback();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
             e.printStackTrace();
             return -1;
         } finally {
             try {
-                if (rsCliente != null) rsCliente.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
+                if (rsCliente != null)
+                    rsCliente.close();
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,7 +60,7 @@ public class ClienteDAO {
     public static void removerCliente(int id_clientes) {
         String sql = "DELETE FROM clientes WHERE id_clientes = ?";
         try (Connection conn = Conexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id_clientes);
             ps.execute();
         } catch (Exception e) {
@@ -62,12 +70,12 @@ public class ClienteDAO {
 
     public void mostrarClient() {
         String sql = "select * from clientes c " +
-                     "join cliente_endereco ce on c.id_clientes = ce.id_clientes " +
-                     "join endereco e on ce.id_endereco = e.id_endereco";
-        
+                "join cliente_endereco ce on c.id_clientes = ce.id_clientes " +
+                "join endereco e on ce.id_endereco = e.id_endereco";
+
         try (Connection conn = Conexao.getConexao();
-             Statement sts = conn.createStatement();
-             ResultSet res = sts.executeQuery(sql)) {
+                Statement sts = conn.createStatement();
+                ResultSet res = sts.executeQuery(sql)) {
 
             while (res.next()) {
                 int id_clientes = res.getInt("id_clientes");
@@ -81,11 +89,15 @@ public class ClienteDAO {
                 String cidade = res.getString("cidade");
                 String cep = res.getString("cep");
 
-                System.out.println("========================================================================================================================");
-                System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n", id_clientes, nome_clientes, cpf, email);
-                System.out.println();
-                System.out.printf("|| RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n", rua, numero, bairro, cidade, cep);
-                System.out.println("========================================================================================================================");
+                Console.linha();
+                System.out.printf(
+                        "|| ID:     %5d\t\t\t\t\t\t\t\t\t\t\t\t ||%n|| NOME:   %-100s ||%n|| CPF:    %-100s ||%n|| EMAIL:  %-100s ||%n",
+                        id_clientes, nome_clientes, cpf, email);
+                Console.linhaSimples();
+                System.out.printf(
+                        "|| RUA:    %-100s ||%n|| Nº:     %-100s ||%n|| BAIRRO: %-100s ||%n|| CIDADE: %-100s ||%n|| CEP:    %-100s ||%n",
+                        rua, numero, bairro, cidade, cep);
+                Console.linha();
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
@@ -94,12 +106,12 @@ public class ClienteDAO {
 
     public void mostrarId(int id) {
         String sql = "SELECT * FROM clientes c " +
-                     "JOIN cliente_endereco ce ON c.id_clientes = ce.id_clientes " +
-                     "JOIN endereco e ON ce.id_endereco = e.id_endereco " +
-                     "WHERE c.id_clientes = ?";
+                "JOIN cliente_endereco ce ON c.id_clientes = ce.id_clientes " +
+                "JOIN endereco e ON ce.id_endereco = e.id_endereco " +
+                "WHERE c.id_clientes = ?";
         try (Connection conn = Conexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             try (ResultSet res = ps.executeQuery()) {
                 if (res.next()) {
@@ -112,12 +124,15 @@ public class ClienteDAO {
                     String bairro = res.getString("bairro");
                     String cidade = res.getString("cidade");
                     String cep = res.getString("cep");
-
-                    System.out.println("========================================================================================================================");
-                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-15s | EMAIL: %-25s ||%n", id_clientes, nome_clientes, cpf, email);
-                    System.out.println();
-                    System.out.printf("|| RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n", rua, numero, bairro, cidade, cep);
-                    System.out.println("========================================================================================================================");
+                    Console.linha();
+                    System.out.printf(
+                            "|| ID:     %5d\t\t\t\t\t\t\t\t\t\t\t\t ||%n|| NOME:   %-100s ||%n|| CPF:    %-100s ||%n|| EMAIL:  %-100s ||%n",
+                            id_clientes, nome_clientes, cpf, email);
+                    Console.linhaSimples();
+                    System.out.printf(
+                            "|| RUA:    %-100s ||%n|| Nº:     %-100s ||%n|| BAIRRO: %-100s ||%n|| CIDADE: %-100s ||%n|| CEP:    %-100s ||%n",
+                            rua, numero, bairro, cidade, cep);
+                    Console.linha();
                 }
             }
         } catch (Exception e) {
@@ -128,8 +143,8 @@ public class ClienteDAO {
     public void mostrarClientePorFiltro(String nome_clientes) {
         String sql = "SELECT id_clientes, nome_clientes, cpf_clientes, email_clientes FROM clientes WHERE nome_clientes LIKE ?";
         try (Connection conn = Conexao.getConexao();
-             PreparedStatement md = conn.prepareStatement(sql)) {
-            
+                PreparedStatement md = conn.prepareStatement(sql)) {
+
             md.setString(1, nome_clientes + "%");
             try (ResultSet resultSet = md.executeQuery()) {
                 while (resultSet.next()) {
@@ -138,20 +153,21 @@ public class ClienteDAO {
                     String cpf = resultSet.getString("cpf_clientes");
                     String email_clientes = resultSet.getString("email_clientes");
                     linha();
-                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-18s | EMAIL: %-25s ||%n", id_clientes, nome, cpf, email_clientes);
+                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-18s | EMAIL: %-25s ||%n", id_clientes, nome,
+                            cpf, email_clientes);
                     linha();
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar clientes com filtro: " + e.getMessage());
-        }    
+        }
     }
 
     public static boolean verificarExistencia(int h) {
         int contador = 0;
         String sql = "SELECT 1 FROM clientes WHERE id_clientes = ?";
         try (Connection conn = Conexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, h);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
@@ -168,7 +184,7 @@ public class ClienteDAO {
         System.out.println("==================================================================================");
     }
 
-    public void alterarNome(int id, String nome){
+    public void alterarNome(int id, String nome) {
         PreparedStatement ps = null;
         String sql = "UPDATE clientes SET nome_clientes = ? WHERE id_clientes = ?";
         try {
@@ -182,7 +198,7 @@ public class ClienteDAO {
         }
     }
 
-    public void alterarCpf(int id, String cpf){
+    public void alterarCpf(int id, String cpf) {
         PreparedStatement ps = null;
         String sql = "UPDATE clientes SET cpf_clientes = ? WHERE id_clientes = ?";
         try {
@@ -196,7 +212,7 @@ public class ClienteDAO {
         }
     }
 
-    public void alterarEmail(int id, String email){
+    public void alterarEmail(int id, String email) {
         PreparedStatement ps = null;
         String sql = "UPDATE clientes SET email_clientes = ? WHERE id_clientes = ?";
         try {
@@ -213,9 +229,9 @@ public class ClienteDAO {
     public void listarParaPedido() {
         String sql = "SELECT id_clientes, nome_clientes FROM clientes";
         try (Connection conn = Conexao.getConexao();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rst = pstm.executeQuery()) {
-            
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rst = pstm.executeQuery()) {
+
             System.out.println("-------------------------------------------------------");
             System.out.printf("%-10s | %-30s%n", "ID", "NOME DO CLIENTE");
             System.out.println("-------------------------------------------------------");

@@ -1,15 +1,17 @@
 package menu.endereco;
 
 import DAO.EnderecoClienteDAO;
+import DAO.EnderecoVendedorDAO;
 import servicos.EnderecoClienteSer;
 import servicos.EnderecoService;
+import servicos.EnderecoVendedorService;
 
 import java.util.Scanner;
 
 public class MenuAlterarEndereco {
     Scanner sca = new Scanner(System.in);
     public void menuAlterarEnderecoCliente(int id){
-        int idEndereco = selecionarEndereco(id);
+        int idEndereco = selecionarEnderecoCliente(id);
         System.out.println("=================================================================");
         System.out.println("||\t\tO que deseja alterar nesse endereço\t\t||");
         System.out.println("|| 1) RUA  2) NUMERO  3) BAIRRO  4) CIDADE  5) CEP  0) VOLTAR ||");
@@ -38,10 +40,83 @@ public class MenuAlterarEndereco {
                 System.out.println("Opcão invalida!");
                 break;
         }
-
-
     }
-    public int selecionarEndereco(int id){
+    public void menuAlterarEnderecoVendedor(int id) {
+    int idEndereco = selecionarEnderecoVendedor(id);
+
+    System.out.println("=================================================================");
+    System.out.println("||\t\tO que deseja alterar nesse endereço\t\t||");
+    System.out.println("|| 1) RUA  2) NUMERO  3) BAIRRO  4) CIDADE  5) CEP  0) VOLTAR ||");
+    System.out.print("||Escolha: ");
+
+    int escolha = sca.nextInt();
+    sca.nextLine();
+
+    switch (escolha) {
+        case 1:
+            ruaEndereco(idEndereco);
+            break;
+        case 2:
+            numeroEndereco(idEndereco);
+            break;
+        case 3:
+            bairroEndereco(idEndereco);
+            break;
+        case 4:
+            cidadeEndereco(idEndereco);
+            break;
+        case 5:
+            cepEndereco(idEndereco);
+            break;
+        case 0:
+            return;
+        default:
+            System.out.println("Opção inválida!");
+            break;
+    }
+}
+    public int selecionarEnderecoVendedor(int idVendedor) {
+    int idEndereco;
+
+    while (true) {
+
+        System.out.println("=================================================================");
+        System.out.println("|| TODOS OS ENDEREÇOS VINCULADOS AO VENDEDOR " + idVendedor + " :");
+
+        new EnderecoVendedorDAO().mostrarEnderecoVendedor(idVendedor);
+
+        System.out.println("Selecione o ID do endereço que deseja alterar:");
+        System.out.print("Escolha: ");
+
+        while (!sca.hasNextInt()) {
+            System.out.println("===================================================================");
+            System.out.println("|| Entrada de dados inválida | Apenas números inteiros são aceitos");
+            System.out.println("||\t\t\tEx: 1, 10, 20...");
+            sca.nextLine();
+            System.out.print("Digite o ID correspondente ao endereço: ");
+        }
+
+        idEndereco = sca.nextInt();
+
+        idEndereco = new EnderecoVendedorService().verificarLigacao(idVendedor, idEndereco);
+
+        System.out.println("Deseja mesmo alterar o endereço com ID: " + idEndereco + "?");
+        System.out.print("1) Sim | 2) Não: ");
+
+        int querAlterar = sca.nextInt();
+
+        if (querAlterar == 1) {
+            break;
+        }
+
+        if (querAlterar != 2) {
+            System.out.println("Opção inválida!");
+        }
+    }
+
+    return idEndereco;
+}
+    public int selecionarEnderecoCliente(int id){
         int idendereco;
         while (true) {
 

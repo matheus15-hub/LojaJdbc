@@ -65,10 +65,11 @@ public class EnderecoDAO {
                 String bairro = rsEndereco.getString("bairro");
                 String cidade = rsEndereco.getString("cidade");
                 String cep = rsEndereco.getString("cep");
-                Console.linhaEndereco();
+                Console.linha();
                 System.out.printf("|| ID: %5d\t RUA: %-35s\tNUMERO: %-8s\tBAIRRRO: %-20s\tCIDADE: %-20s\t CEP: %s || ",
                         id , rua , numero , bairro, cidade, cep );
-                Console.linhaEndereco();
+                Console.linha();
+                
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

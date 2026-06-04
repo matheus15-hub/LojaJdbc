@@ -22,7 +22,6 @@ public class ClienteService {
     }
 
     public void mostrarId(int id) {
-        // RESOLVIDO: Agora chama o método real criado na DAO
         new ClienteDAO().mostrarId(id);
     }
 

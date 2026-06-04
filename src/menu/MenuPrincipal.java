@@ -11,6 +11,8 @@ import menu.produto.MenuConsultaProduto;
 import menu.produto.MenuRemocaoProduto;
 import menu.produto.MenuAlteracaoProduto;
 import menu.vendedor.MenuAlteracaoVendedor;
+import menu.vendedor.MenuCadastroVendedor;
+import menu.vendedor.MenuConsultaVendedor;
 import menu.pedido.MenuConsultaPedido;
 
 import java.util.Scanner;
@@ -170,7 +172,7 @@ public class MenuPrincipal {
         linha();
         System.out.println("||                              VENDEDORES                                     ||");
         linha();
-        System.out.println("|| 1) Criar   2) Remover   3) Consultar   4) Voltar                           ||");
+        System.out.println("|| 1) Criar   2) Remover   3) Consultar   4) Alterar  0)Volta                  ||");
         linha();
         System.out.print("|| ESCOLHA: ");
         int opcao = lerInt();
@@ -178,17 +180,17 @@ public class MenuPrincipal {
 
         switch (opcao) {
             case 1:
-                new MenuAlteracaoVendedor().Vendedoradd();
+                new MenuCadastroVendedor().Vendedoradd();
                 break;
             case 2:
                 System.out.println("VENDEDOR REMOVIDO!");
                 break;
             case 3:
-                System.out.print("\na ser feito");
+                new MenuConsultaVendedor().metodoBusca();
                 ;
                 break;
             case 4:
-                System.out.println("VOLTANDO...");
+               new MenuAlteracaoVendedor().menuAlterarVendedor();
                 break;
             default:
                 System.out.println("OPÇÃO INVÁLIDA!");
