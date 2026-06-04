@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import entidades.ItemPedido;
+import enums.StatusPedido;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
 import DAO.VendedorDAO;
@@ -15,13 +16,13 @@ public class PedidoService {
     private int idVendedorSelecionado;
     private List<ItemPedido> carrinhoComponentes;
     private double valorTotalAcumulado;
-    private String statusAtualPedido;
+    private StatusPedido statusAtualPedido;
     private final Scanner sca = new Scanner(System.in);
 
     public PedidoService() {
         this.carrinhoComponentes = new ArrayList<>();
         this.valorTotalAcumulado = 0.0;
-        this.statusAtualPedido = "ABERTO";
+        this.statusAtualPedido = StatusPedido.ABERTO;
     }
 
     public void addClientePedido(int idCliente) {
@@ -54,16 +55,38 @@ public class PedidoService {
     }
 
     public void finalizarFluxo(int opcaoDecisao) {
+
         if (opcaoDecisao == 1) {
-            this.statusAtualPedido = "FILA";
-            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", this.statusAtualPedido);
-            System.out.println("Pedido enviado com sucesso para a fila de processamento!");
+
+            statusAtualPedido = StatusPedido.FILA;
+
+            PedidoDAO.finalizarVenda(
+                    idClienteSelecionado,
+                    idVendedorSelecionado,
+                    carrinhoComponentes,
+                    valorTotalAcumulado,
+                    "",
+                    statusAtualPedido);
+
+            System.out.println("Pedido enviado para fila.");
+
         } else if (opcaoDecisao == 2) {
-            this.statusAtualPedido = "ABERTO";
-            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", this.statusAtualPedido);
-            System.out.println("Pedido salvo e mantido com o status 'ABERTO' para futuras alterações.");
+
+            statusAtualPedido = StatusPedido.ABERTO;
+
+            PedidoDAO.finalizarVenda(
+                    idClienteSelecionado,
+                    idVendedorSelecionado,
+                    carrinhoComponentes,
+                    valorTotalAcumulado,
+                    "",
+                    statusAtualPedido);
+
+            System.out.println("Pedido salvo como ABERTO.");
+
         } else {
-            System.out.println("Operação cancelada. A venda não foi registrada.");
+
+            System.out.println("Operação cancelada.");
         }
     }
 
@@ -92,8 +115,11 @@ public class PedidoService {
         }
     }
 
+    public List<ItemPedido> getCarrinhoComponentes() {
+        return carrinhoComponentes;
+    }
 
-
-    public List<ItemPedido> getCarrinhoComponentes() { return carrinhoComponentes; }
-    public double getValorTotalAcumulado() { return valorTotalAcumulado; }
+    public double getValorTotalAcumulado() {
+        return valorTotalAcumulado;
+    }
 }

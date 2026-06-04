@@ -4,14 +4,14 @@ import java.util.Scanner;
 import DAO.PedidoDAO;
 
 public class MenuConsultaPedido {
-    private Scanner sca = new Scanner(System.in);
 
-    public void exibirMenuPrint() {
-        System.out.println("\n--- CONSULTA DETALHADA DE PEDIDOS ---");
-        
+    private final Scanner sca = new Scanner(System.in);
+
+    public void consultarPedidos() {
+
         PedidoDAO.imprimirPedidoS();
-        
-        System.out.print("\nPressione ENTER para voltar ao menu anterior...");
+
+        System.out.print("\nPressione ENTER para voltar...");
         sca.nextLine();
     }
 }
