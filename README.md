@@ -11,12 +11,12 @@ Funcionalidades
     Clientes — cadastro, consulta, alteração e remoção com endereço vinculado
     Vendedores — cadastro com salário, telefone e e-mail, comissão(a comissão só será atribuida caso pedido que esteja relacionado esteja finalizado)
     Produtos — cadastro com preço (BigDecimal), estoque, categoria e unidade de medida
-    Pedidos — criação com múltiplos itens, controle de estoque em transação, cancelamento com devolução de estoque
+    Pedidos — criação com múltiplos itens, controle de estoque em transação, cancelamento com devolução dos itens ao estoque
     Status de pedido — ciclo ABERTO → FILA → PROCESSANDO → FINALIZADO
     Thread de processamento — ProcessadorPedido roda em background a cada 5 segundos, avançando pedidos da fila automaticamente
     Menus interativos — navegação via console com validação de entrada
 
-Arquitetura
+Arquitetura do Sistema
     src/
     ├── Main.java                   # Ponto de entrada — inicia thread + menu
     ├── conexao/
@@ -183,5 +183,19 @@ Alunos:
 Orientadores:
     Moacir Guedes Oliveira
     Bruno Dion Correa dos Santos
+
+    Divisão de Tarefas:
+
+    Matheus Rodrigues Santos: Responsável pelo desenvolvimento da Partição de Produtos (Entidade, classe de validação ProdutoService, criação do ProdutoDAO e submenus de terminal correspondentes).
+    Criação e estruturação inicial do banco de dados relacional MySQL.
+
+    Gabriel Hardt Klipe: Criando os metodos Pedidos e ItemPedido (criando a logica do pedido e separação de dados usando PedidoDAO com controle transacional de estoque).
+    Implementação da lógica de transição dos Status do Pedido: ABERTO, FILA, PROCESSANDO , FINALIZADO.
+    Criação e configuração do sistema de threads ProcessadorPedido.
+
+    Kevin Richardt: Desenvolvimento do módulo de Vendedores Entidade, classe de validação VendedorSer e persistência em VendedorDAO.
+
+    João Victor Oliveira: Desenvolvimento do módulo de Clientes e gerenciamento de múltiplos Endereços(Em conjuto com Matheus) Entidades, ClienteDAO, EnderecoDAO e tabelas associativas
+    Padronização visual do console através da classe Console e estruturação da árvore do MenuPrincipal.
 
 2026 Universidade Campo Real
