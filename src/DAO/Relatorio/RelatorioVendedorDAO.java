@@ -1,9 +1,14 @@
 package DAO.Relatorio;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import conexao.Conexao;
+import util.Console;
 
 public class RelatorioVendedorDAO {
 
@@ -74,7 +79,74 @@ public class RelatorioVendedorDAO {
             throw new RuntimeException(e);
         }
     }
+    public void comissaoPorVendedor(int idVendedor, LocalDateTime periInicio, LocalDateTime periFinal){
+        conn = Conexao.getConexao();
+        String sql= """
+                SELECT
+                    v.id_vendedor,
+                    v.nome_vendedor,
+                    SUM(p.valor_total) AS total_vendas,
+                    SUM(p.valor_total * 0.01) AS comissao
+                FROM vendedor v
+                JOIN pedido p ON v.id_vendedor = p.id_vendedor
+                WHERE p.id_vendedor = ?
+                AND p.data_pedido BETWEEN ? AND ?
+                GROUP BY v.id_vendedor, v.nome_vendedor
+                """;
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idVendedor);
+            stmt.setTimestamp(2, Timestamp.valueOf(periInicio));
+            stmt.setTimestamp(3, Timestamp.valueOf(periFinal));
+            ResultSet rs = stmt.executeQuery();
 
+            if (rs.next()) {
+                String nome = rs.getString("nome_vendedor");
+                BigDecimal totalVendas = rs.getBigDecimal("total_vendas");
+                BigDecimal comissao = rs.getBigDecimal("comissao");
+                Console.linha();
+                System.out.println("||Vendedor: " + nome);
+                System.out.println("||Total vendido: R$ " + totalVendas);
+                System.out.println("||Comissão: R$ " + comissao);
+                Console.linha();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void comissaoTodosVendedor( LocalDateTime periInicio, LocalDateTime periFinal){
+        conn = Conexao.getConexao();
+        String sql= """
+                SELECT
+                    v.id_vendedor,
+                    v.nome_vendedor,
+                    SUM(p.valor_total) AS total_vendas,
+                    SUM(p.valor_total * 0.01) AS comissao
+                FROM vendedor v
+                JOIN pedido p ON v.id_vendedor = p.id_vendedor
+                WHERE p.data_pedido BETWEEN ? AND ?
+                GROUP BY v.id_vendedor, v.nome_vendedor
+                """;
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setTimestamp(1, Timestamp.valueOf(periInicio));
+            stmt.setTimestamp(2, Timestamp.valueOf(periFinal));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nome = rs.getString("nome_vendedor");
+                BigDecimal totalVendas = rs.getBigDecimal("total_vendas");
+                BigDecimal comissao = rs.getBigDecimal("comissao");
+                Console.linha();
+                System.out.println("||Vendedor: " + nome);
+                System.out.println("||Total vendido: R$ " + totalVendas);
+                System.out.println("||Comissão: R$ " + comissao);
+                Console.linha();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void MaiorSalarioVendedor() {
         String sql = "select id_vendedor, nome_vendedor, salario from vendedor order by salario desc limit 1;"; 
         try {

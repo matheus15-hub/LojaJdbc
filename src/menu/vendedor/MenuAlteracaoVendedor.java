@@ -69,7 +69,7 @@ public class MenuAlteracaoVendedor {
         }
     }
 
-    private int selecionarVendedor() {
+    public int selecionarVendedor() {
 
         while (true) {
 
