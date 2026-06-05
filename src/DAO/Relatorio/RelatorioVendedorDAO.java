@@ -75,5 +75,51 @@ public class RelatorioVendedorDAO {
         }
     }
 
-    
+    public void MaiorSalarioVendedor() {
+        String sql = "select id_vendedor, nome_vendedor, salario from vendedor order by salario desc limit 1;"; 
+        try {
+            stmt = conexao.Conexao.getConexao().prepareStatement(sql);
+            res = stmt.executeQuery(sql);
+            while (res.next()) {
+                int id = res.getInt("id_vendedor");
+                String nome = res.getString("nome_vendedor");
+                float salario = res.getFloat("salario");
+                System.out.printf("||ID: %5d\tNOME: %-25s\tSalário: R$%.2f||%n", id, nome, salario);
+            };
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void MenorSalarioVendedor() {
+        String sql = "select id_vendedor, nome_vendedor, salario from vendedor order by salario asc limit 1;"; 
+        try {
+            stmt = conexao.Conexao.getConexao().prepareStatement(sql);
+            res = stmt.executeQuery(sql);
+            while (res.next()) {
+                int id = res.getInt("id_vendedor");
+                String nome = res.getString("nome_vendedor");
+                float salario = res.getFloat("salario");
+                System.out.printf("||ID: %5d\tNOME: %-25s\tSalário: R$%.2f||%n", id, nome, salario);
+            };
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+     }
+
+     public void MediaVendaVendedor() {
+        String sql = "select id_vendedor, (select nome_vendedor from vendedor where pedido.id_vendedor = vendedor.id_vendedor) as Nome_vendedor, avg(valor_total) as Media_Venda from pedido group by id_vendedor;"; 
+        try {
+            stmt = conexao.Conexao.getConexao().prepareStatement(sql);
+            res = stmt.executeQuery(sql);
+            while (res.next()) {
+                int id = res.getInt("id_vendedor");
+                String nome = res.getString("Nome_vendedor");
+                float valor = res.getFloat("Media_Venda");
+                System.out.printf("||ID: %5d\tNOME: %-25s\tValor da Média de Venda: R$%.2f||%n", id, nome, valor);
+            };
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -17,28 +17,32 @@ public class MenuRelatorioVendedor {
         if (busca == 2) {
             new RelatorioVendedorDAO().MenorVendaVendedor();
             break;
-        }/*
+        }
         if (busca == 3) {
             new RelatorioVendedorDAO().MaisVendasVendedor();
             break;
-        }/*
+        }
         if (busca == 4) {
             new RelatorioVendedorDAO().MenosVendasVendedor();
             break;
-        }/*
+        }
         if (busca == 5) {
             new RelatorioVendedorDAO().MaiorSalarioVendedor();
             break;
-        }/*
+        }
         if (busca == 6) {
             new RelatorioVendedorDAO().MenorSalarioVendedor();
             break;
-        }/*
+        }
         if (busca == 7) {
             new RelatorioVendedorDAO().MediaVendaVendedor();
             break;
-    }*/
+        }
+        else {
+            System.out.println("===========================Escolha invalida!===========================");
+            System.out.println("===========================Tente novamente===========================");
 
+        }
         }
     }
 }
