@@ -1,5 +1,7 @@
 package DAO;
 
+import util.Console;
+
 import java.sql.Connection; // ALTERADO: Importado para gerenciar a conexão de forma segura
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,9 +29,10 @@ public class ItemPedidoDAO {
                     
                     double sub = resultSet.getDouble("subtotal");
                     
-                    linha();
+                    Console.linhaSimples();
                     System.out.printf("|| %5d\t\t%-25s\t\t%5d\t\t%.2f\t\t%-5s\t\t%.2f ||%n", idp, nomep, quant, precV, mm, sub);
                 }
+                Console.linha();
             }
         } catch (Exception e) {
             System.out.println("[ERRO] Falha ao consultar os itens do pedido: " + e.getMessage());
@@ -37,7 +40,5 @@ public class ItemPedidoDAO {
         }
     }
     
-    public static void linha(){
-        System.out.println("================================================================================");
-    }
+
 }

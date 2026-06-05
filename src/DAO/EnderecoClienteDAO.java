@@ -7,7 +7,8 @@ import java.sql.ResultSet;
 import conexao.Conexao;
 import entidades.Cliente;
 import entidades.Endereco;
- 
+import util.Console;
+
 public class EnderecoClienteDAO {
     Connection conn;
     PreparedStatement stmt;
@@ -59,17 +60,21 @@ public class EnderecoClienteDAO {
                 String bairro = res.getString("bairro");
                 String cidade = res.getString("cidade");
                 String cep = res.getString("cep");
-                System.out.println("========================================================================================================================");
-                System.out.printf("||ID: %5d | RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n", id_endereco, rua, numero, bairro, cidade, cep);
-                System.out.println("========================================================================================================================");
+                Console.linha();
+                System.out.println("\t\t\tID: " + id_endereco);
+                Console.linhaSimples();
+                System.out.println("| Rua: " +rua);
+                System.out.println("| Bairro: " + bairro);
+                System.out.println("| Cidade: " + cidade);
+                System.out.println("| Cep: " + cep);
+                Console.linha();
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar endereços do cliente: " + e.getMessage());
         }
     }
- 
     public boolean verificarEnderecoCliente(int idcliente, int idendereco) {
-        String sql = "SELECT 1 FROM cliente_endereco WHERE id_clientes = ? AND id_endereco = ?";
+        String sql = "SELECT * FROM cliente_endereco WHERE id_clientes = ? AND id_endereco = ?";
         try {
             Connection conn = Conexao.getConexao();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -77,6 +82,23 @@ public class EnderecoClienteDAO {
             stmt.setInt(2, idendereco);
             ResultSet rs = stmt.executeQuery();
             return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao verificar endereço do cliente: " + e.getMessage());
+        }
+    }
+    public int getIdEnderecoCliente(int idcliente , int idendereco){
+        String sql = "SELECT * FROM cliente_endereco WHERE id_clientes = ? AND id_endereco = ?";
+        try {
+            int id_endereco_cliente =0;
+            Connection conn = Conexao.getConexao();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idcliente);
+            stmt.setInt(2, idendereco);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                id_endereco_cliente = rs.getInt("id_cliente_endereco");
+            }
+                return id_endereco_cliente;
         } catch (Exception e) {
             throw new RuntimeException("Erro ao verificar endereço do cliente: " + e.getMessage());
         }
