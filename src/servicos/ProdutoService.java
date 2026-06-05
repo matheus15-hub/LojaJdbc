@@ -197,5 +197,8 @@ public class ProdutoService {
         new RelatorioProdutoDAO().QuantidadeCategoriaProduto();
     }
 
+    public void valorMedio(){
+        new RelatorioProdutoDAO().MediaValorProduto();
+    }
 }
 

@@ -7,7 +7,7 @@ public class MenuRelatorioProduto {
      public void metodoBusca() {
         while (true) {
             System.out.println("===========================Metodo de Busca===========================");
-        System.out.println("Buscar: 1)Maior Quantidade de Produtos 2)Preço Alto 3)Preço Baixo 4)Mais Vendidos 5)Quantidade por Categoria");
+        System.out.println("Buscar: 1)Maior Quantidade de Produtos 2)Preço Alto 3)Preço Baixo 4)Mais Vendidos 5)Quantidade por Categoria 6)Valor Médio");
         System.out.print("Escolha:  ");
         int busca = sca.nextInt();
         if (busca  == 1) {
@@ -29,6 +29,10 @@ public class MenuRelatorioProduto {
         if (busca == 5) {
             new RelatorioProdutoDAO().QuantidadeCategoriaProduto();
             break;        
+        }
+        if (busca == 6) {
+            new RelatorioProdutoDAO().MediaValorProduto();
+            break;
         }else {
             System.out.println("===========================Escolha invalida!===========================");
             System.out.println("===========================Tente novamente===========================");

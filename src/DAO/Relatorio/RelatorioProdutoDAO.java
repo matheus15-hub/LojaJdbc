@@ -91,9 +91,25 @@ public class RelatorioProdutoDAO {
                 int qtdClasse = res.getInt("QTDClasse");
                 System.out.printf("Classe: %d\tQuantidade: %d%n",
                     idClasse,qtdClasse);
-};
+            };
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    public void MediaValorProduto() {
+        String sql = "select round(avg(preco), 2) as ValorMedio from produtos"; 
+        try {
+            stmt = conexao.Conexao.getConexao().prepareStatement(sql);
+            res = stmt.executeQuery();
+            while (res.next()) {
+                float mediaPreco = res.getFloat("ValorMedio");
+                System.out.printf("Media Preço dos Produtos: R$%.2f%n",
+                    mediaPreco);
+            };
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
