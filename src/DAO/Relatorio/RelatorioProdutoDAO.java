@@ -11,7 +11,6 @@ public class RelatorioProdutoDAO {
     PreparedStatement stmt;
     ResultSet res = null;
 
-    
     public void MaiorQuantidadeProduto() {
         String sql = "select * from produtos where estoque = (select max(estoque) from produtos)"; 
         try {
@@ -29,7 +28,7 @@ public class RelatorioProdutoDAO {
         }
     }
 
-    public void PrecoAltoProduto() {
+    public void MaisCaroProduto() {
         String sql = "select * from produtos where preco = (select max(preco) from produtos)"; 
         try {
             stmt = conexao.Conexao.getConexao().prepareStatement(sql);
@@ -46,7 +45,7 @@ public class RelatorioProdutoDAO {
         }
     }
 
-    public void PrecoBaixoProduto() {
+    public void MaisBaratoProduto() {
         String sql = "select * from produtos where preco = (select min(preco) from produtos)"; 
         try {
             stmt = conexao.Conexao.getConexao().prepareStatement(sql);

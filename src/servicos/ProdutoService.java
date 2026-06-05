@@ -182,11 +182,11 @@ public class ProdutoService {
     }
 
     public void precoAltoProduto(){
-        new RelatorioProdutoDAO().PrecoAltoProduto();
+        new RelatorioProdutoDAO().MaisCaroProduto();
     }
 
     public void precoBaixoProduto(){
-        new RelatorioProdutoDAO().PrecoBaixoProduto();
+        new RelatorioProdutoDAO().MaisBaratoProduto();
     }
 
     public void maisVendidos(){

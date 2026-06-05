@@ -1,6 +1,7 @@
 package menu;
 import menu.produto.MenuRelatorioProduto;
 import menu.vendedor.MenuRelatorioVendedor;
+import menu.pedido.MenuRelatorioPedido;
 
 import java.util.Scanner;
 
@@ -12,25 +13,21 @@ public class MenuRelatorio {
         System.out.print("Escolha:  ");
         Scanner scanner = new Scanner(System.in);
         int busca = scanner.nextInt();
-        if (busca  == 1) {
-            new MenuRelatorioProduto().metodoBusca();
-            break;
-        }
-        if (busca == 2) {
-            new MenuRelatorioVendedor().metodoBusca();
-            break;
-        }
-        if (busca == 3) {
-            System.out.println("A ser feito");
-            break;
-        }
-        if (busca == 4) {
-            System.out.println("A ser feito");
-            break;
-        }
-        else {
-            System.out.println("===========================Escolha invalida!===========================");
-            System.out.println("===========================Tente novamente===========================");
+        switch (busca) {
+            case 1:
+                new MenuRelatorioProduto().metodoBusca();
+                break;
+            case 2:
+                new MenuRelatorioVendedor().metodoBusca();
+                break;
+            case 3:
+                new MenuRelatorioPedido().metodoBusca();
+                break;
+            case 4:
+                //new MenuRelatorioCliente().metodoBusca();
+                break;
+            default:
+                break;
         }
         }
     }

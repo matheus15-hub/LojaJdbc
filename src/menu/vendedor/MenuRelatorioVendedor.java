@@ -22,6 +22,7 @@ public class MenuRelatorioVendedor {
             System.out.println("|| 6) Menor Salário");
             System.out.println("|| 7) Média de Venda");
             System.out.println("|| 8) COMISSÂO");
+            System.out.println("|| 9) Voltar");
           Console.linhaSimples();
               System.out.print("Escolha:  ");
               int busca = Integer.parseInt(sca.nextLine());;
@@ -50,6 +51,8 @@ public class MenuRelatorioVendedor {
                   case 8:
                       new VendedorSer().comissaoVendedor();
                       break;
+                  case 9:
+                      return;
                   default:
                       System.out.println("===========================Escolha invalida!===========================");
                       System.out.println("===========================Tente novamente===========================");
