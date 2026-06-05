@@ -4,18 +4,19 @@ import menu.cliente.MenuCadastroCliente;
 import menu.cliente.MenuAlteracaoCliente;
 import menu.cliente.MenuConsultaCliente;
 import menu.cliente.MenuRemocaoCliente;
+
 import menu.pedido.MenuAlteracaoPedido;
 import menu.pedido.MenuCadastroPedido;
+import menu.pedido.MenuConsultaPedido;
+
 import menu.produto.MenuCadastroProduto;
 import menu.produto.MenuConsultaProduto;
 import menu.produto.MenuRemocaoProduto;
 import menu.produto.MenuAlteracaoProduto;
-import menu.produto.MenuRelatorioProduto;
+
 import menu.vendedor.MenuAlteracaoVendedor;
 import menu.vendedor.MenuCadastroVendedor;
 import menu.vendedor.MenuConsultaVendedor;
-import menu.pedido.MenuConsultaPedido;
-import menu.MenuRelatorio;
 
 import java.util.Scanner;
 

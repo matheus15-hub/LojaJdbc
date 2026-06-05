@@ -1,5 +1,6 @@
 package menu.vendedor;
 import DAO.Relatorio.RelatorioVendedorDAO;
+import menu.MenuRelatorio;
 import servicos.VendedorSer;
 import util.Console;
 
@@ -52,7 +53,7 @@ public class MenuRelatorioVendedor {
                       new VendedorSer().comissaoVendedor();
                       break;
                   case 9:
-                      return;
+                      new MenuRelatorio().metodoBusca();
                   default:
                       System.out.println("===========================Escolha invalida!===========================");
                       System.out.println("===========================Tente novamente===========================");

@@ -3,6 +3,7 @@ package menu.pedido;
 import java.util.Scanner;
 import util.Console;
 import DAO.Relatorio.RelatorioPedidosDAO;
+import menu.MenuRelatorio;
 
 public class MenuRelatorioPedido {
     Scanner sca = new Scanner(System.in);
@@ -31,7 +32,7 @@ public class MenuRelatorioPedido {
                         new RelatorioPedidosDAO().ValorMedioPedido();
                     break;
                     case 5:
-                        return;
+                        new MenuRelatorio().metodoBusca();
                     default:
                         System.out.println("===========================Escolha invalida!===========================");
                         System.out.println("===========================Tente novamente===========================");

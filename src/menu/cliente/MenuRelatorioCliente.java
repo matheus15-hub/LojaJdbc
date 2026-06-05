@@ -1,44 +1,46 @@
-package menu.produto;
+package menu.cliente;
 import java.util.Scanner;
-import DAO.Relatorio.RelatorioProdutoDAO;
+import DAO.Relatorio.RelatorioClienteDAO;
 import menu.MenuRelatorio;
+import servicos.ClienteService;
 import util.Console;
 
-public class MenuRelatorioProduto {
+public class MenuRelatorioCliente {
+    
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
         try {
             Console.linha();
             System.out.println("===========================Metodo de Busca===========================");
             System.out.println("|| Buscar Por:");
-            System.out.println("|| 1) Maior quantidade");
-            System.out.println("|| 2) Maior caro");
-            System.out.println("|| 3) Mais barato");
-            System.out.println("|| 4) Mias Vendidos");
-            System.out.println("|| 5) Quantidade por Categoria");
-            System.out.println("|| 6) Valor Médio");
+            System.out.println("|| 1) Cliente por Bairro");
+            System.out.println("|| 2) Cliente por Cidade");
+            System.out.println("|| 3) Cliente com Mais Compras");
+            System.out.println("|| 4) Cliente com Menos Compras");
+            System.out.println("|| 5) Cliente com o Produto Mais Caro");
+            System.out.println("|| 6) Valor Médio das Compras");
             System.out.println("|| 7) Voltar");
             Console.linhaSimples();
                 System.out.print("Escolha:  ");
                 int busca = Integer.parseInt(sca.nextLine());;
                 switch (busca) {
                     case 1:
-                        new RelatorioProdutoDAO().MaiorQuantidadeProduto();
+                        new RelatorioClienteDAO().ClientePorBairro();   
                     break;
                     case 2:
-                        new RelatorioProdutoDAO().MaisCaroProduto();
+                        new RelatorioClienteDAO().ClientePorCidade();
                     break;
                      case 3:
-                        new RelatorioProdutoDAO().MaisBaratoProduto();
+                        new RelatorioClienteDAO().MaisComprasCliente();
                     break;
                      case 4:
-                        new RelatorioProdutoDAO().MaisVendidoProduto();
+                        new RelatorioClienteDAO().MenosComprasCliente();
                     break;
                     case 5:
-                        new RelatorioProdutoDAO().QuantidadeCategoriaProduto();
+                        new RelatorioClienteDAO().MaisCaraCliente();
                       break;
                     case 6:
-                        new RelatorioProdutoDAO().MediaValorProduto();
+                        new RelatorioClienteDAO().MediaCompraCliente();
                     break;
                     case 7:
                         new MenuRelatorio().metodoBusca();

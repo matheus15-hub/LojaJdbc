@@ -2,6 +2,7 @@ package menu;
 import menu.produto.MenuRelatorioProduto;
 import menu.vendedor.MenuRelatorioVendedor;
 import menu.pedido.MenuRelatorioPedido;
+import menu.cliente.MenuRelatorioCliente;
 
 import java.util.Scanner;
 
@@ -24,11 +25,12 @@ public class MenuRelatorio {
                 new MenuRelatorioPedido().metodoBusca();
                 break;
             case 4:
-                //new MenuRelatorioCliente().metodoBusca();
+                new MenuRelatorioCliente().metodoBusca();
                 break;
             default:
                 break;
         }
+        scanner.close();
         }
     }
     public void RelatorioProduto() {
