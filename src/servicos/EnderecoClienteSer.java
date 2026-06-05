@@ -60,4 +60,8 @@ public int verificarLigacao(int idclientes, int idendereco) {
        public  boolean maisvincularClienteEndereco(int idclientes , int idendereco){
            return  enderecoClienteDAO.verificarEnderecoCliente(idclientes ,idendereco);
        }
+    public int escolherEnderecoCliente(int idcliente , int idendereco){
+           int id = new EnderecoClienteDAO().getIdEnderecoCliente(idcliente, idendereco);
+           return id;
+    }
 }

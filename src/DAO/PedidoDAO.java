@@ -5,18 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import enums.StatusPedido;
 
 import conexao.Conexao;
 import entidades.ItemPedido;
+import util.Console;
 
 public class PedidoDAO {
-
-    public static int finalizarVenda(int idCliente, int idVendedor, List<ItemPedido> carrinho, double total,
+    PreparedStatement stmt;
+    ResultSet rs ;
+    public static int finalizarVenda(int idClienteEndereco, int idVendedor, List<ItemPedido> carrinho, double total,
             String observacao, StatusPedido status) {
-        String sqlPedido = "insert into pedido (id_clientes, id_vendedor, status_pedido, valor_total) values (?, ?, ?, ?)";
+        String sqlPedido = "insert into pedido (id_cliente_endereco, id_vendedor, status_pedido, valor_total, observacao) values (?, ?, ?, ?, ?)";
         String sqlItem = "insert into item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) values (?, ?, ?, ?, ?)";
         String sqlEstoque = "update produtos set estoque = estoque - ? where id_produtos = ? and estoque >= ?";
         int idPrecisoComissao = 0;
@@ -28,10 +31,11 @@ public class PedidoDAO {
 
             conn.setAutoCommit(false);
 
-            psPedido.setInt(1, idCliente);
+            psPedido.setInt(1, idClienteEndereco);
             psPedido.setInt(2, idVendedor);
             psPedido.setString(3, status.name());
             psPedido.setDouble(4, total);
+            psPedido.setString(5, observacao);
 
             psPedido.executeUpdate();
 
@@ -75,72 +79,39 @@ public class PedidoDAO {
     }
 
     public static void imprimirPedidoS() {
-        System.out.println("\n=======================================================================");
-        System.out.println("|| PEDIDOS DISPONÍVEIS PARA REMOÇÃO (STATUS: ABERTO):                 ||");
-        System.out.println("=======================================================================");
-        String sqlAbertos = "SELECT id_pedido, valor_total FROM pedido WHERE status_pedido = 'ABERTO'";
+        String inforPedido = """
+                select * from pedido p 
+                join cliente_endereco ce on p.id_cliente_endereco = ce.id_cliente_endereco
+                join cliente c on ce.id_clientes = c.id_clientes
+                join endereco e on ce.id_endereco = e.id_endereco
+                join vendedor v on p.id_vendedor = v.id_vendedor
+                """;
+
         try (Connection conn = Conexao.criarNovaConexao();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sqlAbertos)) {
-            int cont = 0;
-            while (rs.next()) {
-                cont++;
-                System.out.println("|| -> ID DO PEDIDO: #" + rs.getInt("id_pedido") + " | Valor Total: R$ "
-                        + rs.getDouble("valor_total"));
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery(inforPedido);
+                ) {
+
+            while (rs.next()){
+                int idPedido = rs.getInt("id_pedido");
+                int idCliente = rs.getInt("ce.id_cliente_endereco");
+                String nome = rs.getString("nome_clientes");
+                String rua = rs.getString("rua");
+                String numero = rs.getString("numero");
+                String bairro = rs.getString("bairro");
+                String cidade = rs.getString("cidade");
+                String cep = rs.getString("cep");
+                String obs = rs.getString("observacao");
+                Console.linha();
+                System.out.println("|| PEDIDO: "+   idPedido);
+                System.out.println("|| CLIENTE: "+ nome);
+                System.out.println("|| ENDEREÇO: "+ rua + " | "+ numero +" | " + bairro);
+                System.out.println("|| CIDADE: "+ cidade+" \t CEP: "+ cep);
+                new ItemPedidoDAO().mostrarItemPedido(idPedido);
+                System.out.println("OBS: "+ obs);
+                Console.linha();
             }
-            if (cont == 0)
-                System.out.println("|| NENHUM PEDIDO EM ESTADO 'ABERTO' ENCONTRADO.                      ||");
-        } catch (Exception e) {
-            System.out.println("|| Erro: " + e.getMessage());
-        }
-        System.out.println("=======================================================================\n");
 
-        System.out.println("--- TODOS OS ITENS DE PEDIDOS NO SISTEMA ---");
-        String sqlItens = "select id_pedido, id_produtos, quantidade, preco_unitario, subtotal from item_pedido";
-        try (Connection conn = Conexao.criarNovaConexao();
-                Statement stmt = conn.createStatement();
-                ResultSet rsItem = stmt.executeQuery(sqlItens)) {
-
-            while (rsItem.next()) {
-                int idPedido = rsItem.getInt("id_pedido");
-                int idProduto = rsItem.getInt("id_produtos");
-                int quantidade = rsItem.getInt("quantidade");
-                float precouni = rsItem.getFloat("preco_unitario");
-                float subTotal = rsItem.getFloat("subtotal");
-
-                String nomeProduto = "Produto ID: " + idProduto;
-                String status = "PROCESSANDO";
-
-                try (Statement s = conn.createStatement();
-                        ResultSet rs = s
-                                .executeQuery("select nome_produto from produtos where id_produtos = " + idProduto)) {
-                    if (rs.next())
-                        nomeProduto = rs.getString("nome_produto");
-                } catch (SQLException e) {
-                    try (Statement s = conn.createStatement();
-                            ResultSet rs = s
-                                    .executeQuery("select nome from produtos where id_produtos = " + idProduto)) {
-                        if (rs.next())
-                            nomeProduto = rs.getString("nome");
-                    } catch (SQLException ex) {
-                        nomeProduto = "Produto #" + idProduto;
-                    }
-                }
-
-                try (Statement s = conn.createStatement();
-                        ResultSet rs = s
-                                .executeQuery("select status_pedido from pedido where id_pedido = " + idPedido)) {
-                    if (rs.next())
-                        status = rs.getString("status_pedido");
-                }
-
-                linha();
-                System.out.println("|| PEDIDO #" + idPedido + " [" + status + "]");
-                System.out.println("|| Produto: " + nomeProduto);
-                System.out
-                        .println("|| Qtd: " + quantidade + " | Preço: R$ " + precouni + " | Subtotal: R$ " + subTotal);
-                linha();
-            }
         } catch (Exception e) {
             System.out.println("Erro ao listar: " + e.getMessage());
         }

@@ -7,6 +7,7 @@ import DAO.EnderecoVendedorDAO;
 import DAO.VendedorDAO;
 import entidades.Endereco;
 import entidades.Vendedor;
+import util.Console;
 
 public class EnderecoVendedorService {
     Scanner sca = new Scanner(System.in);
@@ -44,10 +45,10 @@ public class EnderecoVendedorService {
 }
     public int verificarLigacao(int idVendedor, int idEndereco) {
     while (!EnderecoVendedorDAO.verificarEnderecoVendedor(idVendedor, idEndereco)) {
-        System.out.println("\n=====================================================================");
+        Console.linha();
         System.out.println("||\t\t\t\t ID DO ENDEREÇO INVALIDO \t\t\t\t||");
         System.out.println("||\t\t\t ESCOLHA UM ENDEREÇO VINCULADO COM O VENDEDOR \t\t\t||");
-        System.out.println("=====================================================================\n");
+        Console.linha();
 
         EnderecoVendedorDAO.mostrarEnderecoVendedor(idEndereco);
 

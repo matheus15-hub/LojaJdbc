@@ -5,12 +5,14 @@ public class Pedido {
     private int idCliente;
     private int idVendedor;
     private double valorTotal;
+    private String oberservacao;
 
-    public Pedido(int idPedido, int idCliente, int idVendedor, double valorTotal){
+    public Pedido(int idPedido, int idCliente, int idVendedor, double valorTotal , String obs){
         this.idPedido = idPedido;
         this.idCliente = idCliente;
         this.idVendedor = idVendedor;
         this.valorTotal = valorTotal;
+        this.oberservacao = obs;
     }
 
     public int getIdPedido() {
@@ -27,5 +29,9 @@ public class Pedido {
 
     public double getValorTotal() {
         return valorTotal;
+    }
+
+    public String getOberservacao() {
+        return oberservacao;
     }
 }
