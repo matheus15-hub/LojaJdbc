@@ -2,7 +2,7 @@ package DAO;
 
 import util.Console;
 
-import java.sql.Connection; // ALTERADO: Importado para gerenciar a conexão de forma segura
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 

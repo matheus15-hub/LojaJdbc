@@ -36,7 +36,11 @@ public class MenuCadastroPedido {
 
         int opcao = lerInteiro();
 
-        pedidoService.finalizarFluxo(opcao);
+        try {
+            pedidoService.finalizarFluxo(opcao); 
+        } catch (Exception e) {
+            System.out.println("[ERRO] Não foi possível cadastrar o pedido: " + e.getMessage());
+        }
     }
 
     private int escolherCliente() {

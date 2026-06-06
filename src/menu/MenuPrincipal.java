@@ -9,10 +9,10 @@ import menu.pedido.MenuAlteracaoPedido;
 import menu.pedido.MenuCadastroPedido;
 import menu.pedido.MenuConsultaPedido;
 
-import menu.produto.MenuCadastroProduto;
+import menu.produto.MenuAlteracaoProduto;
 import menu.produto.MenuConsultaProduto;
 import menu.produto.MenuRemocaoProduto;
-import menu.produto.MenuAlteracaoProduto;
+import menu.produto.MenuCadastroProduto;
 
 import menu.vendedor.MenuAlteracaoVendedor;
 import menu.vendedor.MenuCadastroVendedor;
@@ -153,7 +153,7 @@ public class MenuPrincipal {
 
         switch (opcao) {
             case 1:
-                new MenuAlteracaoProduto().Produtoadd();
+                new MenuCadastroProduto().Produtoadd();
                 break;
             case 2:
                 new MenuRemocaoProduto().produtoRemover();
@@ -163,7 +163,7 @@ public class MenuPrincipal {
                 new MenuConsultaProduto().metodoBusca();
                 break;
             case 4:
-                new MenuCadastroProduto().menuAlterarProduto();
+                new MenuAlteracaoProduto().menuAlterarProduto();
                 break;
             case 5:
 

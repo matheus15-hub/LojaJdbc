@@ -1,14 +1,11 @@
-
 package servicos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import entidades.ItemPedido;
 import enums.StatusPedido;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
-import DAO.VendedorDAO;
 
 public class PedidoService {
 
@@ -17,7 +14,6 @@ public class PedidoService {
     private List<ItemPedido> carrinhoComponentes;
     private double valorTotalAcumulado;
     private StatusPedido statusAtualPedido;
-    private final Scanner sca = new Scanner(System.in);
 
     public PedidoService() {
         this.carrinhoComponentes = new ArrayList<>();
@@ -35,84 +31,41 @@ public class PedidoService {
 
     public boolean tentarAdicionarProduto(int idProd, int qtd) {
         if (!ProdutoDAO.produtoExiste(idProd)) {
-            System.out.println("Produto não encontrado!");
-            return false;
+            throw new IllegalArgumentException("Produto não encontrado!");
         }
 
         int estoque = ProdutoDAO.buscarEstoque(idProd);
         if (qtd > estoque) {
-            System.out.println("Estoque insuficiente! Estoque atual: " + estoque);
-            return false;
+            throw new IllegalArgumentException("Estoque insuficiente! Estoque atual: " + estoque);
         }
 
         double preco = ProdutoDAO.buscarPreco(idProd);
-        System.out.println("Preço unitário: R$ " + preco);
-
         ItemPedido item = new ItemPedido(idProd, qtd, preco);
         carrinhoComponentes.add(item);
         valorTotalAcumulado += item.getSubtotal();
         return true;
     }
 
-    public void finalizarFluxo(int opcaoDecisao) {
-
+    public void finalizarFluxo(int opcaoDecisao) throws Exception {
         if (opcaoDecisao == 1) {
-
             statusAtualPedido = StatusPedido.FILA;
-
-            PedidoDAO.finalizarVenda(
-                    idClienteSelecionado,
-                    idVendedorSelecionado,
-                    carrinhoComponentes,
-                    valorTotalAcumulado,
-                    "",
-                    statusAtualPedido);
-
-            System.out.println("Pedido enviado para fila.");
-
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", statusAtualPedido);
         } else if (opcaoDecisao == 2) {
-
             statusAtualPedido = StatusPedido.ABERTO;
-
-            PedidoDAO.finalizarVenda(
-                    idClienteSelecionado,
-                    idVendedorSelecionado,
-                    carrinhoComponentes,
-                    valorTotalAcumulado,
-                    "",
-                    statusAtualPedido);
-
-            System.out.println("Pedido salvo como ABERTO.");
-
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", statusAtualPedido);
         } else {
-
-            System.out.println("Operação cancelada.");
+            throw new IllegalArgumentException("Operação cancelada.");
         }
     }
 
     public void validarSePermiteAlteracao(String statusAtual) {
         if (statusAtual == null || !statusAtual.equalsIgnoreCase("ABERTO")) {
-            System.out.println("\n[BLOQUEIO DE SEGURANÇA] Este pedido possui o status: " + statusAtual);
-            System.out.println("Não é permitido alterar dados de pedidos que não estejam em estado 'ABERTO'.");
-            throw new IllegalStateException("Operação negada: Pedido bloqueado para alterações.");
+            throw new IllegalStateException("Este pedido possui o status: " + statusAtual + ". Não é permitido alterar dados fora do estado 'ABERTO'.");
         }
     }
 
-    public int verificarId(int idPedido) {
-        while (true) {
-            if (!PedidoDAO.pedidoExiste(idPedido)) {
-                System.out.println("Pedido com código " + idPedido + " não encontrado.");
-                System.out.print("Digite um ID de pedido válido: ");
-                while (!sca.hasNextInt()) {
-                    System.out.println("Entrada inválida! Digite apenas números inteiros.");
-                    sca.next();
-                }
-                idPedido = sca.nextInt();
-                sca.nextLine();
-            } else {
-                return idPedido;
-            }
-        }
+    public boolean verificarSePedidoExiste(int idPedido) {
+        return PedidoDAO.pedidoExiste(idPedido);
     }
 
     public List<ItemPedido> getCarrinhoComponentes() {
