@@ -58,10 +58,9 @@ public class MenuCadastroPedido {
 
     private int escolherCliente() {
         int idCliente = 0;
-        
         while (true) {
             System.out.println("\n--- CLIENTES ---");
-            new DAO.ClienteDAO().listarParaPedido(); 
+            new DAO.ClienteDAO().listarParaPedido();
 
             System.out.print("ID Cliente: ");
             idCliente = lerInteiro();
@@ -75,7 +74,6 @@ public class MenuCadastroPedido {
                 System.out.println("=====================================================");
             }
         }
-        
         return idCliente;
     }
     
@@ -141,9 +139,11 @@ public class MenuCadastroPedido {
     }
 
     private void adicionarProdutos(PedidoService pedidoService) {
+
         String continuar = "s";
 
         while (continuar.equalsIgnoreCase("s")) {
+
             new ProdutoDAO().listarProdutos();
 
             System.out.print("ID Produto: ");
@@ -159,11 +159,15 @@ public class MenuCadastroPedido {
             }
 
             try {
-                boolean adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
+                boolean adicionou =
+                        pedidoService.tentarAdicionarProduto(idProduto, quantidade);
 
                 if (adicionou) {
+
                     System.out.println("\n--- CARRINHO ---");
+
                     for (ItemPedido item : pedidoService.getCarrinhoComponentes()) {
+
                         System.out.println(
                                 "Produto: " + item.getIdProdutos()
                                 + " | Qtd: " + item.getQuantidade()
