@@ -35,21 +35,7 @@ public class VendedorSer {
         }
     }
 
-    public double verificarComissao(double comissao){
-        while(true){
-            if(comissao < 0 || comissao > 100){
-                System.out.println("Comissão deve ser entre 0% e 100%");
-                while(!sca.hasNextDouble()){
-                    System.out.println("Digite número");
-                    sca.next();
-                }
-                comissao = sca.nextDouble();
-                sca.nextLine();
-            } else {
-                return comissao;
-            }
-        }
-    }
+
 
     public String verificarTelefone(String telefone){
         while(true){
@@ -187,4 +173,5 @@ public class VendedorSer {
             System.out.println("Digite 2 para um vendedor específico");
         }
     }
+
 }
