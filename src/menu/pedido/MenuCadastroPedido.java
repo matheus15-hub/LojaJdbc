@@ -65,6 +65,7 @@ public class MenuCadastroPedido {
 
         return lerInteiro();
     }
+    
     private int escolhaerEndereco(int idCliete){
         int idendereco;
         while (true) {
@@ -135,20 +136,31 @@ public class MenuCadastroPedido {
                 continue;
             }
 
+<<<<<<< HEAD
             boolean adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
+=======
+            try {
+                boolean adicionou =
+                        pedidoService.tentarAdicionarProduto(idProduto, quantidade);
+>>>>>>> 251d6429971bddf59d249ff5355e8652c8eb9b3e
 
-            if (adicionou) {
+                if (adicionou) {
 
-                System.out.println("\n--- CARRINHO ---");
+                    System.out.println("\n--- CARRINHO ---");
 
-                for (ItemPedido item : pedidoService.getCarrinhoComponentes()) {
+                    for (ItemPedido item : pedidoService.getCarrinhoComponentes()) {
 
-                    System.out.println(
-                            "Produto: " + item.getIdProdutos()
-                            + " | Qtd: " + item.getQuantidade()
-                            + " | Subtotal: R$ " + item.getSubtotal()
-                    );
+                        System.out.println(
+                                "Produto: " + item.getIdProdutos()
+                                + " | Qtd: " + item.getQuantidade()
+                                + " | Subtotal: R$ " + item.getSubtotal()
+                        );
+                    }
                 }
+            } catch (IllegalArgumentException e) {
+                System.out.println("\n[AVISO] " + e.getMessage());
+                System.out.println("Tente escolher outro produto da lista.\n");
+                continue;
             }
 
             System.out.print("Adicionar outro produto? (s/n): ");
@@ -163,7 +175,7 @@ public class MenuCadastroPedido {
         }
 
         int valor = sca.nextInt();
-        sca.nextLine();
+        sca.nextLine(); 
 
         return valor;
     }
