@@ -221,22 +221,23 @@ public class ClienteDAO {
                 PreparedStatement pstm = conn.prepareStatement(sql);
                 ResultSet rst = pstm.executeQuery()) {
 
-            Console.linhaSimples();
-            System.out.printf("%-10s | %-30s%n", "ID", "NOME DO CLIENTE");
-            Console.linhaSimples();
             while (rst.next()) {
-                System.out.printf("|| %-10d | %-30s%n", rst.getInt("id_clientes"), rst.getString("nome_clientes"));
+                int id_clientes = rst.getInt("id_clientes");
+                String nome = rst.getString("nome_clientes");
+                Console.linha();
+                System.out.println("|| ID: "+ id_clientes);
+                System.out.println("|| Nome: "+nome );
+                Console.linha();
             }
-            Console.linhaSimples();
         } catch (Exception e) {
             System.out.println("Erro ao buscar dados básicos de clientes: " + e.getMessage());
         }
     }
-    public void listarParaPedidoFiltro(int id) {
-        String sql = "SELECT id_clientes, nome_clientes FROM clientes where id_clientes = ?";
+    public void listarParaPedidoFiltro(String n) {
+        String sql = "SELECT id_clientes, nome_clientes FROM clientes where nome_cliente = ?";
         try{ Connection conn = Conexao.getConexao();
                 PreparedStatement pstm = conn.prepareStatement(sql);
-                pstm.setInt(1, id);
+                pstm.setString(1, n + "?");
                 ResultSet rst = pstm.executeQuery();
 
             while (rst.next()) {
@@ -247,7 +248,7 @@ public class ClienteDAO {
                 System.out.println("|| Nome: "+nome );
                 Console.linha();
             }
-            Console.linhaSimples();
+
         } catch (Exception e) {
             System.out.println("Erro ao buscar dados básicos de clientes: " + e.getMessage());
         }
