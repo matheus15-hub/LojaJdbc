@@ -30,6 +30,7 @@ public class MedidaDAO {
             throw new RuntimeException(e);
         }
     }
+
     public static boolean verificarid(int id){ 
         PreparedStatement ps = null;
         ResultSet rs = null;

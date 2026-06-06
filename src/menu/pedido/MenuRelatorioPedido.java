@@ -10,7 +10,8 @@ public class MenuRelatorioPedido {
      public void metodoBusca() {
         try {
         while (true) {
-            System.out.println("===========================Metodo de Busca===========================");
+            Console.linha();
+            System.out.println("||\t\t\t! Metodo de Busca !");
             System.out.println("1)Mais Itens");
             System.out.println("2)Valor Mais Alto");
             System.out.println("3)Valor Mais Baixo");

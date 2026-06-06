@@ -26,7 +26,6 @@ public class Vendedor {
         this.email_vendedor = email_vendedor.toUpperCase();
         this.salario = salario;
     }
-
     public int getIdVendedor() {
         return id_vendedor;
     }

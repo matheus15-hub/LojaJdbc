@@ -2,6 +2,8 @@ package menu.produto;
 
 import servicos.ProdutoService;
 import DAO.Relatorio.RelatorioProdutoDAO;
+import util.Console;
+
 import java.util.Scanner;
 
 
@@ -10,10 +12,16 @@ public class MenuConsultaProduto {
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
         while (true) {
-            System.out.println("===========================Metodo de Busca===========================");
-        System.out.println("Buscar: 1)Com filtro(caso deseje um produto especifico) 2) Todos os Produtos cadastrados");
-        System.out.print("Escolha:  ");
-        int busca = sca.nextInt();
+            try {
+
+            Console.linha();
+            System.out.println("||\t\t\t! Metodo de Busca !");
+            System.out.println("|| Buscar:");
+            System.out.println("|| 1) Por Nome:");
+            System.out.println("|| 2) Por Todos os Produtos Cadastrados");
+            Console.linhaSimples();
+        System.out.print("|| Escolha:  ");
+        int busca = Integer.parseInt(sca.nextLine());
         if (busca  == 1) {
             printProduto();
             break;
@@ -23,13 +31,19 @@ public class MenuConsultaProduto {
         }else if (busca == 3) {
             new RelatorioProdutoDAO().MaiorQuantidadeProduto();
             break;
-        
+
         }else {
             System.out.println("===========================Escolha invalida!===========================");
             System.out.println("===========================Tente novamente===========================");
         }
+            }catch (NumberFormatException e){
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
+            }
         }
-        
+
     }
 
     public void printProduto() {

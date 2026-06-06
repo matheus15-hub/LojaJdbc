@@ -9,8 +9,8 @@ public class MenuRelatorioCliente {
     
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
-        try {
             while (true) {
+            try {
             Console.linha();
             System.out.println("===========================Metodo de Busca===========================");
             System.out.println("|| Buscar Por:");
@@ -45,15 +45,17 @@ public class MenuRelatorioCliente {
                     break;
                     case 7:
                         new MenuRelatorio().metodoBusca();
+                        break;
                     default:
                     System.out.println("===========================Escolha invalida!===========================");
                     System.out.println("===========================Tente novamente===========================");
               }
-            }
           } catch (NumberFormatException e) {
-            sca.next();
-            Console.linhaSimples();
-            System.out.println("\t Entrada de Dados Invalidas! Apenas Numeros Inteiros Como 1,2,3..\n\t\t\t Tente Novamente");
+            Console.linha();
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
           }
+            }
     }
 }

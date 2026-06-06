@@ -17,6 +17,12 @@ public class MenuCadastroPedido {
     public void novoPedido() {
         PedidoService pedidoService = new PedidoService();
 
+        if (!pedidoService.verificarPreRequisitos()) {
+            Console.linha();
+            System.out.println("\nCriação de pedido cancelada. Resolva os avisos acima primeiro.");
+            return;
+        }
+
         int idCliente = escolherCliente();
         int idEndereco = escolhaerEndereco(idCliente);
         int idEnderecoClinte = new EnderecoClienteSer().escolherEnderecoCliente(idCliente, idEndereco);
@@ -26,11 +32,13 @@ public class MenuCadastroPedido {
         pedidoService.addVendedorPedido(idVendedor);
 
         adicionarProdutos(pedidoService);
-
+        Console.linha();
         System.out.println("\n--- RESUMO DO PEDIDO ---");
         System.out.printf("Total: R$ %.2f%n", pedidoService.getValorTotalAcumulado());
+        Console.linha();
 
         System.out.println("\nDeseja adicionar alguma observação ao pedido? (Deixe em branco para 'Sem observações')");
+        Console.linhaSimples();
         System.out.print("Observação: ");
         String observacao = sca.nextLine();
 
@@ -38,12 +46,13 @@ public class MenuCadastroPedido {
             observacao = "Sem observações.";
         }
         
-        pedidoService.addObservacaoPedido(observacao); 
-
-        System.out.println("\nComo deseja prosseguir?");
-        System.out.println("1 - Enviar para FINALIZAR");
-        System.out.println("2 - Salvar como ABERTO");
-        System.out.println("3 - Cancelar");
+        pedidoService.addObservacaoPedido(observacao);
+        Console.linhaSimples();
+        System.out.println("|| Como deseja prosseguir?");
+        System.out.println("|| 1)  Enviar para FINALIZAR");
+        System.out.println("|| 2)  Salvar como ABERTO");
+        System.out.println("|| 3)  Cancelar");
+        Console.linhaSimples();
         System.out.print("ESCOLHA: ");
 
         int opcao = lerInteiro();
@@ -72,6 +81,7 @@ public class MenuCadastroPedido {
             System.out.println("|| Caso o cliente vá retirar o pedido pessoalmente,");
             System.out.println("|| selecione qualquer endereço cadastrado e informe");
             System.out.println("|| na observação do pedido que a retirada será feita pelo cliente.");
+            Console.linhaSimples();
             System.out.print("|| ID DO ENDEREÇO: ");
 
             while (!sca.hasNextInt()) {
@@ -92,6 +102,7 @@ public class MenuCadastroPedido {
             System.out.println("|| CONFIRMA A SELEÇÃO DO ENDEREÇO ID: " + idEndereco + "?");
             System.out.println("|| 1) Sim");
             System.out.println("|| 2) Não, escolher outro endereço");
+            Console.linhaSimples();
             System.out.print("|| ESCOLHA: ");
 
             while (!sca.hasNextInt()) {
@@ -127,13 +138,13 @@ public class MenuCadastroPedido {
 
     private void adicionarProdutos(PedidoService pedidoService) {
 
-        String continuar = "s";
+        int continuar= 1;
 
-        while (continuar.equalsIgnoreCase("s")) {
+        while (continuar == 1) {
 
             new ProdutoDAO().listarProdutos();
-
-            System.out.print("ID Produto: ");
+            Console.linhaSimples();
+            System.out.print("Escolha um ID Produto: ");
             int idProduto = lerInteiro();
             idProduto = new ProdutoService().verificarId(idProduto);
 
@@ -150,25 +161,27 @@ public class MenuCadastroPedido {
 
                 if (adicionou) {
 
-                    System.out.println("\n--- CARRINHO ---");
-
-                    for (ItemPedido item : pedidoService.getCarrinhoComponentes()) {
-
-                        System.out.println(
-                                "Produto: " + item.getIdProdutos()
-                                + " | Qtd: " + item.getQuantidade()
-                                + " | Subtotal: R$ " + item.getSubtotal()
-                        );
-                    }
+                    pedidoService.mostrarCarrinho();
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println("\n[AVISO] " + e.getMessage());
                 System.out.println("Tente escolher outro produto da lista.\n");
                 continue;
             }
-
-            System.out.print("Adicionar outro produto? (s/n): ");
-            continuar = sca.nextLine();
+            try {
+            Console.linhaSimples();
+            System.out.println("Adicionar outro produto?: ");
+            System.out.println("|| 1) Sim ");
+            System.out.println("|| 2) Nao");
+            Console.linhaSimples();
+            System.out.print("|| Escolha:");
+            continuar = Integer.parseInt(sca.nextLine());
+            }catch (NumberFormatException e){
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1 ou 2");
+                System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package menu.cliente;
 
 import servicos.ClienteService;
+import util.Console;
 
 import java.util.Scanner;
 
@@ -10,18 +11,16 @@ public class MenuConsultaCliente {
 
     public void metodoBusca() {
         while (true) {
-            System.out.println("=========================== Metodo de Busca ===========================");
-            System.out.println("Buscar: 1) Com filtro (caso deseje um cliente específico) \n       2) Todos os clientes cadastrados");
+            try {
+            Console.linha();
+            System.out.println("||\t\t\t! Metodo de Busca !");
+            System.out.println("|| Buscar:");
+            System.out.println("|| 1) Por Nome de Cliente");
+            System.out.println("|| 2) Por Todos os clientes cadastrados");
+            Console.linhaSimples();
             System.out.print("Escolha: ");
 
-            while (!sca.hasNextInt()) {
-                System.out.println("Digite apenas números!");
-                sca.nextLine();
-                System.out.print("Escolha: ");
-            }
-
-            int busca = sca.nextInt();
-            sca.nextLine();
+            int busca = Integer.parseInt(sca.nextLine());
 
             if (busca == 2) {
                 printCliente();
@@ -33,6 +32,12 @@ public class MenuConsultaCliente {
                 System.out.println("=========================== Escolha inválida! ===========================");
                 System.out.println("=========================== Tente novamente ===========================");
             }
+            }catch (NumberFormatException e){
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
+            }
         }
     }
 
@@ -41,6 +46,7 @@ public class MenuConsultaCliente {
     }
 
     public void printClienteFiltro() {
+        Console.linhaSimples();
         System.out.print("Nome do Cliente: ");
         String nome = sca.nextLine();
 

@@ -76,7 +76,9 @@ public class ClienteService {
                 System.out.print("\nDigite um ID válido da lista acima: ");
 
                 while (!sca.hasNextInt()) {
-                    System.out.println("Digite apenas números!");
+                    Console.linhaSimples();
+                    System.out.println("\t\t\tDigite apenas números Inteiros! EX 1,2,5..");
+                    Console.linhaSimples();
                     sca.nextLine();
                     System.out.print("ID: ");
                 }
@@ -133,33 +135,46 @@ public void alterarEmail(int id, String email){
     System.out.println("Email alterado!");
 }
     public int selecionarClientePPedido() {
-        try {
-            while (true) {
+
+        while (true) {
+
+            try {
+
                 Console.linha();
                 System.out.println("||\t\tSELECIONANDO CLIENTE");
-                System.out.println("|| Deseja:");
                 System.out.println("|| 1) Buscar por Nome");
-                System.out.println("|| 2) Buscar Todos Cadastrados no Sistema");
+                System.out.println("|| 2) Mostrar Todos");
                 System.out.print("|| ESCOLHA: ");
 
                 int escolha = Integer.parseInt(sca.nextLine());
 
                 switch (escolha) {
                     case 1:
-                        Console.linhaSimples();
-                        System.out.print("|| Nome: ");
-                        String nome = sca.nextLine();
-                        new ClienteDAO().listarParaPedidoFiltro(nome);
+                        while (true) {
+                            Console.linhaSimples();
+                            System.out.print("|| Nome: ");
+                            String nome = sca.nextLine();
+                            new ClienteDAO().listarParaPedidoFiltro(nome);
+                            Console.linhaSimples();
+                            System.out.println("|| Buscar novamente?");
+                            System.out.println("|| 1) Sim");
+                            System.out.println("|| 2) Não");
+                            System.out.print("|| ESCOLHA: ");
+                            int es = Integer.parseInt(sca.nextLine());
+                            if (es == 2) {
+                                break;
+                            }
+                            if (es != 1 && es != 2) {
+                                System.out.println("OPÇÃO INVÁLIDA!");
+                            }
+                        }
                         break;
-
                     case 2:
                         new ClienteDAO().listarParaPedido();
                         break;
-
                     default:
                         Console.linha();
-                        System.out.println("\t\t\tESCOLHA INVALIDA");
-                        System.out.println("\t\tTENTE NOVAMENTE, ESCOLHENDO UMA OPÇÃO VALIDA");
+                        System.out.println("ESCOLHA INVÁLIDA!");
                         Console.linha();
                         continue;
                 }
@@ -170,14 +185,14 @@ public void alterarEmail(int id, String email){
                 int id = Integer.parseInt(sca.nextLine());
 
                 return verificarId(id);
-            }
 
-        } catch (NumberFormatException e) {
-            Console.linha();
-            System.out.println("\t\tENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
-            System.out.print("\t\t\t\tTENTE NOVAMENTE");
-            Console.linha();
-            return -1;
+            } catch (NumberFormatException e) {
+
+                Console.linha();
+                System.out.println("ENTRADA DE DADOS INVÁLIDA!");
+                System.out.println("Digite apenas números inteiros.");
+                Console.linha();
+            }
         }
     }
             }

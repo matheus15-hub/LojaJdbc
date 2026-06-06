@@ -171,9 +171,6 @@ public class MenuAlterarEndereco {
     }
     public void cidadeEndereco(int id_endereco) {
         System.out.println("Alteração de Cidade");
-
-
-
         System.out.print("Nova Cidade: ");
         String cidade = sca.nextLine();
         cidade = new EnderecoService().verificarCidade(cidade);

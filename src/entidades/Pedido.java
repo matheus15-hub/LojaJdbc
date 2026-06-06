@@ -14,7 +14,6 @@ public class Pedido {
         this.valorTotal = valorTotal;
         this.oberservacao = obs;
     }
-
     public int getIdPedido() {
         return idPedido;
     }

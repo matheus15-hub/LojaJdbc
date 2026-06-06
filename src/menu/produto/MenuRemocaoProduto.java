@@ -3,23 +3,17 @@ package menu.produto;
 import java.util.Scanner;
 
 import servicos.ProdutoService;
+import util.Console;
 
 public class MenuRemocaoProduto {
 
     Scanner sca = new Scanner(System.in);
 
     public void produtoRemover() {
-
+        Console.linha();
         System.out.println("\t\tDeletando PRODUTOS");
-        System.out.println("Buscar Produtos 1) Sim 2) Não");
-        System.out.print("Escolha: ");
-
-        int resposta = sca.nextInt();
-
-        if (resposta == 1) {
-            sca.nextLine();
+        Console.linha();
             new MenuConsultaProduto().metodoBusca();
-        }
 
         System.out.println("SELECIONE O ID DO PRODUTO QUE DESEJA EXCLUIR");
         System.out.print("ID: ");

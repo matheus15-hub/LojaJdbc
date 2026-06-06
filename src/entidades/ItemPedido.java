@@ -13,7 +13,6 @@ public class ItemPedido {
         this.precoUnitario = precoUnitario;
         this.subtotal = quantidade * precoUnitario;
     }
-
     public int getIdProdutos() {
         return id_produtos;
     }

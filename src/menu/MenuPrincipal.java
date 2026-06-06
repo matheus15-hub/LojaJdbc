@@ -253,7 +253,6 @@ public class MenuPrincipal {
     public static void linha() {
         System.out.println("=================================================================");
     }
-
     private void exibirCabecalho() {
         System.out.println("███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗");
         System.out.println("██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║");

@@ -1,6 +1,7 @@
 package servicos;
 
 import DAO.MedidaDAO;
+import util.Console;
 
 import java.util.Scanner;
 
@@ -12,19 +13,22 @@ public class MedidaService {
     public int verificadorId(int id){
         while(true){
         if (!MedidaDAO.verificarid(id)){
+            try {
+
             System.out.println("Codigo " + id+ " não cadastrado em nosso banco de dados.");
             mostrar();
             System.out.println("Digite um dos Codigos Cadastrados Acima:");
             System.out.print("CODIGO: ");
-            while (!sca.hasNextInt()){
-               sca.nextLine();
-               System.out.println("Apenas numeros interiros Ex( 1 , 2 .... 9). Letras, Simbolos ou Numeros decimais não dão certo:");
-               System.out.print("Digite um Codigo Cadastrado: ");
+
+            id = Integer.parseInt(sca.nextLine());
+            }catch (NumberFormatException e){
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
             }
-            id = sca.nextInt();
         }
         else {return id;}
-
         }
     }
 }

@@ -142,9 +142,6 @@ public class ProdutoDAO {
         }
     }
 
-    // vereficar com matheus tmb isso aqui serve para validar no estoque o que tem
-    // la
-
     public static int buscarEstoque(int idProduto) {
         Connection conn = Conexao.getConexao();
         String sql = "SELECT estoque FROM produtos WHERE id_produtos = ?";

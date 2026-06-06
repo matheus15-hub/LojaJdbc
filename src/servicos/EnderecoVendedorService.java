@@ -50,12 +50,9 @@ public class EnderecoVendedorService {
         System.out.println("||\t\t\t\t ID DO ENDEREÇO INVALIDO \t\t\t\t||");
         System.out.println("||\t\t\t ESCOLHA UM ENDEREÇO VINCULADO COM O VENDEDOR \t\t\t||");
         Console.linha();
-
         EnderecoVendedorDAO.mostrarEnderecoVendedor(idEndereco);
-
         System.out.println("Selecione o ID do endereço que deseja alterar:");
         System.out.print("Escolha: ");
-
         idEndereco = sca.nextInt();
         sca.nextLine();
     }
@@ -65,11 +62,8 @@ public boolean maisVincularVendedorEndereco(int idVendedor, int idEndereco) {
     return EnderecoVendedorDAO.verificarEnderecoVendedor(idVendedor, idEndereco);
 }
     public void excluirEnderecoVendedor(int idVendedor, int idEndereco) {
-
         idEndereco = verificarLigacao(idVendedor, idEndereco);
-
         new EnderecoVendedorDAO().excluirEnderecoVendedor(idEndereco);
-
         System.out.println("Endereço removido com sucesso!");
     }
     }

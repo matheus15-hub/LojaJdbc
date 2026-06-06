@@ -4,6 +4,7 @@ package menu.produto;
 import servicos.ClasseService;
 import servicos.MedidaService;
 import servicos.ProdutoService;
+import util.Console;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -16,7 +17,7 @@ public class MenuAlteracaoProduto {
 
     while (true) {
 
-        System.out.println("======================================================");
+        Console.linha();
         System.out.println("||                 ALTERAÇÃO DE PRODUTOS              ||");
         System.out.println("1) Alterar Nome");
         System.out.println("2) Alterar Preço");
@@ -24,6 +25,7 @@ public class MenuAlteracaoProduto {
         System.out.println("4) Alterar Categoria");
         System.out.println("5) Alterar Unidade de Medida");
         System.out.println("0) Voltar");
+        Console.linhaSimples();
         System.out.print("Escolha: ");
         while (!sca.hasNextInt()) {
             System.out.println("Opção inválida! Digite apenas números.");
@@ -65,34 +67,57 @@ public class MenuAlteracaoProduto {
     }
 }
     private int selecionarProduto() {
-    while (true) {
-        new MenuConsultaProduto().metodoBusca();
-        System.out.println("======================================================\n");
-        System.out.println("Escolha o ID correspondente do produto:");
-        System.out.print("ID: ");
+        while (true) {
 
-        while (!sca.hasNextInt()) {
-            System.out.println("Entrada inválida! O ID deve conter apenas números inteiros.");
+            new MenuConsultaProduto().metodoBusca();
+
+            Console.linha();
+            System.out.println("|| ESCOLHA O PRODUTO QUE DESEJA ALTERAR");
+            Console.linhaSimples();
+            System.out.print("|| ID: ");
+
+            while (!sca.hasNextInt()) {
+                Console.linha();
+                System.out.println("|| ENTRADA INVÁLIDA!");
+                System.out.println("|| Digite apenas números inteiros.");
+                System.out.print("|| ID: ");
+                sca.nextLine();
+            }
+            int id = sca.nextInt();
             sca.nextLine();
-            System.out.print("ID: ");
-        }
+            id = new ProdutoService().verificarId(id);
+            new ProdutoService().mostrarId(id);
+            while (true) {
+                Console.linha();
+                System.out.println("|| ESSE É O PRODUTO QUE DESEJA ALTERAR?");
+                System.out.println("|| 1) Sim");
+                System.out.println("|| 2) Não");
+                Console.linhaSimples();
+                System.out.print("|| RESPOSTA: ");
+                while (!sca.hasNextInt()) {
+                    Console.linha();
+                    System.out.println("|| ENTRADA INVÁLIDA!");
+                    System.out.println("|| Digite apenas 1 ou 2.");
+                    System.out.print("|| RESPOSTA: ");
+                    sca.nextLine();
+                }
+                int resposta = sca.nextInt();
+                sca.nextLine();
 
-        int id = sca.nextInt();
-        id = new ProdutoService().verificarId(id);
-
-        new ProdutoService().mostrarId(id);
-
-        System.out.println("Esse é o produto que deseja alterar? SIM = s , NÃO = n");
-        System.out.print("Resposta: ");
-
-        sca.nextLine();
-        String resposta = sca.nextLine();
-
-        if (resposta.equalsIgnoreCase("s")) {
-            return id;
+                if (resposta == 1) {
+                    return id;
+                }
+                else if (resposta == 2) {
+                    break;
+                }
+                else {
+                    Console.linhaSimples();
+                    System.out.println("|| OPÇÃO INVÁLIDA! DIGITE 1 OU 2.");
+                    Console.linhaSimples();
+                }
+            }
         }
     }
-}
     public void nomeProduto() {
     System.out.println("Alteração de Nome de Produto");
 

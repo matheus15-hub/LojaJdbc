@@ -35,8 +35,6 @@ public class VendedorSer {
         }
     }
 
-
-
     public String verificarTelefone(String telefone){
         while(true){
             telefone = telefone.trim();
@@ -212,9 +210,10 @@ public class VendedorSer {
             }
 
         } catch (NumberFormatException e) {
+
             Console.linha();
-            System.out.println("\t\tENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
-            System.out.print("\t\t\t\tTENTE NOVAMENTE");
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
             Console.linha();
             return -1;
         }

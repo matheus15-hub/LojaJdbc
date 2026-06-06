@@ -48,7 +48,6 @@ public class MenuCadastroVendedor {
 
     int idEndereco = 0;
     idEndereco = new EnderecoService().escolherEndereco(idEndereco);
-
     new EnderecoVendedorService().vincularVendedorEndero(vendedor, idEndereco);
 }
 

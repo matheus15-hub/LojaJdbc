@@ -365,7 +365,6 @@ public class PedidoDAO {
         }
         return 0.0;
     }
-
     public static void inserirOuAtualizarItem(int idPedido, int idProd, int qtd, double precoUnitario) throws SQLException {
         String select = "SELECT quantidade FROM item_pedido WHERE id_pedido = ? AND id_produtos = ?";
         String insertReal = "INSERT INTO item_pedido (id_pedido, id_produtos, quantidade, preco_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
@@ -398,6 +397,62 @@ public class PedidoDAO {
                     }
                 }
             }
+        }
+    }
+    public static String buscarNomeProduto(int idProduto) {
+
+        String sql =
+                "SELECT nome_produtos FROM produtos WHERE id_produtos = ?";
+
+        try (
+                Connection conn = Conexao.criarNovaConexao();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setInt(1, idProduto);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("nome_produtos");
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "PRODUTO NÃO ENCONTRADO";
+    }
+    public static boolean existeProdutoCadastrado() {
+        String sql = "SELECT 1 FROM produtos LIMIT 1";
+        try (PreparedStatement ps = Conexao.getConexao().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar produtos: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean existeClienteCadastrado() {
+        String sql = "SELECT 1 FROM clientes LIMIT 1";
+        try (PreparedStatement ps = Conexao.getConexao().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar clientes: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean existeVendedorCadastrado() {
+        String sql = "SELECT 1 FROM vendedor LIMIT 1";
+        try (PreparedStatement ps = Conexao.getConexao().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar vendedores: " + e.getMessage());
+            return false;
         }
     }
 }

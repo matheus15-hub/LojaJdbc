@@ -7,6 +7,8 @@ import java.util.Scanner;
 import DAO.*;
 import entidades.*;
 import servicos.*;
+import util.Console;
+
 public class MenuCadastroProduto {
 
 
@@ -18,14 +20,15 @@ public class MenuCadastroProduto {
         nome = new ProdutoService().verificarNome(nome);
 
         BigDecimal preco = new ProdutoService().verificarValor();
-
         int estoque = new ProdutoService().verificarEstoque();
 
         ClasseService.mostrar();
         System.out.println("Escolha uma Categoria cadastrada para colocar in seu produto:");
         System.out.print("Categoria: ");
         while (!sca.hasNextInt()){
+            Console.linhaSimples();
             System.out.println("Código inválido! Digite apenas números inteiros correspondentes às categorias cadastradas.");
+            Console.linha();
             sca.nextLine();
             System.out.print("Digite um Codigo Cadastrado: ");
         }
@@ -37,7 +40,9 @@ public class MenuCadastroProduto {
         System.out.println("Escolha uma medida de venda cadastrada para colocar in seu produto:");
         System.out.print("Escolha: ");
         while (!sca.hasNextInt()){
+            Console.linhaSimples();
             System.out.println("Código inválido! Digite apenas números inteiros correspondentes às unidades de medidas cadastradas.");
+            Console.linhaSimples();
             sca.nextLine();
             System.out.print("Digite um Codigo Cadastrado: ");
         }

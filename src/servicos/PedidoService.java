@@ -6,6 +6,7 @@ import entidades.ItemPedido;
 import enums.StatusPedido;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
+import util.Console;
 
 public class PedidoService {
 
@@ -22,7 +23,6 @@ public class PedidoService {
         this.statusAtualPedido = StatusPedido.ABERTO;
         this.observacao = "Sem observações.";
     }
-
     public void addClientePedido(int idCliente) {
         this.idClienteSelecionado = idCliente;
     }
@@ -80,5 +80,51 @@ public class PedidoService {
 
     public double getValorTotalAcumulado() {
         return valorTotalAcumulado;
+    }
+    public void mostrarCarrinho() {
+
+        Console.linha();
+        System.out.println("|| ITENS DO CARRINHO");
+        Console.linhaSimples();
+
+        for (ItemPedido item : carrinhoComponentes) {
+
+            String nomeProduto = PedidoDAO.buscarNomeProduto(item.getIdProdutos());
+
+            System.out.println("|| ID PRODUTO : " + item.getIdProdutos());
+            System.out.println("|| PRODUTO    : " + nomeProduto);
+            System.out.println("|| QUANTIDADE : " + item.getQuantidade());
+            System.out.println("|| PREÇO UNIT.: R$ "
+                    + String.format("%.2f", item.getPrecoUnitario()));
+            System.out.println("|| SUBTOTAL   : R$ "
+                    + String.format("%.2f", item.getSubtotal()));
+
+            Console.linhaSimples();
+        }
+
+        System.out.println("|| TOTAL DO CARRINHO: R$ "
+                + String.format("%.2f", valorTotalAcumulado));
+
+        Console.linha();
+    }
+    public boolean verificarPreRequisitos() {
+        boolean tudo = true;
+
+        if (!PedidoDAO.existeProdutoCadastrado()) {
+            System.out.println("[AVISO] Nenhum produto cadastrado. Cadastre um produto antes de criar um pedido.");
+            tudo = false;
+        }
+
+        if (!PedidoDAO.existeClienteCadastrado()) {
+            System.out.println("[AVISO] Nenhum cliente cadastrado. Cadastre um cliente antes de criar um pedido.");
+            tudo = false;
+        }
+
+        if (!PedidoDAO.existeVendedorCadastrado()) {
+            System.out.println("[AVISO] Nenhum vendedor cadastrado. Cadastre um vendedor antes de criar um pedido.");
+            tudo = false;
+        }
+
+        return tudo;
     }
 }

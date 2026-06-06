@@ -32,7 +32,6 @@ public class ProcessadorPedido extends Thread {
                             if (atualizados == 0) continue;
                         }
                         Thread.sleep(5000);
-
                         String finalizar = "update pedido set status_pedido = 'FINALIZADO' where id_pedido = ?";
                         try (PreparedStatement psFin = conn.prepareStatement(finalizar)) {
                             psFin.setInt(1, idPedido);

@@ -192,10 +192,15 @@ public class EnderecoService {
     }
     public void metodoBusca(){
         while (true) {
+            try {
             Console.linha();
-            System.out.println("||\t\t\t\tBuscar por: 1) Rua  2) Cep 3) Todos\t\t\t\t||");
+            System.out.println("||Buscar por:");
+            System.out.println("|| 1) Rua");
+            System.out.println("|| 2) Cep");
+            System.out.println("|| 3) Todos");
+            Console.linhaSimples();
             System.out.print("Escolha: ");
-            int escolhaFiltro = sca.nextInt();
+            int escolhaFiltro = Integer.parseInt(sca.nextLine());
             switch (escolhaFiltro) {
                 case 1:
                     filtrarRua();
@@ -211,25 +216,39 @@ public class EnderecoService {
             }
             System.out.println("\nGostaria de bucar novamente: 1) Sim 2)Nao");
             System.out.print("Escolha:");
-            int buscarNovamente = sca.nextInt();
+            int buscarNovamente = Integer.parseInt(sca.nextLine());
             if (buscarNovamente == 2) {
                 break;
+            }
+            } catch (NumberFormatException e) {
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
             }
         }
     }
     public int escolherEndereco(int id){
 
         while (true) {
+            try {
             Console.linha();
             System.out.println("||\t\t\t\t\tESCOLHA DE ENDEREÇO\t\t\t\t\t||");
             metodoBusca();
             Console.linha();
             System.out.println("||\t\tDigite o Id do endereço que deseja buscar\t\t||");
             System.out.print("ID: ");
-            id = sca.nextInt();
+
+            id = Integer.parseInt(sca.nextLine());
             boolean vereficandoId = new EnderecoDAO().verificarId(id);
             if (vereficandoId == true){
                 break;
+            }
+            }catch (NumberFormatException e){
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
             }
         }
         return id;
@@ -246,18 +265,15 @@ public class EnderecoService {
     public void alterarBairro(int id, String bairro){
         bairro = bairro.toUpperCase();
         new EnderecoDAO().alterarBairro(id, bairro);
-
         System.out.println("Bairro alterado!");
     }
     public void alterarCidade(int id, String cidade){
         cidade = cidade.toUpperCase();
         new EnderecoDAO().alterarCidade(id, cidade);
-
         System.out.println("Cidade alterada!");
     }
     public void alterarCep(int id, String cep){
         new EnderecoDAO().alterarCep(id, cep);
-
         System.out.println("CEP alterado!");
     }
 

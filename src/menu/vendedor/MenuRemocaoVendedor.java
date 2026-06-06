@@ -2,22 +2,17 @@ package menu.vendedor;
 import java.util.Scanner;
 
 import servicos.VendedorSer;
+import util.Console;
 
 public class MenuRemocaoVendedor {
 
     Scanner sca = new Scanner(System.in);
     public void vendedorRemover() {
-
-        System.out.println("\t\tDeletando VENDEDORES");
-        System.out.println("Buscar Vendedores 1) Sim 2) Não");
-        System.out.print("Escolha: ");
-
-        int resposta = sca.nextInt();
-
-        if (resposta == 1) {
-            sca.nextLine();
+        Console.linha();
+        System.out.println("\t\t\tDeletando VENDEDORES");
+        Console.linha();
             new MenuConsultaVendedor().metodoBusca();
-        }
+
 
         System.out.println("SELECIONE O ID DO VENDEDOR QUE DESEJA EXCLUIR");
         System.out.print("ID: ");

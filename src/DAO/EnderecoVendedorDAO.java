@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import conexao.Conexao;
 import entidades.Endereco;
 import entidades.Vendedor;
+import util.Console;
 
 public class EnderecoVendedorDAO {
     Connection conn;
@@ -67,12 +68,13 @@ public class EnderecoVendedorDAO {
             String cidade = res.getString("cidade");
             String cep = res.getString("cep");
 
-            System.out.println("========================================================================================================================");
-            System.out.printf(
-                "||ID: %5d | RUA: %-25s | Nº: %-10s | BAIRRO: %-20s | CIDADE: %-20s | CEP: %-10s ||%n",
-                id_endereco, rua, numero, bairro, cidade, cep
-            );
-            System.out.println("========================================================================================================================");
+            Console.linhaSimples();
+            System.out.println("|| ID Endereço: " + res.getInt("id_endereco"));
+            System.out.println("|| Rua: " + res.getString("rua"));
+            System.out.println("|| Número: " + res.getString("numero"));
+            System.out.println("|| Bairro: " + res.getString("bairro"));
+            System.out.println("|| Cidade: " + res.getString("cidade"));
+            System.out.println("|| CEP: " + res.getString("cep"));
         }
 
     } catch (Exception e) {

@@ -75,6 +75,7 @@ public class EnderecoClienteDAO {
             throw new RuntimeException("Erro ao listar endereços do cliente: " + e.getMessage());
         }
     }
+
     public boolean verificarEnderecoCliente(int idcliente, int idendereco) {
         String sql = "SELECT * FROM cliente_endereco WHERE id_clientes = ? AND id_endereco = ?";
         try {
@@ -88,6 +89,7 @@ public class EnderecoClienteDAO {
             throw new RuntimeException("Erro ao verificar endereço do cliente: " + e.getMessage());
         }
     }
+
     public int getIdEnderecoCliente(int idcliente , int idendereco){
         String sql = "SELECT * FROM cliente_endereco WHERE id_clientes = ? AND id_endereco = ?";
         try {
@@ -105,6 +107,7 @@ public class EnderecoClienteDAO {
             throw new RuntimeException("Erro ao verificar endereço do cliente: " + e.getMessage());
         }
     }
+
     public void excluirEnderecoCliente(int idEndereco) {
         String sql = "DELETE FROM endereco WHERE id_endereco = ?";
         try (

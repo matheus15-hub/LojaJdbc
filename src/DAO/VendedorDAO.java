@@ -27,7 +27,6 @@ public class VendedorDAO {
         try {
 
             Connection conn = Conexao.getConexao();
-
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, vendedor.getNomeVendedor());
@@ -56,42 +55,34 @@ public class VendedorDAO {
     }
 
     public void mostrarVendedor() {
-    String sql = """
-            select * from vendedor v
-            left join vendedor_endereco ve on v.id_vendedor = ve.id_vendedor
-            left join endereco e on ve.id_endereco = e.id_endereco
-            """;
+        String sql = "SELECT * FROM vendedor";
 
-    try {
-        Statement sts = Conexao.getConexao().createStatement();
-        rs = sts.executeQuery(sql);
+        try {
+            Statement sts = Conexao.getConexao().createStatement();
+            ResultSet rs = sts.executeQuery(sql);
 
-        while (rs.next()) {
-            int id = rs.getInt("id_vendedor");
-            String nome = rs.getString("nome_vendedor");
-            String tel = rs.getString("telefone_vendedor");
-            String email = rs.getString("email_vendedor");
-            
-            Console.linha();
-            System.out.printf("|| ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tEMAIL: %s||%n", id, nome, tel, email);
-            
-            String rua = rs.getString("rua") != null ? rs.getString("rua") : "Não cadastrada";
-            String numero = rs.getString("numero") != null ? rs.getString("numero") : "-";
-            String bairro = rs.getString("bairro") != null ? rs.getString("bairro") : "-";
-            String cidade = rs.getString("cidade") != null ? rs.getString("cidade") : "-";
-            String cep = rs.getString("cep") != null ? rs.getString("cep") : "-";
-            
-            Console.linhaSimples();
-            System.out.printf("|| RUA:    %-30s\t\t\t\t\t\t\t ||%n|| Nº:     %-30s\t\t\t\t\t\t\t ||%n|| BAIRRO: %-30s\t\t\t\t\t\t\t ||%n|| CIDADE: %-30s\t\t\t\t\t\t\t ||%n|| CEP:    %-30s\t\t\t\t\t\t\t ||%n", rua, numero, bairro, cidade, cep);
-            Console.linha();
+            while (rs.next()) {
+
+                int idVendedor = rs.getInt("id_vendedor");
+
+                Console.linha();
+                System.out.println("|| ID: " + idVendedor);
+                System.out.println("|| Nome: " + rs.getString("nome_vendedor"));
+                System.out.println("|| Telefone: " + rs.getString("telefone_vendedor"));
+                System.out.println("|| Email: " + rs.getString("email_vendedor"));
+
+                Console.linhaSimples();
+                System.out.println("|| ENDEREÇOS CADASTRADOS:");
+
+                new EnderecoVendedorDAO().mostrarEnderecoVendedor(idVendedor);
+
+                Console.linha();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao mostrar vendedores: " + e.getMessage());
         }
-        rs.close();
-        sts.close();
-
-    } catch (Exception e) {
-        System.out.println("Erro ao mostrar vendedores: " + e.getMessage());
     }
-}
 
     public Vendedor buscarPorId(int idBusca) {
         String sql = "SELECT * FROM vendedor WHERE id_vendedor=?";

@@ -20,8 +20,8 @@ public class MenuAlteracaoVendedor {
 
         while (true) {
 
-            System.out.println("======================================================");
-            System.out.println("||                 ALTERAÇÃO DE VENDEDORES              ||");
+            Console.linha();
+            System.out.println("||            ALTERAÇÃO DE VENDEDORES              ");
             System.out.println(" 1) Alterar Nome");
             System.out.println(" 2) Alterar Telefone");
             System.out.println(" 3) Alterar Email ");
@@ -30,6 +30,7 @@ public class MenuAlteracaoVendedor {
             System.out.println(" 6) Adicionar Endereço ");
             System.out.println(" 7) Excluir Endereço");
             System.out.println(" 0) Voltar                              ");
+            Console.linhaSimples();
             System.out.print("Escolha: ");
 
             while (!sca.hasNextInt()) {
@@ -84,7 +85,7 @@ public class MenuAlteracaoVendedor {
 
             new MenuConsultaVendedor().metodoBusca();
 
-            System.out.println("======================================================");
+            Console.linha();
             System.out.println("Escolha o ID correspondente do vendedor:");
             System.out.print("ID: ");
 

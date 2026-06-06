@@ -40,6 +40,7 @@ public class EnderecoDAO {
             return -1;
         }
     }
+
     public void excluirEndereco(Endereco e){
         String sql = "delete from endereco where id_endereco";
         try {
@@ -66,8 +67,12 @@ public class EnderecoDAO {
                 String cidade = rsEndereco.getString("cidade");
                 String cep = rsEndereco.getString("cep");
                 Console.linha();
-                System.out.printf("|| ID: %5d\t RUA: %-35s\tNUMERO: %-8s\tBAIRRRO: %-20s\tCIDADE: %-20s\t CEP: %s || ",
-                        id , rua , numero , bairro, cidade, cep );
+                System.out.println("|| ID Endereço: " + id);
+                System.out.println("|| Rua: " + rua);
+                System.out.println("|| Número: " + numero);
+                System.out.println("|| Bairro: " + bairro);
+                System.out.println("|| Cidade: " + cidade);
+                System.out.println("|| CEP: " + cep);
                 Console.linha();
                 
             }
@@ -75,8 +80,8 @@ public class EnderecoDAO {
             throw new RuntimeException(e);
         }
     }
-    public void filtrarEnderecosRua(String s){
 
+    public void filtrarEnderecosRua(String s){
         String sql = "select * from endereco where rua like ?";
         try {
            stmt= conn.prepareStatement(sql);
@@ -90,14 +95,19 @@ public class EnderecoDAO {
                 String cidade = rsEndereco.getString("cidade");
                 String cep = rsEndereco.getString("cep");
                 Console.linha();
-                System.out.printf("|| ID: %5d\t RUA: %-35s\tNUMERO: %-8s\tBAIRRRO: %-20s\tCIDADE: %-20s\t CEP: %s || ",
-                        id , rua , numero , bairro, cidade, cep );
+                System.out.println("|| ID Endereço: " + id);
+                System.out.println("|| Rua: " + rua);
+                System.out.println("|| Número: " + numero);
+                System.out.println("|| Bairro: " + bairro);
+                System.out.println("|| Cidade: " + cidade);
+                System.out.println("|| CEP: " + cep);
                 Console.linha();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
     public void filtrarEnderecosCep(String s){
         String sql = "select * from endereco where cep = ?";
         try {
@@ -111,15 +121,21 @@ public class EnderecoDAO {
                 String bairro = rsEndereco.getString("bairro");
                 String cidade = rsEndereco.getString("cidade");
                 String cep = rsEndereco.getString("cep");
+
                 Console.linha();
-                System.out.printf("|| ID: %5d\t RUA: %-35s\tNUMERO: %-8s\tBAIRRRO: %-20s\tCIDADE: %-20s\t CEP: %s || ",
-                        id , rua , numero , bairro, cidade, cep );
+                System.out.println("|| ID Endereço: " + id);
+                System.out.println("|| Rua: " + rua);
+                System.out.println("|| Número: " + numero);
+                System.out.println("|| Bairro: " + bairro);
+                System.out.println("|| Cidade: " + cidade);
+                System.out.println("|| CEP: " + cep);
                 Console.linha();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
     public boolean verificarId(int id){;
         String sql = "select * from endereco where id_endereco = ?";
         try {

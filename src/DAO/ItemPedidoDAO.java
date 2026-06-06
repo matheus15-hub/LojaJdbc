@@ -18,17 +18,12 @@ public class ItemPedidoDAO {
 
         try (Connection conn = Conexao.criarNovaConexao();
              PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-
             preparedStatement.setInt(1, id);
-
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
                 Console.linha();
                 System.out.println("|| ITENS DO PEDIDO");
                 Console.linhaSimples();
-
                 while (resultSet.next()) {
-
                     System.out.println("|| ID PRODUTO : " + resultSet.getInt("id_produtos"));
                     System.out.println("|| PRODUTO    : " + resultSet.getString("nome_produtos"));
                     System.out.println("|| QUANTIDADE : " + resultSet.getInt("quantidade"));
@@ -37,7 +32,6 @@ public class ItemPedidoDAO {
 
                     Console.linhaSimples();
                 }
-
                 Console.linha();
 
             }

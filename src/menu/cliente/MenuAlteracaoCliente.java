@@ -16,8 +16,10 @@ public class MenuAlteracaoCliente {
     public void menuAlterarCliente() {
 
     while (true) {
-        System.out.println("======================================================");
-        System.out.println("||                 ALTERAÇÃO DE CLIENTES              ||");
+        try {
+
+        Console.linha();
+        System.out.println("||                ALTERAÇÃO DE CLIENTES              ");
         System.out.println("|| 1) Alterar Nome");
         System.out.println("|| 2) Alterar CPF");
         System.out.println("|| 3) Alterar Email");
@@ -25,16 +27,11 @@ public class MenuAlteracaoCliente {
         System.out.println("|| 5) Adicionar Endereço");
         System.out.println("|| 6) Remover Endereço");
         System.out.println("|| 0) Voltar");
+        Console.linhaSimples();
         System.out.print("Escolha: ");
 
-        while (!sca.hasNextInt()) {
-            System.out.println("Opção inválida! Digite apenas números.");
-            sca.nextLine();
-            System.out.print("Escolha: ");
-        }
+        int opcao = Integer.parseInt(sca.nextLine());
 
-        int opcao = sca.nextInt();
-        sca.nextLine();
 
         switch (opcao) {
 
@@ -65,42 +62,42 @@ public class MenuAlteracaoCliente {
             default:
                 System.out.println("Opção inválida!");
         }
+        }catch (NumberFormatException e){
+            Console.linha();
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
+        }
     }
 }
     private int selecionarCliente() {
         while (true) {
-            new MenuConsultaCliente().metodoBusca();
-            System.out.println("======================================================\n");
-            System.out.println("Escolha o ID correspondente do cliente:");
-            System.out.print("ID: ");
-
-            while (!sca.hasNextInt()) {
-                System.out.println("Entrada inválida! O ID deve conter apenas números inteiros.");
-                sca.nextLine();
+            try {
+                new MenuConsultaCliente().metodoBusca();
+                System.out.println("======================================================\n");
+                System.out.println("Escolha o ID correspondente do cliente:");
                 System.out.print("ID: ");
-            }
 
-            int id = sca.nextInt();
-            id = new ClienteService().verificarId(id);
+                int id = Integer.parseInt(sca.nextLine());
+                id = new ClienteService().verificarId(id);
 
-            new ClienteService().mostrarId(id);
-            Console.linhaSimples();
-            System.out.println("|| Esse é o cliente que deseja alterar?");
-            System.out.println("|| 1) SIM");
-            System.out.println("|| 2) Nao");
-            System.out.print("Resposta: ");
-
-            while (!sca.hasNextInt()) {
-                System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                new ClienteService().mostrarId(id);
+                Console.linhaSimples();
+                System.out.println("|| Esse é o cliente que deseja alterar?");
+                System.out.println("|| 1) SIM");
+                System.out.println("|| 2) Nao");
                 System.out.print("Resposta: ");
-                sca.nextLine();
-            }
 
-            int resposta = sca.nextInt();
-            sca.nextLine();
+                int resposta = Integer.parseInt(sca.nextLine());
 
-            if (resposta == 1) {
-                return id;
+                if (resposta == 1) {
+                    return id;
+                }
+            }catch (NumberFormatException e){
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
             }
         }
     }
@@ -144,15 +141,15 @@ public class MenuAlteracaoCliente {
         Cliente cliente = new Cliente();
         int idCliente = selecionarCliente();
         cliente.setId_clientes(idCliente);
+        try{
+
         Console.linha();
         System.out.println("Deseja:");
         System.out.println("1) Criar um novo endereço");
         System.out.println("2) Vincular um endereço existente");
         System.out.print("Escolha: ");
 
-        int opcao = sca.nextInt();
-        sca.nextLine();
-
+        int opcao = Integer.parseInt(sca.nextLine());
         switch (opcao) {
 
             case 1:
@@ -176,8 +173,15 @@ public class MenuAlteracaoCliente {
             default:
                 System.out.println("Opção inválida.");
         }
+        }catch (NumberFormatException e){
+            Console.linha();
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
+        }
     }
     public void removerEnderecoCliente() {
+        try {
 
         Console.linha();
         System.out.println("|| REMOÇÃO DE ENDEREÇO DO CLIENTE");
@@ -209,6 +213,12 @@ public class MenuAlteracaoCliente {
 
             System.out.println("Operação cancelada.");
 
+        }
+        }catch (NumberFormatException e){
+            Console.linha();
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
         }
     }
 }

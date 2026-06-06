@@ -13,19 +13,22 @@ public class MenuConsultaVendedor {
     public void metodoBusca() {
         while (true) {
             Console.linha();
-            System.out.println("||\t\t\t\t\t METODO DE BUSCA\t\t\t\t\t||");
-            System.out.println("|| Buscar: 1) Com filtro (caso deseje um cliente específico) \n||         2) Todos os clientes cadastrados");
+            System.out.println("||\t\t\t! Metodo de Busca !");
+            System.out.println("|| Buscar:");
+            System.out.println("|| 1) Por Nome de Cliente");
+            System.out.println("|| 2) Por Todos os clientes cadastrados");
+            Console.linhaSimples();
             System.out.print("||Escolha: ");
 
             while (!sca.hasNextInt()) {
-                System.out.println("Digite apenas números!");
+                Console.linha();
+                System.out.println("Digite apenas números, 1 ou 2!");
                 sca.nextLine();
                 System.out.print("Escolha: ");
             }
 
             int busca = sca.nextInt();
             sca.nextLine();
-
             if (busca == 2) {
                 printVendedor();
                 break;

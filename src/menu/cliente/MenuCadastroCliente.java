@@ -8,6 +8,7 @@ import menu.endereco.MenuCadastroEndereco;
 import servicos.ClienteService;
 import servicos.EnderecoClienteSer;
 import servicos.EnderecoService;
+import util.Console;
 
 public class MenuCadastroCliente {
     Scanner sca = new Scanner(System.in);
@@ -27,9 +28,10 @@ public class MenuCadastroCliente {
         email_clientes = clienteServico.verificarEmail_clientes(email_clientes);
 
         Cliente c = new Cliente( nome, cpf, email_clientes);
+        try {
         System.out.println("Dejesa: 1) Criar um novo endereço  | 2 ) Selecionar um endereço existente");
         System.out.print("Escolha: ");
-        int escolhaVinculacaoEndereco = sca.nextInt();
+        int escolhaVinculacaoEndereco = Integer.parseInt(sca.nextLine());
         if(escolhaVinculacaoEndereco == 1) {
             Endereco e = new MenuCadastroEndereco().addEndereco();
             new EnderecoClienteSer().addEnderecoCliente(c, e);
@@ -37,6 +39,12 @@ public class MenuCadastroCliente {
             int idEndereco =  0;
             idEndereco = new EnderecoService().escolherEndereco(idEndereco);
             new EnderecoClienteSer().vincularClienteEndereco(c , idEndereco);
+        }
+        }catch (NumberFormatException e){
+            Console.linha();
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
         }
     }
 }

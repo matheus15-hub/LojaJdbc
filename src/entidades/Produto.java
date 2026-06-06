@@ -21,7 +21,6 @@ public class Produto {
         this.idClasse = idClasse;
         this.idUnidade = idUnidade;
     }
-
     public int getId_Produtos() {
         return id_produtos;
     }

@@ -18,7 +18,6 @@ public class MenuAlteracaoPedido {
         System.out.println("=======================================================================");
         System.out.println("|| PEDIDOS DISPONÍVEIS PARA ALTERAÇÃO (STATUS: ABERTO):               ||");
         System.out.println("=======================================================================");
-
         String sqlAbertos = "SELECT id_pedido, valor_total FROM pedido WHERE status_pedido = 'ABERTO'";
         int contagem = 0;
 

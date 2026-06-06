@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class ClasseDAO {
+
     public static void mostrar(){
         Statement st = null;
         ResultSet rs = null;
@@ -30,6 +31,7 @@ public class ClasseDAO {
             throw new RuntimeException(e);
         }
     }
+
     public static boolean verificarId(int id){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -43,6 +45,7 @@ public class ClasseDAO {
             throw new RuntimeException(e);
         }
     }
+
     public void alterarCategoria(int id, int categoria){
     PreparedStatement ps = null;
     String sql = "UPDATE produtos SET idclasse = ? WHERE id_produtos = ?";

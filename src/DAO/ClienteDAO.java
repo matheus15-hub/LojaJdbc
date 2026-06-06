@@ -235,8 +235,9 @@ public class ClienteDAO {
             System.out.println("Erro ao buscar dados básicos de clientes: " + e.getMessage());
         }
     }
+
     public void listarParaPedidoFiltro(String n) {
-        String sql = "SELECT id_clientes, nome_clientes FROM clientes where nome_cliente like ?";
+        String sql = "SELECT id_clientes, nome_clientes FROM clientes where nome_clientes like ?";
         try{ Connection conn = Conexao.getConexao();
                 PreparedStatement pstm = conn.prepareStatement(sql);
                 pstm.setString(1, n + "?");

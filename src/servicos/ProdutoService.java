@@ -6,14 +6,13 @@ import DAO.ProdutoDAO;
 import DAO.Relatorio.RelatorioProdutoDAO;
 import entidades.Produto;
 import menu.produto.MenuConsultaProduto;
+import util.Console;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class ProdutoService {
     Scanner sca = new Scanner(System.in);
-
-
     public void adicionarProduto(Produto produto) {
             ProdutoDAO.adicionarProduto(produto);
             System.out.println("Produto cadastrado");
@@ -88,11 +87,12 @@ public class ProdutoService {
                 }
 
             } catch (NumberFormatException e) {
-
+                Console.linha();
                 System.out.println(
                     "Entrada inválida!" +
                     "Digite apenas números." +
                     "Ex: 10 | 15,90 | 25.99");
+                Console.linha();
             }
         }
     }
@@ -113,10 +113,10 @@ public class ProdutoService {
                 }
 
             }catch (NumberFormatException e){
-                System.out.println(
-                        "Entrada invalida!" +
-                        "Digite apenas numeros inteiros:" +
-                        "EX: 1 , 10 , 30");
+                Console.linha();
+                System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+                System.out.print("\t\t\t\t\tTENTE NOVAMENTE");
+                Console.linha();
             }
         }
     }

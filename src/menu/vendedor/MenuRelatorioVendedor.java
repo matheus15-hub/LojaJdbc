@@ -13,7 +13,7 @@ public class MenuRelatorioVendedor {
         try {
             while (true) {
             Console.linha();
-            System.out.println("===========================Metodo de Busca===========================");
+            System.out.println("||\t\t\t! Metodo de Busca !");
             System.out.println("|| Buscar Por:");
             System.out.println("|| 1) Maior Venda");
             System.out.println("|| 2) Menor Venda");
@@ -61,9 +61,10 @@ public class MenuRelatorioVendedor {
               }
             }
         } catch (NumberFormatException e) {
-            sca.next();
-            Console.linhaSimples();
-            System.out.println("\t Entrada de Dados Invalidas! Apenas Numeros Inteiros Como 1,2,3..\n\t\t\t Tente Novamente");
+            Console.linha();
+            System.out.println(" ENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.println("\t\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
         }
     }
 }

@@ -16,7 +16,6 @@ public class Endereco {
         this.cidade = cidade.toUpperCase();
         this.cep = cep.toUpperCase();
     }
-
     public int getId_endereco() {
         return id_endereco;
     }
