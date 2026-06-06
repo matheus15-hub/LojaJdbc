@@ -232,17 +232,18 @@ public class ClienteDAO {
             System.out.println("Erro ao buscar dados básicos de clientes: " + e.getMessage());
         }
     }
-    public void listarParaPedidoFiltro() {
-        String sql = "SELECT id_clientes, nome_clientes FROM clientes where id_clientes?";
-        try (Connection conn = Conexao.getConexao();
+    public void listarParaPedidoFiltro(int id) {
+        String sql = "SELECT id_clientes, nome_clientes FROM clientes where id_clientes = ?";
+        try{ Connection conn = Conexao.getConexao();
                 PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rst = pstm.executeQuery()) {
+                pstm.setInt(1, id);
+                ResultSet rst = pstm.executeQuery();
 
             while (rst.next()) {
-                int id = rst.getInt("id_clientes");
+                int id_clientes = rst.getInt("id_clientes");
                 String nome = rst.getString("nome_clientes");
                 Console.linha();
-                System.out.println("|| ID: "+ id);
+                System.out.println("|| ID: "+ id_clientes);
                 System.out.println("|| Nome: "+nome );
                 Console.linha();
             }

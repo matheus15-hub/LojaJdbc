@@ -136,13 +136,11 @@ public class MenuCadastroPedido {
                 continue;
             }
 
-<<<<<<< HEAD
             boolean adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
-=======
+
             try {
-                boolean adicionou =
-                        pedidoService.tentarAdicionarProduto(idProduto, quantidade);
->>>>>>> 251d6429971bddf59d249ff5355e8652c8eb9b3e
+                adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
+
 
                 if (adicionou) {
 
