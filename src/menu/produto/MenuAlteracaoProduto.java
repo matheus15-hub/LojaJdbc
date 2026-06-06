@@ -16,10 +16,15 @@ public class MenuAlteracaoProduto {
 
     while (true) {
 
-        System.out.println("\n======================== ALTERAÇÃO DE PRODUTOS =========================");
-        System.out.println("1) Nome | 2) Preço | 3) Estoque | 4) Categoria | 5) Unidade de Medida | 0) Voltar");
+        System.out.println("======================================================");
+        System.out.println("||                 ALTERAÇÃO DE PRODUTOS              ||");
+        System.out.println("1) Alterar Nome");
+        System.out.println("2) Alterar Preço");
+        System.out.println("3) Alterar Estoque");
+        System.out.println("4) Alterar Categoria");
+        System.out.println("5) Alterar Unidade de Medida");
+        System.out.println("0) Voltar");
         System.out.print("Escolha: ");
-
         while (!sca.hasNextInt()) {
             System.out.println("Opção inválida! Digite apenas números.");
             sca.nextLine();

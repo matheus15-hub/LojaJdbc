@@ -15,10 +15,14 @@ public class MenuAlteracaoCliente {
     public void menuAlterarCliente() {
 
     while (true) {
-
-        System.out.println("\n========================== ALTERAÇÃO DE CLIENTES ================================");
-        System.out.println(" 1) Alterar Nome  |  2) Alterar CPF  |  3) Alterar Email  |  4) Alterar Endereco ");
-        System.out.println("              5) Adicionar Endereço  |  0) Voltar                                ");
+        System.out.println("======================================================");
+        System.out.println("||                 ALTERAÇÃO DE CLIENTES              ||");
+        System.out.println("1) Alterar Nome");
+        System.out.println("2) Alterar CPF");
+        System.out.println("3) Alterar Email");
+        System.out.println("4) Alterar Endereço");
+        System.out.println("5) Adicionar Endereço");
+        System.out.println("0) Voltar");
         System.out.print("Escolha: ");
 
         while (!sca.hasNextInt()) {

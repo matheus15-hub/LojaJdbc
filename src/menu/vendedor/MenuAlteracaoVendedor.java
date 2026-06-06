@@ -18,10 +18,15 @@ public class MenuAlteracaoVendedor {
 
         while (true) {
 
-            System.out.println("\n========================== ALTERAÇÃO DE VENDEDORES ================================");
-            System.out.println(" 1) Alterar Nome  |  2) Alterar Telefone  |  3) Alterar Email ");
-            System.out.println(" 4) Alterar Salário | 5) Alterar Endereço | 6) Adicionar Endereço ");
-            System.out.println("                           0) Voltar                              ");
+            System.out.println("======================================================");
+            System.out.println("||                 ALTERAÇÃO DE VENDEDORES              ||");
+            System.out.println(" 1) Alterar Nome");
+            System.out.println(" 2) Alterar Telefone");
+            System.out.println(" 3) Alterar Email ");
+            System.out.println(" 4) Alterar Salário");
+            System.out.println(" 5) Alterar Endereço");
+            System.out.println(" 6) Adicionar Endereço ");
+            System.out.println(" 0) Voltar                              ");
             System.out.print("Escolha: ");
 
             while (!sca.hasNextInt()) {
@@ -29,7 +34,6 @@ public class MenuAlteracaoVendedor {
                 sca.nextLine();
                 System.out.print("Escolha: ");
             }
-
             int opcao = sca.nextInt();
             sca.nextLine();
 
