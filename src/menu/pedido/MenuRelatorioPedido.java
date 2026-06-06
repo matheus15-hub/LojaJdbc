@@ -8,6 +8,7 @@ import menu.MenuRelatorio;
 public class MenuRelatorioPedido {
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
+        try {
         while (true) {
             System.out.println("===========================Metodo de Busca===========================");
             System.out.println("1)Mais Itens");
@@ -37,6 +38,11 @@ public class MenuRelatorioPedido {
                         System.out.println("===========================Escolha invalida!===========================");
                         System.out.println("===========================Tente novamente===========================");
                 }
+        }
+        } catch (NumberFormatException e) {
+            sca.next();
+            Console.linhaSimples();
+            System.out.println("\t Entrada de Dados Invalidas! Apenas Numeros Inteiros Como 1,2,3..\n\t\t\t Tente Novamente");
         }
     }
 }
