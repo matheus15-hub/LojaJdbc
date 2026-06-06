@@ -8,6 +8,7 @@ import DAO.VendedorDAO;
 import entidades.ItemPedido;
 import servicos.EnderecoClienteSer;
 import servicos.PedidoService;
+import servicos.ProdutoService;
 import util.Console;
 
 public class MenuCadastroPedido {
@@ -124,6 +125,7 @@ public class MenuCadastroPedido {
 
             System.out.print("ID Produto: ");
             int idProduto = lerInteiro();
+            idProduto = new ProdutoService().verificarId(idProduto);
 
             System.out.print("Quantidade: ");
             int quantidade = lerInteiro();
@@ -133,8 +135,7 @@ public class MenuCadastroPedido {
                 continue;
             }
 
-            boolean adicionou =
-                    pedidoService.tentarAdicionarProduto(idProduto, quantidade);
+            boolean adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
 
             if (adicionou) {
 

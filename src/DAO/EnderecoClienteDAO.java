@@ -61,9 +61,10 @@ public class EnderecoClienteDAO {
                 String cidade = res.getString("cidade");
                 String cep = res.getString("cep");
                 Console.linha();
-                System.out.println("\t\t\tID: " + id_endereco);
+                System.out.println("\t\tID ENDEREÇO: " + id_endereco);
                 Console.linhaSimples();
                 System.out.println("| Rua: " +rua);
+                System.out.println("|| Numero: " + numero);
                 System.out.println("| Bairro: " + bairro);
                 System.out.println("| Cidade: " + cidade);
                 System.out.println("| Cep: " + cep);

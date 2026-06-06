@@ -83,20 +83,13 @@ public class ClienteDAO {
                 String cpf = res.getString("cpf_clientes");
                 String email = res.getString("email_clientes");
 
-                String rua = res.getString("rua");
-                String numero = res.getString("numero");
-                String bairro = res.getString("bairro");
-                String cidade = res.getString("cidade");
-                String cep = res.getString("cep");
-
+            
                 Console.linha();
                 System.out.printf(
                         "|| ID:     %5d\t\t\t\t\t\t\t\t\t\t\t\t ||%n|| NOME:   %-100s ||%n|| CPF:    %-100s ||%n|| EMAIL:  %-100s ||%n",
                         id_clientes, nome_clientes, cpf, email);
                 Console.linhaSimples();
-                System.out.printf(
-                        "|| RUA:    %-100s ||%n|| Nº:     %-100s ||%n|| BAIRRO: %-100s ||%n|| CIDADE: %-100s ||%n|| CEP:    %-100s ||%n",
-                        rua, numero, bairro, cidade, cep);
+                new EnderecoClienteDAO().mostrarEnderecoCliente(id_clientes);
                 Console.linha();
             }
         } catch (Exception e) {
@@ -233,6 +226,25 @@ public class ClienteDAO {
             Console.linhaSimples();
             while (rst.next()) {
                 System.out.printf("|| %-10d | %-30s%n", rst.getInt("id_clientes"), rst.getString("nome_clientes"));
+            }
+            Console.linhaSimples();
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar dados básicos de clientes: " + e.getMessage());
+        }
+    }
+    public void listarParaPedidoFiltro() {
+        String sql = "SELECT id_clientes, nome_clientes FROM clientes where id_clientes?";
+        try (Connection conn = Conexao.getConexao();
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rst = pstm.executeQuery()) {
+
+            while (rst.next()) {
+                int id = rst.getInt("id_clientes");
+                String nome = rst.getString("nome_clientes");
+                Console.linha();
+                System.out.println("|| ID: "+ id);
+                System.out.println("|| Nome: "+nome );
+                Console.linha();
             }
             Console.linhaSimples();
         } catch (Exception e) {

@@ -11,7 +11,7 @@ public class MenuConsultaCliente {
     public void metodoBusca() {
         while (true) {
             System.out.println("=========================== Metodo de Busca ===========================");
-            System.out.println("Buscar: 1) Com filtro (caso deseje um cliente específico) 2) Todos os clientes cadastrados");
+            System.out.println("Buscar: 1) Com filtro (caso deseje um cliente específico) \n       2) Todos os clientes cadastrados");
             System.out.print("Escolha: ");
 
             while (!sca.hasNextInt()) {
