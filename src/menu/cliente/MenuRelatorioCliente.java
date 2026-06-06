@@ -10,6 +10,7 @@ public class MenuRelatorioCliente {
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
         try {
+            while (true) {
             Console.linha();
             System.out.println("===========================Metodo de Busca===========================");
             System.out.println("|| Buscar Por:");
@@ -48,6 +49,7 @@ public class MenuRelatorioCliente {
                     System.out.println("===========================Escolha invalida!===========================");
                     System.out.println("===========================Tente novamente===========================");
               }
+            }
           } catch (NumberFormatException e) {
             sca.next();
             Console.linhaSimples();

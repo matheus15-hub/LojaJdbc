@@ -10,8 +10,8 @@ import java.util.Scanner;
 public class MenuRelatorioVendedor {
     Scanner sca = new Scanner(System.in);
      public void metodoBusca() {
-
-          try {
+        try {
+            while (true) {
             Console.linha();
             System.out.println("===========================Metodo de Busca===========================");
             System.out.println("|| Buscar Por:");
@@ -24,7 +24,7 @@ public class MenuRelatorioVendedor {
             System.out.println("|| 7) Média de Venda");
             System.out.println("|| 8) COMISSÂO");
             System.out.println("|| 9) Voltar");
-          Console.linhaSimples();
+        Console.linhaSimples();
               System.out.print("Escolha:  ");
               int busca = Integer.parseInt(sca.nextLine());;
               switch (busca) {
@@ -59,11 +59,11 @@ public class MenuRelatorioVendedor {
                       System.out.println("===========================Tente novamente===========================");
 
               }
-          } catch (NumberFormatException e) {
-              sca.next();
-             Console.linhaSimples();
-             System.out.println("\t Entrada de Dados Invalidas! Apenas Numeros Inteiros Como 1,2,3..\n\t\t\t Tente Novamente");
-          }
-          }
-
+            }
+        } catch (NumberFormatException e) {
+            sca.next();
+            Console.linhaSimples();
+            System.out.println("\t Entrada de Dados Invalidas! Apenas Numeros Inteiros Como 1,2,3..\n\t\t\t Tente Novamente");
+        }
     }
+}
