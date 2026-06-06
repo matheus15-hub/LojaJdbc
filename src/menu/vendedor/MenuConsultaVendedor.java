@@ -40,12 +40,12 @@ public class MenuConsultaVendedor {
     }
 
     public void printVendedor() {
-        Console.linhaprinta();
+        Console.linha();
         new VendedorSer().mostrar();
     }
 
     public void printVendedorFiltro() {
-        Console.linhaprinta();
+        Console.linha();
         System.out.print("|| Nome do Vendedor: ");
         String nome = sca.nextLine();
         nome = new VendedorSer().verificarNome(nome);

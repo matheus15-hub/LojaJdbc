@@ -25,127 +25,146 @@ public class MenuPrincipal {
     private final Scanner sca = new Scanner(System.in);
 
     public void iniciar() {
-        while (true) {
             exibirCabecalho();
             linha();
-            System.out.println("||                          O QUE DESEJA FAZER?                               ||");
+            System.out.println("|| O QUE DESEJA FAZER?                                         ||");
             linha();
-            System.out.println("|| 1) Clientes   2) Pedido   3) Produto   4) Vendedor   5) Consultar 6) Relatórios 7) Sair ||");
+            System.out.println("|| 0) Voltar                                                   ||");
+            System.out.println("|| 1) Clientes                                                 ||");
+            System.out.println("|| 2) Pedidos                                                  ||");
+            System.out.println("|| 3) Produtos                                                 ||");
+            System.out.println("|| 4) Vendedores                                               ||");
+            System.out.println("|| 5) Consultar                                                ||");
+            System.out.println("|| 6) Relatórios                                               ||");
             linha();
             System.out.print("|| ESCOLHA: ");
             int escolha = lerInt();
             linha();
 
-            switch (escolha) {
-                case 1:
-                    menuClientes();
-                    break;
-                case 2:
-                    menuPedidos();
-                    break;
-                case 3:
-                    menuProdutos();
-                    break;
-                case 4:
-                    menuVendedores();
-                    break;
-                case 5:
-                    System.out.println("A ser feito");
-                    ;
-                    break;
-                case 6:
-                    new MenuRelatorio().metodoBusca();
-                    break;
-                case 7:
-                    System.out.println("SAINDO DO SISTEMA...");
-                    return;
-                default:
-                    System.out.println("OPÇÃO INVÁLIDA!");
-            }
-        }
-    }
-
-    private void menuClientes() {
-        linha();
-        System.out.println("||                              CLIENTES                                       ||");
-        linha();
-        System.out.println("|| 1) Criar   2) Remover   3) Consultar   4) Alterar   5) Voltar              ||");
-        linha();
-        System.out.print("|| ESCOLHA: ");
-        int opcao = lerInt();
-        linha();
-
-        switch (opcao) {
+        switch (escolha) {
             case 1:
-                new MenuCadastroCliente().Clienteadd();
-                ;
+                menuClientes();
                 break;
-
             case 2:
-                new MenuRemocaoCliente().clienteRemover();
+                menuPedidos();
                 break;
-
             case 3:
-                new MenuConsultaCliente().metodoBusca();
+                menuProdutos();
                 break;
-
             case 4:
-                new MenuAlteracaoCliente().menuAlterarCliente();
+                menuVendedores();
                 break;
-
             case 5:
-                System.out.println("VOLTANDO...");
+                System.out.println("A ser feito");
                 break;
-
+            case 6:
+                new MenuRelatorio().metodoBusca();
+                break;
+            case 0:
+                System.out.println("SAINDO DO SISTEMA...");
+                return;
             default:
                 System.out.println("OPÇÃO INVÁLIDA!");
         }
     }
 
+    private void menuClientes() {
+            linha();
+            System.out.println("|| CLIENTES                                                    ||");
+            linha();
+            System.out.println("|| 0) Voltar                                                   ||");
+            System.out.println("|| 1) Criar                                                    ||");
+            System.out.println("|| 2) Remover                                                  ||");
+            System.out.println("|| 3) Consultar                                                ||");
+            System.out.println("|| 4) Alterar                                                  ||");
+            linha();
+            System.out.print("|| ESCOLHA: ");
+            int opcao = lerInt();
+            linha();
+
+            switch (opcao) {
+                case 1:
+                    new MenuCadastroCliente().Clienteadd();
+                    menuClientes();
+                    break;
+
+                case 2:
+                    new MenuRemocaoCliente().clienteRemover();
+                    menuClientes();
+                    break;
+
+                case 3:
+                    new MenuConsultaCliente().metodoBusca();
+                    menuClientes();
+                    break;
+
+                case 4:
+                    new MenuAlteracaoCliente().menuAlterarCliente();
+                    menuClientes();
+                    break;
+
+                case 0:
+                    System.out.println("VOLTANDO...");
+                    iniciar();
+                    break;
+
+                default:
+                    System.out.println("OPÇÃO INVÁLIDA!");
+            }
+        }
+
     private void menuPedidos() {
+            linha();
+            System.out.println("|| PEDIDOS                                                     ||");
+            linha();
 
-        linha();
-        System.out.println("|| PEDIDOS                                                     ||");
-        linha();
+            System.out.println("|| 0) Voltar                                                   ||");
+            System.out.println("|| 1) Criar Pedido                                             ||");
+            System.out.println("|| 2) Alterar Pedido                                           ||");
+            System.out.println("|| 3) Consultar Pedido                                         ||");
 
-        System.out.println("|| 1) Criar Pedido                                             ||");
-        System.out.println("|| 2) Alterar Pedido                                           ||");
-        System.out.println("|| 3) Consultar Pedido                                         ||");
-        System.out.println("|| 4) Voltar                                                   ||");
+            linha();
 
-        linha();
+            System.out.print("ESCOLHA: ");
 
-        System.out.print("ESCOLHA: ");
+            int opcao = lerInt();
 
-        int opcao = lerInt();
+            switch (opcao) {
 
-        switch (opcao) {
+                case 1:
+                    new MenuCadastroPedido().novoPedido();
+                    menuPedidos();
+                    break;
 
-            case 1:
-                new MenuCadastroPedido().novoPedido();
-                break;
+                case 2:
+                    new MenuAlteracaoPedido().alterarPedido();
+                    menuPedidos();
+                    break;
 
-            case 2:
-                new MenuAlteracaoPedido().alterarPedido();
-                break;
+                case 3:
+                    new MenuConsultaPedido().consultarPedidos();
+                    menuPedidos();
+                    break;
 
-            case 3:
-                new MenuConsultaPedido().consultarPedidos();
-                break;
+                case 0:
+                    System.out.println("VOLTANDO...");
+                    iniciar();
+                    return;
 
-            case 4:
-                return;
-
-            default:
-                System.out.println("Opção inválida.");
+                default:
+                    System.out.println("Opção inválida.");
         }
     }
 
     private void menuProdutos() {
         linha();
-        System.out.println("||                              PRODUTOS                                       ||");
+        System.out.println("|| PRODUTOS                                                     ||");
         linha();
-        System.out.println("|| 1) Criar   2) Remover   3) Consultar   4) Alterar   5) Voltar              ||");
+        System.out.println("|| 0) Voltar                                                   ||");
+        System.out.println("|| 1) Criar                                                    ||");
+        System.out.println("|| 2) Remover                                                  ||");
+        System.out.println("|| 3) Consultar                                                ||");
+        System.out.println("|| 4) Alterar                                                  ||");
         linha();
         System.out.print("|| ESCOLHA: ");
         int opcao = lerInt();
@@ -154,21 +173,23 @@ public class MenuPrincipal {
         switch (opcao) {
             case 1:
                 new MenuCadastroProduto().Produtoadd();
+                menuProdutos();
                 break;
             case 2:
                 new MenuRemocaoProduto().produtoRemover();
-                ;
+                menuProdutos();
                 break;
             case 3:
                 new MenuConsultaProduto().metodoBusca();
+                menuProdutos();
                 break;
             case 4:
                 new MenuAlteracaoProduto().menuAlterarProduto();
+                menuProdutos();
                 break;
-            case 5:
-
-
+            case 0:
                 System.out.println("VOLTANDO...");
+                iniciar();
                 break;
             default:
                 System.out.println("OPÇÃO INVÁLIDA!");
@@ -178,9 +199,13 @@ public class MenuPrincipal {
 
     private void menuVendedores() {
         linha();
-        System.out.println("||                              VENDEDORES                                     ||");
+        System.out.println("|| VENDEDORES                                                       ||");
         linha();
-        System.out.println("|| 1) Criar   2) Remover   3) Consultar   4) Alterar  0)Volta                  ||");
+        System.out.println("|| 0) Voltar                                                        ||");
+        System.out.println("|| 1) Criar                                                         ||");
+        System.out.println("|| 2) Remover                                                       ||");
+        System.out.println("|| 3) Consultar                                                     ||");
+        System.out.println("|| 4) Alterar                                                       ||");
         linha();
         System.out.print("|| ESCOLHA: ");
         int opcao = lerInt();
@@ -189,16 +214,22 @@ public class MenuPrincipal {
         switch (opcao) {
             case 1:
                 new MenuCadastroVendedor().Vendedoradd();
+                menuVendedores();
                 break;
             case 2:
                 System.out.println("VENDEDOR REMOVIDO!");
                 break;
             case 3:
                 new MenuConsultaVendedor().metodoBusca();
-                ;
+                menuVendedores();
                 break;
             case 4:
                new MenuAlteracaoVendedor().menuAlterarVendedor();
+                menuVendedores();
+                break;
+            case 0:
+                System.out.println("VOLTANDO...");
+                iniciar();
                 break;
             default:
                 System.out.println("OPÇÃO INVÁLIDA!");
@@ -218,7 +249,7 @@ public class MenuPrincipal {
     }
 
     public static void linha() {
-        System.out.println("==============================================================================");
+        System.out.println("=================================================================");
     }
 
     private void exibirCabecalho() {
