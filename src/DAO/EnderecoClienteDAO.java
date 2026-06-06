@@ -61,14 +61,15 @@ public class EnderecoClienteDAO {
                 String cidade = res.getString("cidade");
                 String cep = res.getString("cep");
                 Console.linha();
-                System.out.println("\t\tID ENDEREÇO: " + id_endereco);
-                Console.linhaSimples();
-                System.out.println("| Rua: " +rua);
-                System.out.println("|| Numero: " + numero);
-                System.out.println("| Bairro: " + bairro);
-                System.out.println("| Cidade: " + cidade);
-                System.out.println("| Cep: " + cep);
-                Console.linha();
+
+                    Console.linhaSimples();
+                    System.out.println("|| ID Endereço: " + res.getInt("id_endereco"));
+                    System.out.println("|| Rua: " + res.getString("rua"));
+                    System.out.println("|| Número: " + res.getString("numero"));
+                    System.out.println("|| Bairro: " + res.getString("bairro"));
+                    System.out.println("|| Cidade: " + res.getString("cidade"));
+                    System.out.println("|| CEP: " + res.getString("cep"));
+
             }
         } catch (Exception e) {
             throw new RuntimeException("Erro ao listar endereços do cliente: " + e.getMessage());

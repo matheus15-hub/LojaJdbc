@@ -6,9 +6,8 @@ import DAO.EnderecoClienteDAO;
 import DAO.ProdutoDAO;
 import DAO.VendedorDAO;
 import entidades.ItemPedido;
-import servicos.EnderecoClienteSer;
-import servicos.PedidoService;
-import servicos.ProdutoService;
+import menu.vendedor.MenuConsultaVendedor;
+import servicos.*;
 import util.Console;
 
 public class MenuCadastroPedido {
@@ -57,85 +56,73 @@ public class MenuCadastroPedido {
     }
 
     private int escolherCliente() {
-        int idCliente = 0;
-        while (true) {
-            System.out.println("\n--- CLIENTES ---");
-            new DAO.ClienteDAO().listarParaPedido();
-
-            System.out.print("ID Cliente: ");
-            idCliente = lerInteiro();
-
-            if (DAO.ClienteDAO.verificarExistencia(idCliente)) {
-                break;
-            } else {
-                System.out.println("\n=====================================================");
-                System.out.println("||            [ERRO] CLIENTE NÃO ENCONTRADO!       ||");
-                System.out.println("||       Por favor, selecione um ID da lista acima. ||");
-                System.out.println("=====================================================");
-            }
-        }
-        return idCliente;
+        return new ClienteService().selecionarClientePPedido();
     }
-    
-    private int escolhaerEndereco(int idCliete){
-        int idendereco;
+
+    private int escolhaerEndereco(int idCliente) {
+        int idEndereco;
+
         while (true) {
             Console.linha();
-            System.out.println("|| TODOS OS ENDEREÇOS VINCULADOS AO CLINTE " + idCliete + " :");
-            new EnderecoClienteDAO().mostrarEnderecoCliente(idCliete);
-            Console.linhaSimples();
-            System.out.println("|| Selecione o ID do endereço que sera feito a entrega:");
-            System.out.println("|| Se aconteceder do Cliente vim retirar selecione um endereço, \n|| e na oberservação coloque que o cliente vem retirar:");
-            System.out.print("|| Escolha: ");
-            while (!sca.hasNextInt()) {
-                Console.linha();
-                System.out.println("||Entrada de dados invalidos | Apenas Numeros inteiros são aceitos");
-                System.out.println("||\t\t\tEx: 1 , 10 , 20.....");
-                sca.nextLine();
-                System.out.println("Digite o ID correspondente ao endereço: ");
+            System.out.println("|| ENDEREÇOS CADASTRADOS PARA O CLIENTE ID: " + idCliente);
+            new EnderecoClienteDAO().mostrarEnderecoCliente(idCliente);
 
-            }
-            idendereco = sca.nextInt();
-            idendereco = new EnderecoClienteSer().verificarLigacao(idCliete, idendereco);
-            Console.linha();
-            System.out.println("|| Deseja mesmo selecionar o endereço do ID:" + idendereco+" ?");
-            System.out.println("|| 1) Sim | 2)Não :");
-            System.out.print("|| ESCOLHA:");
+            Console.linhaSimples();
+            System.out.println("|| Informe o ID do endereço que será utilizado para a entrega.");
+            System.out.println("|| Caso o cliente vá retirar o pedido pessoalmente,");
+            System.out.println("|| selecione qualquer endereço cadastrado e informe");
+            System.out.println("|| na observação do pedido que a retirada será feita pelo cliente.");
+            System.out.print("|| ID DO ENDEREÇO: ");
+
             while (!sca.hasNextInt()) {
                 Console.linha();
-                System.out.println("||Entrada de dados invalidos | Apenas Numeros inteiros são aceitos");
-                System.out.println("||\t\t\tEx: 1 , 10 , 20.....");
+                System.out.println("|| ENTRADA INVÁLIDA!");
+                System.out.println("|| Apenas números inteiros são aceitos.");
+                System.out.println("|| Exemplos: 1, 10, 20...");
+                System.out.print("|| ID DO ENDEREÇO: ");
                 sca.nextLine();
-                System.out.println("|| Digite 1) Para Quero selecionar esse endereço | 2) Não : ");
-                System.out.println("||        2) Buscar um novo endereço : ");
-                System.out.print("|| ESCOLHA:");
             }
-            int queralterar = sca.nextInt();
-            if(queralterar == 1) break;
-            if (queralterar != 1  && queralterar != 2) System.out.println("Opção Invalida!");
+
+            idEndereco = sca.nextInt();
+            sca.nextLine();
+
+            idEndereco = new EnderecoClienteSer().verificarLigacao(idCliente, idEndereco);
+
+            Console.linha();
+            System.out.println("|| CONFIRMA A SELEÇÃO DO ENDEREÇO ID: " + idEndereco + "?");
+            System.out.println("|| 1) Sim");
+            System.out.println("|| 2) Não, escolher outro endereço");
+            System.out.print("|| ESCOLHA: ");
+
+            while (!sca.hasNextInt()) {
+                Console.linha();
+                System.out.println("|| ENTRADA INVÁLIDA!");
+                System.out.println("|| Digite apenas:");
+                System.out.println("|| 1 - Confirmar endereço");
+                System.out.println("|| 2 - Escolher outro endereço");
+                System.out.print("|| ESCOLHA: ");
+                sca.nextLine();
+            }
+
+            int confirmar = sca.nextInt();
+            sca.nextLine();
+
+            if (confirmar == 1) {
+                break;
+            }
+
+            if (confirmar != 2) {
+                Console.linha();
+                System.out.println("|| OPÇÃO INVÁLIDA!");
+                System.out.println("|| Digite 1 para confirmar ou 2 para escolher outro endereço.");
+            }
         }
-        return idendereco;
+
+        return idEndereco;
     }
 
     private int escolherVendedor() {
-        int idVendedor = 0;
-        while (true) {
-            System.out.println("\n--- VENDEDORES ---");
-            new DAO.VendedorDAO().mostrarVendedor();
-
-            System.out.print("ID Vendedor: ");
-            idVendedor = lerInteiro();
-
-            if (DAO.VendedorDAO.verificarExistencia(idVendedor)) {
-                break;
-            } else {
-                System.out.println("\n=====================================================");
-                System.out.println("||            [ERRO] VENDEDOR NÃO ENCONTRADO!      ||");
-                System.out.println("||       Por favor, selecione um ID da lista acima. ||");
-                System.out.println("=====================================================");
-            }
-        }
-        return idVendedor;
+        return new VendedorSer().selecionarVendedorPedido();
     }
 
     private void adicionarProdutos(PedidoService pedidoService) {

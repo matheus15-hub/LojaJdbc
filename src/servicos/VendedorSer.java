@@ -71,18 +71,17 @@ public class VendedorSer {
         new VendedorDAO().mostrarVendedorPorFiltro(nome);
     }
 
-    public int verificarId(int id){
-        while (true){
-            if (!VendedorDAO.verificarExistencia(id)) { 
-                System.out.println("Vendedor com o ID " + id + " nao encontrado, tente novamente");
-                new MenuConsultaVendedor();
-                System.out.print("\nID: ");
-                while (!sca.hasNextInt()) {
+    public int verificarId(int id) {
+        while (true) {
+            if (!VendedorDAO.verificarExistencia(id)) {
+                System.out.println("Vendedor com o ID " + id + " não encontrado!");
+                new MenuConsultaVendedor().metodoBusca();
+                System.out.print("\nDigite um ID válido da lista acima: ");
+                try {
+                    id = Integer.parseInt(sca.nextLine());
+                } catch (NumberFormatException e) {
                     System.out.println("Digite apenas números!");
-                    sca.nextLine();
-                    System.out.print("Digite o ID do Vendedor escolhido: ");
                 }
-                id = sca.nextInt();
             } else {
                 return id;
             }
@@ -177,5 +176,47 @@ public class VendedorSer {
     public void remover(int x){
         new VendedorDAO().excluirVendedor(x);
         System.out.println("Vendedor com o id " + x + " removido com sucesso!");
+    }
+    public int selecionarVendedorPedido() {
+        try {
+            while (true) {
+                Console.linha();
+                System.out.println("||\t\tSELECIONANDO VENDEDOR");
+                System.out.println("|| 1) Buscar por Nome");
+                System.out.println("|| 2) Mostrar Todos");
+                System.out.print("|| ESCOLHA: ");
+
+                int escolha = Integer.parseInt(sca.nextLine());
+
+                switch (escolha) {
+                    case 1:
+                        System.out.print("|| Nome: ");
+                        String nome = sca.nextLine();
+                        new VendedorDAO().listarParaPedidoFiltro(nome);
+                        break;
+
+                    case 2:
+                        new VendedorDAO().listarParaPedido();
+                        break;
+
+                    default:
+                        System.out.println("Opção inválida.");
+                        continue;
+                }
+
+                System.out.print("Digite o ID do vendedor: ");
+                int id = Integer.parseInt(sca.nextLine());
+
+                return verificarId(id);
+
+            }
+
+        } catch (NumberFormatException e) {
+            Console.linha();
+            System.out.println("\t\tENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.print("\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
+            return -1;
+        }
     }
 }

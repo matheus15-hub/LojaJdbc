@@ -132,36 +132,52 @@ public void alterarEmail(int id, String email){
     mostrarId(id);
     System.out.println("Email alterado!");
 }
-public void selecionarClientePPedido(){
+    public int selecionarClientePPedido() {
         try {
             while (true) {
-            Console.linha();
-            System.out.print("|| Deseja:");
-            System.out.print("|| 1) Buscar por Nome");
-            System.out.print("|| 2) Buscar Todos Cadatrados no Sistem");
-            int escolha = Integer.parseInt(sca.nextLine());
-            switch (escolha){
-                case 1:
-                    Console.linhaSimples();
-                    System.out.print("|| Nome:");
-                    String nome = sca.nextLine();
-                    new ClienteDAO().listarParaPedidoFiltro(nome);
-                    break;
-                case 2:
-                    new  ClienteDAO().listarParaPedido();
-                    break;
-                default:
-                    Console.linha();
-                    System.out.println("\t\t\tESCOLHA INVALIDA");
-                    System.out.println("\t\tTENTE NOVAMENTE , ESCOLHENDO UMA OPÇÃO VALIDA");
-                    Console.linha();
-            }
-        }
-                }catch (NumberFormatException e){
-                    Console.linha();
-                    System.out.println("\t\tENTREDA DE DADOS INVALIDAS, APENAS NUMERO INTERIOS . EX 1,2...5 ");
-                    System.out.print("\t\t\t\tTENTE NOVAMENTE");
-                    Console.linha();
+                Console.linha();
+                System.out.println("||\t\tSELECIONANDO CLIENTE");
+                System.out.println("|| Deseja:");
+                System.out.println("|| 1) Buscar por Nome");
+                System.out.println("|| 2) Buscar Todos Cadastrados no Sistema");
+                System.out.print("|| ESCOLHA: ");
+
+                int escolha = Integer.parseInt(sca.nextLine());
+
+                switch (escolha) {
+                    case 1:
+                        Console.linhaSimples();
+                        System.out.print("|| Nome: ");
+                        String nome = sca.nextLine();
+                        new ClienteDAO().listarParaPedidoFiltro(nome);
+                        break;
+
+                    case 2:
+                        new ClienteDAO().listarParaPedido();
+                        break;
+
+                    default:
+                        Console.linha();
+                        System.out.println("\t\t\tESCOLHA INVALIDA");
+                        System.out.println("\t\tTENTE NOVAMENTE, ESCOLHENDO UMA OPÇÃO VALIDA");
+                        Console.linha();
+                        continue;
                 }
+
+                Console.linhaSimples();
+                System.out.print("|| ID do Cliente: ");
+
+                int id = Integer.parseInt(sca.nextLine());
+
+                return verificarId(id);
             }
+
+        } catch (NumberFormatException e) {
+            Console.linha();
+            System.out.println("\t\tENTRADA DE DADOS INVALIDA, APENAS NUMEROS INTEIROS. EX: 1,2...5");
+            System.out.print("\t\t\t\tTENTE NOVAMENTE");
+            Console.linha();
+            return -1;
         }
+    }
+            }

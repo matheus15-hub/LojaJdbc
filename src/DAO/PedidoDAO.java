@@ -89,6 +89,7 @@ public class PedidoDAO {
                 temPedidos = true;
                 int idPedido = rs.getInt("id_pedido");
                 String nome = rs.getString("nome_clientes");
+                String email = rs.getString("email_clientes");
                 String rua = rs.getString("rua");
                 String numero = rs.getString("numero");
                 String bairro = rs.getString("bairro");
@@ -98,14 +99,11 @@ public class PedidoDAO {
                 
                 Console.linha();
                 System.out.println("|| PEDIDO: " + idPedido);
-                System.out.println("|| CLIENTE: " + (nome != null ? nome : "Não informado"));
-                
-                if (rua != null) {
-                    System.out.println("|| ENDEREÇO: " + rua + " | " + numero + " | " + bairro);
-                    System.out.println("|| CIDADE: " + cidade + " \t CEP: " + cep);
-                } else {
-                    System.out.println("|| ENDEREÇO: Retirada no local / Não informado");
-                }
+                System.out.println("|| CLIENTE: " +  nome );
+                System.out.println("|| EMAIL: " +  email );
+                System.out.println("|| ENDEREÇO: " + rua + " | " + numero + " | " + bairro);
+                System.out.println("|| CIDADE: " + cidade + " \t CEP: " + cep);
+
                 
                 new ItemPedidoDAO().mostrarItemPedido(idPedido);
                 

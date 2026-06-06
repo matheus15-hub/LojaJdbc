@@ -68,34 +68,37 @@ public class ClienteDAO {
         }
     }
 
-    public void mostrarClient() {
-        String sql = "select * from clientes c " +
-                "join cliente_endereco ce on c.id_clientes = ce.id_clientes " +
-                "join endereco e on ce.id_endereco = e.id_endereco";
+        public void mostrarClient() {
+            String sql = "SELECT * FROM clientes";
 
-        try (Connection conn = Conexao.getConexao();
-                Statement sts = conn.createStatement();
-                ResultSet res = sts.executeQuery(sql)) {
+            try (Connection conn = Conexao.getConexao();
+                 Statement sts = conn.createStatement();
+                 ResultSet res = sts.executeQuery(sql)) {
 
-            while (res.next()) {
-                int id_clientes = res.getInt("id_clientes");
-                String nome_clientes = res.getString("nome_clientes");
-                String cpf = res.getString("cpf_clientes");
-                String email = res.getString("email_clientes");
+                while (res.next()) {
 
-            
-                Console.linha();
-                System.out.printf(
-                        "|| ID:     %5d\t\t\t\t\t\t\t\t\t\t\t\t ||%n|| NOME:   %-100s ||%n|| CPF:    %-100s ||%n|| EMAIL:  %-100s ||%n",
-                        id_clientes, nome_clientes, cpf, email);
-                Console.linhaSimples();
-                new EnderecoClienteDAO().mostrarEnderecoCliente(id_clientes);
-                Console.linha();
+                    int idCliente = res.getInt("id_clientes");
+                    String nome = res.getString("nome_clientes");
+                    String cpf = res.getString("cpf_clientes");
+                    String email = res.getString("email_clientes");
+                    Console.linha();
+                    System.out.println("|| ID: " + idCliente);
+                    System.out.println("|| Nome: " + nome);
+                    System.out.println("|| CPF: " + cpf);
+                    System.out.println("|| Email: " + email);
+
+                    Console.linhaSimples();
+                    System.out.println("|| ENDEREÇOS CADASTRADOS:");
+
+                    new EnderecoClienteDAO().mostrarEnderecoCliente(idCliente);
+
+                    Console.linha();
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao listar clientes: " + e.getMessage());
         }
-    }
 
     public void mostrarId(int id) {
         String sql = "SELECT * FROM clientes c " +
@@ -234,7 +237,7 @@ public class ClienteDAO {
         }
     }
     public void listarParaPedidoFiltro(String n) {
-        String sql = "SELECT id_clientes, nome_clientes FROM clientes where nome_cliente = ?";
+        String sql = "SELECT id_clientes, nome_clientes FROM clientes where nome_cliente like ?";
         try{ Connection conn = Conexao.getConexao();
                 PreparedStatement pstm = conn.prepareStatement(sql);
                 pstm.setString(1, n + "?");

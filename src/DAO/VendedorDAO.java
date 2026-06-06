@@ -311,4 +311,54 @@ public class VendedorDAO {
             System.out.println("Erro ao alterar salário: " + e.getMessage());
         }
     }
+    public void listarParaPedido() {
+        String sql = "SELECT id_vendedor, nome_vendedor FROM vendedor";
+
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement pstm = conn.prepareStatement(sql);
+             ResultSet rst = pstm.executeQuery()) {
+
+            while (rst.next()) {
+                int idVendedor = rst.getInt("id_vendedor");
+                String nome = rst.getString("nome_vendedor");
+
+                Console.linha();
+                System.out.println("|| ID: " + idVendedor);
+                System.out.println("|| Nome: " + nome);
+                Console.linha();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar dados básicos dos vendedores: " + e.getMessage());
+        }
+    }
+    public void listarParaPedidoFiltro(String nomePesquisa) {
+        String sql = """
+                 SELECT id_vendedor, nome_vendedor
+                 FROM vendedor
+                 WHERE nome_vendedor LIKE ?
+                 """;
+
+        try (Connection conn = Conexao.getConexao();
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+
+            pstm.setString(1, "%" + nomePesquisa + "%");
+
+            try (ResultSet rst = pstm.executeQuery()) {
+
+                while (rst.next()) {
+                    int idVendedor = rst.getInt("id_vendedor");
+                    String nome = rst.getString("nome_vendedor");
+
+                    Console.linha();
+                    System.out.println("|| ID: " + idVendedor);
+                    System.out.println("|| Nome: " + nome);
+                    Console.linha();
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar dados básicos dos vendedores: " + e.getMessage());
+        }
+    }
 }
