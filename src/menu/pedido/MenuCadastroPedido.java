@@ -57,13 +57,24 @@ public class MenuCadastroPedido {
     }
 
     private int escolherCliente() {
-        System.out.println("\n--- CLIENTES ---");
+        int idCliente = 0;
+        while (true) {
+            System.out.println("\n--- CLIENTES ---");
+            new DAO.ClienteDAO().listarParaPedido();
 
-        new DAO.ClienteDAO().listarParaPedido();
+            System.out.print("ID Cliente: ");
+            idCliente = lerInteiro();
 
-        System.out.print("ID Cliente: ");
-
-        return lerInteiro();
+            if (DAO.ClienteDAO.verificarExistencia(idCliente)) {
+                break;
+            } else {
+                System.out.println("\n=====================================================");
+                System.out.println("||            [ERRO] CLIENTE NÃO ENCONTRADO!       ||");
+                System.out.println("||       Por favor, selecione um ID da lista acima. ||");
+                System.out.println("=====================================================");
+            }
+        }
+        return idCliente;
     }
     
     private int escolhaerEndereco(int idCliete){
@@ -117,11 +128,9 @@ public class MenuCadastroPedido {
     }
 
     private void adicionarProdutos(PedidoService pedidoService) {
-
         String continuar = "s";
 
         while (continuar.equalsIgnoreCase("s")) {
-
             new ProdutoDAO().listarProdutos();
 
             System.out.print("ID Produto: ");
@@ -136,20 +145,12 @@ public class MenuCadastroPedido {
                 continue;
             }
 
-<<<<<<< HEAD
-            boolean adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
-=======
             try {
-                boolean adicionou =
-                        pedidoService.tentarAdicionarProduto(idProduto, quantidade);
->>>>>>> 251d6429971bddf59d249ff5355e8652c8eb9b3e
+                boolean adicionou = pedidoService.tentarAdicionarProduto(idProduto, quantidade);
 
                 if (adicionou) {
-
                     System.out.println("\n--- CARRINHO ---");
-
                     for (ItemPedido item : pedidoService.getCarrinhoComponentes()) {
-
                         System.out.println(
                                 "Produto: " + item.getIdProdutos()
                                 + " | Qtd: " + item.getQuantidade()
