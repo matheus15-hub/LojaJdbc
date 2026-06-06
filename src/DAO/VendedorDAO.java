@@ -56,39 +56,42 @@ public class VendedorDAO {
     }
 
     public void mostrarVendedor() {
-        String sql = """
-                select * from vendedor_endereco ve
-                join vendedor v on ve.id_vendedor = v.id_vendedor
-                join endereco e on ve.id_endereco = e.id_endereco
-                """;
+    String sql = """
+            select * from vendedor v
+            left join vendedor_endereco ve on v.id_vendedor = ve.id_vendedor
+            left join endereco e on ve.id_endereco = e.id_endereco
+            """;
 
-        try {
-            Statement sts = Conexao.getConexao().createStatement();
-            rs = sts.executeQuery(sql);
+    try {
+        Statement sts = Conexao.getConexao().createStatement();
+        rs = sts.executeQuery(sql);
 
-            while (rs.next()) {
-                int id = rs.getInt("id_vendedor");
-                String nome = rs.getString("nome_vendedor");
-                String tel = rs.getString("telefone_vendedor");
-                String email = rs.getString("email_vendedor");
-                Console.linha();
-                System.out.printf("|| ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tEMAIL: %s||%n", id, nome, tel, email);
-                String rua = rs.getString("rua");
-                String numero = rs.getString("numero");
-                String bairro = rs.getString("bairro");
-                String cidade = rs.getString("cidade");
-                String cep = rs.getString("cep");
-                Console.linhaSimples();
-                System.out.printf("|| RUA:    %-30s\t\t\t\t\t\t\t ||%n|| Nº:     %-30s\t\t\t\t\t\t\t ||%n|| BAIRRO: %-30s\t\t\t\t\t\t\t ||%n|| CIDADE: %-30s\t\t\t\t\t\t\t ||%n|| CEP:    %-30s\t\t\t\t\t\t\t ||%n",rua, numero, bairro, cidade, cep);
-                Console.linha();
-            }
-            rs.close();
-            sts.close();
-
-        } catch (Exception e) {
-            System.out.println("Erro ao mostrar vendedores: " + e.getMessage());
+        while (rs.next()) {
+            int id = rs.getInt("id_vendedor");
+            String nome = rs.getString("nome_vendedor");
+            String tel = rs.getString("telefone_vendedor");
+            String email = rs.getString("email_vendedor");
+            
+            Console.linha();
+            System.out.printf("|| ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tEMAIL: %s||%n", id, nome, tel, email);
+            
+            String rua = rs.getString("rua") != null ? rs.getString("rua") : "Não cadastrada";
+            String numero = rs.getString("numero") != null ? rs.getString("numero") : "-";
+            String bairro = rs.getString("bairro") != null ? rs.getString("bairro") : "-";
+            String cidade = rs.getString("cidade") != null ? rs.getString("cidade") : "-";
+            String cep = rs.getString("cep") != null ? rs.getString("cep") : "-";
+            
+            Console.linhaSimples();
+            System.out.printf("|| RUA:    %-30s\t\t\t\t\t\t\t ||%n|| Nº:     %-30s\t\t\t\t\t\t\t ||%n|| BAIRRO: %-30s\t\t\t\t\t\t\t ||%n|| CIDADE: %-30s\t\t\t\t\t\t\t ||%n|| CEP:    %-30s\t\t\t\t\t\t\t ||%n", rua, numero, bairro, cidade, cep);
+            Console.linha();
         }
+        rs.close();
+        sts.close();
+
+    } catch (Exception e) {
+        System.out.println("Erro ao mostrar vendedores: " + e.getMessage());
     }
+}
 
     public Vendedor buscarPorId(int idBusca) {
         String sql = "SELECT * FROM vendedor WHERE id_vendedor=?";
@@ -170,23 +173,20 @@ public class VendedorDAO {
     }
 
     public static boolean verificarExistencia(int h) {
-        PreparedStatement ps = null;
-        ResultSet resultSet = null;
-        String sql = "SELECT COUNT(*) FROM vendedor WHERE id_vendedor=?";
-        try {
-            ps = Conexao.getConexao().prepareStatement(sql);
-            ps.setInt(1, h);
-            resultSet = ps.executeQuery();
+    String sql = "SELECT COUNT(*) FROM vendedor WHERE id_vendedor = ?";
+    try (Connection conn = Conexao.getConexao();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setInt(1, h);
+        try (ResultSet resultSet = ps.executeQuery()) {
             if (resultSet.next()) {
-                boolean existe = resultSet.getInt(1) > 0;
-                resultSet.close();
-                ps.close();
-                return existe;
+                return resultSet.getInt(1) > 0; 
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
-        return false;
+    } catch (Exception e) {
+        System.out.println("Erro ao verificar vendedor: " + e.getMessage());
+    }
+    return false;
     }
 
     public void excluirVendedor(Vendedor vendedor) {

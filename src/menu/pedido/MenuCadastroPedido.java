@@ -58,9 +58,10 @@ public class MenuCadastroPedido {
 
     private int escolherCliente() {
         int idCliente = 0;
+        
         while (true) {
             System.out.println("\n--- CLIENTES ---");
-            new DAO.ClienteDAO().listarParaPedido();
+            new DAO.ClienteDAO().listarParaPedido(); 
 
             System.out.print("ID Cliente: ");
             idCliente = lerInteiro();
@@ -74,6 +75,7 @@ public class MenuCadastroPedido {
                 System.out.println("=====================================================");
             }
         }
+        
         return idCliente;
     }
     
@@ -118,13 +120,24 @@ public class MenuCadastroPedido {
     }
 
     private int escolherVendedor() {
-        System.out.println("\n--- VENDEDORES ---");
+        int idVendedor = 0;
+        while (true) {
+            System.out.println("\n--- VENDEDORES ---");
+            new DAO.VendedorDAO().mostrarVendedor();
 
-        new VendedorDAO().mostrarVendedor();
+            System.out.print("ID Vendedor: ");
+            idVendedor = lerInteiro();
 
-        System.out.print("ID Vendedor: ");
-
-        return lerInteiro();
+            if (DAO.VendedorDAO.verificarExistencia(idVendedor)) {
+                break;
+            } else {
+                System.out.println("\n=====================================================");
+                System.out.println("||            [ERRO] VENDEDOR NÃO ENCONTRADO!      ||");
+                System.out.println("||       Por favor, selecione um ID da lista acima. ||");
+                System.out.println("=====================================================");
+            }
+        }
+        return idVendedor;
     }
 
     private void adicionarProdutos(PedidoService pedidoService) {
