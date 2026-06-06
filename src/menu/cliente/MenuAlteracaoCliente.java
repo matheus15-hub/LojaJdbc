@@ -18,13 +18,13 @@ public class MenuAlteracaoCliente {
     while (true) {
         System.out.println("======================================================");
         System.out.println("||                 ALTERAÇÃO DE CLIENTES              ||");
-        System.out.println("1) Alterar Nome");
-        System.out.println("2) Alterar CPF");
-        System.out.println("3) Alterar Email");
-        System.out.println("4) Alterar Endereço");
-        System.out.println("5) Adicionar Endereço");
-        System.out.println("5) Remover Endereço");
-        System.out.println("0) Voltar");
+        System.out.println("|| 1) Alterar Nome");
+        System.out.println("|| 2) Alterar CPF");
+        System.out.println("|| 3) Alterar Email");
+        System.out.println("|| 4) Alterar Endereço");
+        System.out.println("|| 5) Adicionar Endereço");
+        System.out.println("|| 6) Remover Endereço");
+        System.out.println("|| 0) Voltar");
         System.out.print("Escolha: ");
 
         while (!sca.hasNextInt()) {
@@ -84,14 +84,22 @@ public class MenuAlteracaoCliente {
             id = new ClienteService().verificarId(id);
 
             new ClienteService().mostrarId(id);
-
-            System.out.println("Esse é o cliente que deseja alterar? SIM = s , NÃO = n");
+            Console.linhaSimples();
+            System.out.println("|| Esse é o cliente que deseja alterar?");
+            System.out.println("|| 1) SIM");
+            System.out.println("|| 2) Nao");
             System.out.print("Resposta: ");
 
-            sca.nextLine();
-            String resposta = sca.nextLine();
+            while (!sca.hasNextInt()) {
+                System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                System.out.print("Resposta: ");
+                sca.nextLine();
+            }
 
-            if (resposta.equalsIgnoreCase("s")) {
+            int resposta = sca.nextInt();
+            sca.nextLine();
+
+            if (resposta == 1) {
                 return id;
             }
         }
@@ -136,7 +144,7 @@ public class MenuAlteracaoCliente {
         Cliente cliente = new Cliente();
         int idCliente = selecionarCliente();
         cliente.setId_clientes(idCliente);
-
+        Console.linha();
         System.out.println("Deseja:");
         System.out.println("1) Criar um novo endereço");
         System.out.println("2) Vincular um endereço existente");

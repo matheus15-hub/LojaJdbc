@@ -146,19 +146,21 @@ public class VendedorDAO {
             boolean encontrou = false;
             while (rs.next()) {
                 encontrou = true;
-                 int id = rs.getInt("id_vendedor");
-                String nome = rs.getString("nome_vendedor");
-                String tel = rs.getString("telefone_vendedor");
-                String email = rs.getString("email_vendedor");
                 Console.linha();
-                System.out.printf("|| ID: %5d\tNOME: %-20s\tTELEFONE: %-11s\tEMAIL: %s||%n", id, nome, tel, email);
-                String rua = rs.getString("rua");
-                String numero = rs.getString("numero");
-                String bairro = rs.getString("bairro");
-                String cidade = rs.getString("cidade");
-                String cep = rs.getString("cep");
+                System.out.println("|| ID: " + rs.getInt("id_vendedor"));
+                System.out.println("|| Nome: " + rs.getString("nome_vendedor"));
+                System.out.println("|| Telefone: " + rs.getString("telefone_vendedor"));
+                System.out.println("|| Email: " + rs.getString("email_vendedor"));
+
                 Console.linhaSimples();
-                System.out.printf("|| RUA:    %-30s\t\t\t\t\t\t\t ||%n|| Nº:     %-30s\t\t\t\t\t\t\t ||%n|| BAIRRO: %-30s\t\t\t\t\t\t\t ||%n|| CIDADE: %-30s\t\t\t\t\t\t\t ||%n|| CEP:    %-30s\t\t\t\t\t\t\t ||%n",rua, numero, bairro, cidade, cep);
+                System.out.println("|| ENDEREÇO:");
+
+                System.out.println("|| Rua: " + rs.getString("rua"));
+                System.out.println("|| Número: " + rs.getString("numero"));
+                System.out.println("|| Bairro: " + rs.getString("bairro"));
+                System.out.println("|| Cidade: " + rs.getString("cidade"));
+                System.out.println("|| CEP: " + rs.getString("cep"));
+
                 Console.linha();
             }
             if (!encontrou) {

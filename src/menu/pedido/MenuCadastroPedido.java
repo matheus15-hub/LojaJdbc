@@ -41,7 +41,7 @@ public class MenuCadastroPedido {
         pedidoService.addObservacaoPedido(observacao); 
 
         System.out.println("\nComo deseja prosseguir?");
-        System.out.println("1 - Enviar para FILA");
+        System.out.println("1 - Enviar para FINALIZAR");
         System.out.println("2 - Salvar como ABERTO");
         System.out.println("3 - Cancelar");
         System.out.print("ESCOLHA: ");

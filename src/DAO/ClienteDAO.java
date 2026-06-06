@@ -111,23 +111,24 @@ public class ClienteDAO {
             ps.setInt(1, id);
             try (ResultSet res = ps.executeQuery()) {
                 if (res.next()) {
-                    int id_clientes = res.getInt("id_clientes");
-                    String nome_clientes = res.getString("nome_clientes");
-                    String cpf = res.getString("cpf_clientes");
-                    String email = res.getString("email_clientes");
-                    String rua = res.getString("rua");
-                    String numero = res.getString("numero");
-                    String bairro = res.getString("bairro");
-                    String cidade = res.getString("cidade");
-                    String cep = res.getString("cep");
+                    int idCliente = res.getInt("id_clientes");
+
                     Console.linha();
-                    System.out.printf(
-                            "|| ID:     %5d\t\t\t\t\t\t\t\t\t\t\t\t ||%n|| NOME:   %-100s ||%n|| CPF:    %-100s ||%n|| EMAIL:  %-100s ||%n",
-                            id_clientes, nome_clientes, cpf, email);
+                    System.out.println("|| ID: " + idCliente);
+                    System.out.println("|| Nome: " + res.getString("nome_clientes"));
+                    System.out.println("|| CPF: " + res.getString("cpf_clientes"));
+                    System.out.println("|| Email: " + res.getString("email_clientes"));
+
                     Console.linhaSimples();
-                    System.out.printf(
-                            "|| RUA:    %-100s ||%n|| Nº:     %-100s ||%n|| BAIRRO: %-100s ||%n|| CIDADE: %-100s ||%n|| CEP:    %-100s ||%n",
-                            rua, numero, bairro, cidade, cep);
+                    System.out.println("|| ENDEREÇO:");
+
+                    System.out.println("|| ID Endereço: " + res.getInt("id_endereco"));
+                    System.out.println("|| Rua: " + res.getString("rua"));
+                    System.out.println("|| Número: " + res.getString("numero"));
+                    System.out.println("|| Bairro: " + res.getString("bairro"));
+                    System.out.println("|| Cidade: " + res.getString("cidade"));
+                    System.out.println("|| CEP: " + res.getString("cep"));
+
                     Console.linha();
                 }
             }
@@ -144,13 +145,11 @@ public class ClienteDAO {
             md.setString(1, nome_clientes + "%");
             try (ResultSet resultSet = md.executeQuery()) {
                 while (resultSet.next()) {
-                    int id_clientes = resultSet.getInt("id_clientes");
-                    String nome = resultSet.getString("nome_clientes");
-                    String cpf = resultSet.getString("cpf_clientes");
-                    String email_clientes = resultSet.getString("email_clientes");
                     Console.linha();
-                    System.out.printf("|| ID: %5d | NOME: %-25s | CPF: %-18s | EMAIL: %-25s ||%n", id_clientes, nome,
-                            cpf, email_clientes);
+                    System.out.println("|| ID: " + resultSet.getInt("id_clientes"));
+                    System.out.println("|| Nome: " + resultSet.getString("nome_clientes"));
+                    System.out.println("|| CPF: " + resultSet.getString("cpf_clientes"));
+                    System.out.println("|| Email: " + resultSet.getString("email_clientes"));
                     Console.linha();
                 }
             }

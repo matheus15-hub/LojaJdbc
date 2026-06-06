@@ -98,13 +98,22 @@ public class MenuAlteracaoVendedor {
 
             id = new VendedorSer().verificarId(id);
 
-            System.out.println("Esse é o vendedor que deseja alterar? SIM = s , NÃO = n");
+            Console.linhaSimples();
+            System.out.println("|| Esse é o vendedor que deseja alterar?");
+            System.out.println("|| 1) SIM");
+            System.out.println("|| 2) Nao");
             System.out.print("Resposta: ");
 
-            sca.nextLine();
-            String resposta = sca.nextLine();
+            while (!sca.hasNextInt()) {
+                System.out.println("Entrada inválida! Digite apenas números inteiros.");
+                System.out.print("Resposta: ");
+                sca.nextLine();
+            }
 
-            if (resposta.equalsIgnoreCase("s")) {
+            int resposta = sca.nextInt();
+            sca.nextLine();
+
+            if (resposta == 1) {
                 return id;
             }
         }
