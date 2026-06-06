@@ -14,11 +14,13 @@ public class PedidoService {
     private List<ItemPedido> carrinhoComponentes;
     private double valorTotalAcumulado;
     private StatusPedido statusAtualPedido;
+    private String observacao; 
 
     public PedidoService() {
         this.carrinhoComponentes = new ArrayList<>();
         this.valorTotalAcumulado = 0.0;
         this.statusAtualPedido = StatusPedido.ABERTO;
+        this.observacao = "Sem observações.";
     }
 
     public void addClientePedido(int idCliente) {
@@ -27,6 +29,10 @@ public class PedidoService {
 
     public void addVendedorPedido(int idVendedor) {
         this.idVendedorSelecionado = idVendedor;
+    }
+
+    public void addObservacaoPedido(String observacao) {
+        this.observacao = observacao;
     }
 
     public boolean tentarAdicionarProduto(int idProd, int qtd) {
@@ -49,10 +55,10 @@ public class PedidoService {
     public void finalizarFluxo(int opcaoDecisao) throws Exception {
         if (opcaoDecisao == 1) {
             statusAtualPedido = StatusPedido.FILA;
-            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", statusAtualPedido);
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, this.observacao, statusAtualPedido);
         } else if (opcaoDecisao == 2) {
             statusAtualPedido = StatusPedido.ABERTO;
-            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, "", statusAtualPedido);
+            PedidoDAO.finalizarVenda(idClienteSelecionado, idVendedorSelecionado, carrinhoComponentes, valorTotalAcumulado, this.observacao, statusAtualPedido);
         } else {
             throw new IllegalArgumentException("Operação cancelada.");
         }

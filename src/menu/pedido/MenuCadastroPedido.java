@@ -30,9 +30,21 @@ public class MenuCadastroPedido {
         System.out.println("\n--- RESUMO DO PEDIDO ---");
         System.out.printf("Total: R$ %.2f%n", pedidoService.getValorTotalAcumulado());
 
+        System.out.println("\nDeseja adicionar alguma observação ao pedido? (Deixe em branco para 'Sem observações')");
+        System.out.print("Observação: ");
+        String observacao = sca.nextLine();
+
+        if (observacao.trim().isEmpty()) {
+            observacao = "Sem observações.";
+        }
+        
+        pedidoService.addObservacaoPedido(observacao); 
+
+        System.out.println("\nComo deseja prosseguir?");
         System.out.println("1 - Enviar para FILA");
         System.out.println("2 - Salvar como ABERTO");
         System.out.println("3 - Cancelar");
+        System.out.print("ESCOLHA: ");
 
         int opcao = lerInteiro();
 

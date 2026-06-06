@@ -31,8 +31,6 @@ public class ProcessadorPedido extends Thread {
                             int atualizados = psProc.executeUpdate();
                             if (atualizados == 0) continue;
                         }
-
-                        System.out.println("\n[thread] processando o pedido #" + idPedido);
                         Thread.sleep(5000);
 
                         String finalizar = "update pedido set status_pedido = 'FINALIZADO' where id_pedido = ?";
@@ -40,7 +38,6 @@ public class ProcessadorPedido extends Thread {
                             psFin.setInt(1, idPedido);
                             psFin.executeUpdate();
                         }
-                        System.out.println("\n[thread] pedido #" + idPedido + " finalizado com sucesso!");
                     }
                 }
             } catch (InterruptedException e) {

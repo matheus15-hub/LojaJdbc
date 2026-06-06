@@ -71,18 +71,22 @@ public class PedidoDAO {
 
     public static void imprimirPedidoS() {
         String inforPedido = """
-                select * from pedido p 
-                join cliente_endereco ce on p.id_cliente_endereco = ce.id_cliente_endereco
-                join cliente c on ce.id_clientes = c.id_clientes
-                join endereco e on ce.id_endereco = e.id_endereco
-                join vendedor v on p.id_vendedor = v.id_vendedor
+                select p.id_pedido, c.nome_clientes, e.rua, e.numero, e.bairro, e.cidade, e.cep, p.observacao
+                from pedido p 
+                left join cliente_endereco ce on p.id_cliente_endereco = ce.id_cliente_endereco
+                left join clientes c on ce.id_clientes = c.id_clientes
+                left join endereco e on ce.id_endereco = e.id_endereco
+                left join vendedor v on p.id_vendedor = v.id_vendedor
                 """;
 
         try (Connection conn = Conexao.criarNovaConexao();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(inforPedido)) {
 
+            boolean temPedidos = false;
+
             while (rs.next()) {
+                temPedidos = true;
                 int idPedido = rs.getInt("id_pedido");
                 String nome = rs.getString("nome_clientes");
                 String rua = rs.getString("rua");
@@ -94,12 +98,25 @@ public class PedidoDAO {
                 
                 Console.linha();
                 System.out.println("|| PEDIDO: " + idPedido);
-                System.out.println("|| CLIENTE: " + nome);
-                System.out.println("|| ENDEREÇO: " + rua + " | " + numero + " | " + bairro);
-                System.out.println("|| CIDADE: " + cidade + " \t CEP: " + cep);
+                System.out.println("|| CLIENTE: " + (nome != null ? nome : "Não informado"));
+                
+                if (rua != null) {
+                    System.out.println("|| ENDEREÇO: " + rua + " | " + numero + " | " + bairro);
+                    System.out.println("|| CIDADE: " + cidade + " \t CEP: " + cep);
+                } else {
+                    System.out.println("|| ENDEREÇO: Retirada no local / Não informado");
+                }
+                
                 new ItemPedidoDAO().mostrarItemPedido(idPedido);
-                System.out.println("OBS: " + obs);
+                
+                System.out.println("|| OBSERVAÇÃO: " + (obs != null ? obs : "Sem observações."));
                 Console.linha();
+            }
+
+            if (!temPedidos) {
+                System.out.println("\n==============================================");
+                System.out.println("   NENHUM PEDIDO ENCONTRADO NO BANCO DE DADOS ");
+                System.out.println("==============================================");
             }
 
         } catch (Exception e) {
