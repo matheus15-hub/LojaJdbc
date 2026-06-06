@@ -189,7 +189,7 @@ public class VendedorDAO {
     return false;
     }
 
-    public void excluirVendedor(Vendedor vendedor) {
+    public void excluirVendedor(int v) {
 
         String sql = "DELETE FROM vendedor WHERE id_vendedor = ?";
 
@@ -199,7 +199,7 @@ public class VendedorDAO {
 
             stmt = conn.prepareStatement(sql);
 
-            stmt.setInt(1, vendedor.getIdVendedor());
+            stmt.setInt(1, v);
 
             stmt.executeUpdate();
 

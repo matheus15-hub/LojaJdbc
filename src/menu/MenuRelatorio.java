@@ -33,7 +33,7 @@ public class MenuRelatorio {
                 new MenuRelatorioCliente().metodoBusca();
                 break;
             case 5:
-                new MenuRelatorio().metodoBusca();
+                new MenuPrincipal().iniciar();
                 break;
             default:
                 System.out.println("Escolha inválida!");

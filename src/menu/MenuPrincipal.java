@@ -17,6 +17,7 @@ import menu.produto.MenuCadastroProduto;
 import menu.vendedor.MenuAlteracaoVendedor;
 import menu.vendedor.MenuCadastroVendedor;
 import menu.vendedor.MenuConsultaVendedor;
+import menu.vendedor.MenuRemocaoVendedor;
 
 import java.util.Scanner;
 
@@ -217,7 +218,8 @@ public class MenuPrincipal {
                 menuVendedores();
                 break;
             case 2:
-                System.out.println("VENDEDOR REMOVIDO!");
+                new MenuRemocaoVendedor().vendedorRemover();
+                menuVendedores();
                 break;
             case 3:
                 new MenuConsultaVendedor().metodoBusca();

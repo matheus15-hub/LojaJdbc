@@ -174,4 +174,8 @@ public class VendedorSer {
         }
     }
 
+    public void remover(int x){
+        new VendedorDAO().excluirVendedor(x);
+        System.out.println("Vendedor com o id " + x + " removido com sucesso!");
+    }
 }

@@ -157,7 +157,6 @@ public class MenuCadastroPedido {
                 System.out.println("Quantidade inválida.");
                 continue;
             }
-
             try {
                 boolean adicionou =
                         pedidoService.tentarAdicionarProduto(idProduto, quantidade);
