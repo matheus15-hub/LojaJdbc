@@ -2,6 +2,7 @@ package servicos;
 
 import java.util.Scanner;
 
+import DAO.EnderecoClienteDAO;
 import DAO.EnderecoDAO;
 import DAO.EnderecoVendedorDAO;
 import DAO.VendedorDAO;
@@ -63,4 +64,12 @@ public class EnderecoVendedorService {
 public boolean maisVincularVendedorEndereco(int idVendedor, int idEndereco) {
     return EnderecoVendedorDAO.verificarEnderecoVendedor(idVendedor, idEndereco);
 }
+    public void excluirEnderecoVendedor(int idVendedor, int idEndereco) {
+
+        idEndereco = verificarLigacao(idVendedor, idEndereco);
+
+        new EnderecoVendedorDAO().excluirEnderecoVendedor(idEndereco);
+
+        System.out.println("Endereço removido com sucesso!");
+    }
     }

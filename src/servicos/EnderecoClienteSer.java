@@ -64,4 +64,9 @@ public int verificarLigacao(int idclientes, int idendereco) {
            int id = new EnderecoClienteDAO().getIdEnderecoCliente(idcliente, idendereco);
            return id;
     }
+    public void excluirEnderecoCliente(int idCliente, int idEndereco) {
+        idEndereco = verificarLigacao(idCliente, idEndereco);
+        new EnderecoClienteDAO().excluirEnderecoCliente(idEndereco);
+        System.out.println("Endereço removido com sucesso!");
+    }
 }

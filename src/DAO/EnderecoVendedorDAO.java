@@ -98,4 +98,25 @@ public static boolean verificarEnderecoVendedor(int idVendedor, int idEndereco) 
         throw new RuntimeException("Erro ao verificar endereço do vendedor: " + e.getMessage());
     }
 }
+    public void excluirEnderecoVendedor(int idEndereco) {
+        String sql = "DELETE FROM vendedor_endereco WHERE id_endereco = ?";
+
+        try (
+                Connection conn = Conexao.getConexao();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, idEndereco);
+
+            int linhas = stmt.executeUpdate();
+
+            if (linhas > 0) {
+                System.out.println("Endereço desvinculado com sucesso!");
+            } else {
+                System.out.println("Nenhum endereço encontrado.");
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao excluir vínculo do endereço: " + e.getMessage());
+        }
+    }
 }

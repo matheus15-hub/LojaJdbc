@@ -1,11 +1,13 @@
 package menu.vendedor;
 
+import DAO.EnderecoVendedorDAO;
 import entidades.Vendedor;
 import menu.endereco.MenuAlterarEndereco;
 import menu.endereco.MenuCadastroEndereco;
 import servicos.EnderecoService;
 import servicos.EnderecoVendedorService;
 import servicos.VendedorSer;
+import util.Console;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -26,6 +28,7 @@ public class MenuAlteracaoVendedor {
             System.out.println(" 4) Alterar Salário");
             System.out.println(" 5) Alterar Endereço");
             System.out.println(" 6) Adicionar Endereço ");
+            System.out.println(" 7) Excluir Endereço");
             System.out.println(" 0) Voltar                              ");
             System.out.print("Escolha: ");
 
@@ -63,7 +66,9 @@ public class MenuAlteracaoVendedor {
                 case 6:
                     adicionarEnderecoVendedor();
                     break;
-
+                case 7:
+                    removerEnderecoVendedor();
+                    break;
                 case 0:
                     return;
 
@@ -203,6 +208,32 @@ public class MenuAlteracaoVendedor {
 
             default:
                 System.out.println("Opção inválida.");
+        }
+    }
+    public void removerEnderecoVendedor() {
+
+        Console.linha();
+        System.out.println("|| REMOÇÃO DE ENDEREÇO DO VENDEDOR");
+
+        int idVendedor = selecionarVendedor();
+
+        new EnderecoVendedorDAO().mostrarEnderecoVendedor(idVendedor);
+
+        System.out.print("Digite o ID do endereço que deseja remover: ");
+        int idEndereco = Integer.parseInt(sca.nextLine());
+
+        System.out.println("\nConfirma a exclusão?");
+        System.out.println("1 - Sim");
+        System.out.println("2 - Não");
+        System.out.print("Escolha: ");
+
+        int escolha = Integer.parseInt(sca.nextLine());
+
+        if (escolha == 1) {
+            new EnderecoVendedorService()
+                    .excluirEnderecoVendedor(idVendedor, idEndereco);
+        } else {
+            System.out.println("Operação cancelada.");
         }
     }
 }

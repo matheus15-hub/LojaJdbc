@@ -9,6 +9,7 @@ import menu.endereco.MenuCadastroEndereco;
 import servicos.ClienteService;
 import servicos.EnderecoClienteSer;
 import servicos.EnderecoService;
+import util.Console;
 
 public class MenuAlteracaoCliente {
     Scanner sca = new Scanner(System.in);
@@ -22,6 +23,7 @@ public class MenuAlteracaoCliente {
         System.out.println("3) Alterar Email");
         System.out.println("4) Alterar Endereço");
         System.out.println("5) Adicionar Endereço");
+        System.out.println("5) Remover Endereço");
         System.out.println("0) Voltar");
         System.out.print("Escolha: ");
 
@@ -54,7 +56,9 @@ public class MenuAlteracaoCliente {
             case 5:
                 adicionarEnderecoCliente();
                 break;
-
+            case 6:
+                removerEnderecoCliente();
+                break;
             case 0:
                 return;
 
@@ -163,6 +167,40 @@ public class MenuAlteracaoCliente {
 
             default:
                 System.out.println("Opção inválida.");
+        }
+    }
+    public void removerEnderecoCliente() {
+
+        Console.linha();
+        System.out.println("|| REMOÇÃO DE ENDEREÇO DO CLIENTE");
+
+        int idCliente = selecionarCliente();
+
+        EnderecoClienteSer service = new EnderecoClienteSer();
+
+        service.mostrarEnderecoCliente(idCliente);
+
+        Console.linhaSimples();
+        System.out.print("|| Digite o ID do endereço que deseja remover: ");
+
+        int idEndereco = Integer.parseInt(sca.nextLine());
+
+        Console.linha();
+        System.out.println("|| Confirma a exclusão?");
+        System.out.println("|| 1) Sim");
+        System.out.println("|| 2) Não");
+        System.out.print("|| ESCOLHA: ");
+
+        int escolha = Integer.parseInt(sca.nextLine());
+
+        if (escolha == 1) {
+
+            service.excluirEnderecoCliente(idCliente, idEndereco);
+
+        } else {
+
+            System.out.println("Operação cancelada.");
+
         }
     }
 }

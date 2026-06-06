@@ -105,4 +105,16 @@ public class EnderecoClienteDAO {
             throw new RuntimeException("Erro ao verificar endereço do cliente: " + e.getMessage());
         }
     }
+    public void excluirEnderecoCliente(int idEndereco) {
+        String sql = "DELETE FROM endereco WHERE id_endereco = ?";
+        try (
+                Connection conn = Conexao.getConexao();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, idEndereco);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao excluir endereço do cliente: " + e.getMessage());
+        }
+    }
 }
